@@ -2,7 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ProductImage;
+use App\Models\User;
 use App\Models\Category;
+
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
@@ -10,6 +16,68 @@ use App\Models\Product;
 
 class ApiController extends Controller
 {
+    public function login(Request $request)
+    {
+        // Validate the login request data
+        $credentials = $request->validate([
+            'username' => 'required|string', // Or 'email' if you want to allow login by email
+            'password' => 'required|string',
+        ]);
+
+        // Attempt to log in the user
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate(); // Prevent session fixation
+            return redirect()->intended('/dashboard'); // Redirect to dashboard or intended URL after login
+        }
+
+        // Authentication failed
+        return back()->withErrors([
+            'username' => 'The provided credentials do not match our records.', // Or 'email'
+        ])->onlyInput('username'); // Keep the username input for convenience
+    }
+
+    public function register(Request $request)
+    {
+        $rules = [
+            'username' => ['required', 'string', 'max:255', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'confirmed', Password::min(8)->mixedCase()->numbers()->symbols()],
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'billing_address' => ['nullable', 'string', 'max:255'],
+            'phone_number' => ['nullable', 'string', 'max:20'],
+        ];
+
+        // 2. Validate the request data using $request->validate()
+        $validatedData = $request->validate($rules);
+
+
+        // Create a new user
+        $user = User::create([
+            'username' => $request->username,
+            'email' => $request->email,
+            'password' => Hash::make($request->password), // Hash the password
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'billing_address' => $request->billing_address,
+            'phone_number' => $request->phone_number,
+        ]);
+
+        // Optionally, log the user in after registration
+        Auth::login($user);
+        $request->session()->regenerate(); // Prevent session fixation
+
+        return redirect()->route('dashboard'); // Redirect to dashboard or a welcome page
+    }
+
+    // Example logout function (you might need this as well)
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/'); // Redirect to homepage or login page after logout
+    }
     public function products(Request $request): JsonResponse
     {
         $categories = Category::all();
@@ -25,17 +93,17 @@ class ApiController extends Controller
 
     public function product(string $productID): JsonResponse
     {
-       $product = Product::join("categories", "products.category_id", "=", "categories.id")
-       ->where("products.id", "=", $productID)
-       ->first();
+        $product = Product::join("categories", "products.category_id", "=", "categories.id")
+            ->where("products.id", "=", $productID)
+            ->first();
 
         return response()->json($product);
     }
 
     public function categories(): JsonResponse
     {
-        $categories = json_decode(file_get_contents(database_path('seeders/data/categories.json')), true);
-        return response()->json($categories);
+        $categories = Category::all();
+        return response()->json($categories->values()->toArray());
     }
 
     public function storeProduct(Request $request): JsonResponse
@@ -48,44 +116,33 @@ class ApiController extends Controller
             'product_images' => 'nullable|array', // Adjust validation as needed for images
         ]);
 
-        $products = collect(json_decode(file_get_contents(database_path('seeders/data/products.json')), true));
-
+        $products = Product::all();
         $productData = [
-            'product_id' => $products->max('product_id') + 1,
+            'id' => $products->max("id") + 1,
             'product_name' => $validatedData['product_name'],
             'description' => $validatedData['description'],
-            'ingredients' => [ // Static ingredients from original code
-                "Water", "Hyaluronic Acid", "Glycerin", "Propanediol", "Sodium Hyaluronate", "Panthenol (Vitamin B5)", "Ceramides", "Phenoxyethanol", "Ethylhexylglycerin"
-            ],
-            'skin_types' => ["dry", "combination", "sensitive", "normal"], // Static skin types
-            'skin_concerns' => ["dryness", "fine lines", "dehydration", "aging"], // Static skin concerns
             'brand_id' => 1, // Static brand ID
             'category_id' => intval($validatedData['category_id']),
             'price' => floatval($validatedData['price']),
-            'stock_quantity' => 150, // Static stock quantity
-            'product_images' => $validatedData['product_images'] ?? [], // Use provided or default to empty array
-            'product_videos' => [], // Static empty array
-            'rating_average' => 4.7, // Static rating
-            'review_count' => 75,    // Static review count
+            'stock_quantity' => 0, // Static stock quantity
+            'rating_average' => 0.0, // Static rating
+            'review_count' => 0,    // Static review count
             'created_at' => now()->toDateString(),
             'updated_at' => now()->toDateString(),
         ];
-
-        $newProducts = $products->push($productData)->values()->toArray();
-        file_put_contents(database_path('seeders/data/products.json'), json_encode($newProducts, JSON_PRETTY_PRINT));
-
+        Product::create($productData);
+       
         return response()->json([], 200);
     }
 
 
     public function deleteProduct(string $productID): JsonResponse
     {
-        $products = collect(json_decode(file_get_contents(database_path('seeders/data/products.json')), true));
-        $newProducts = $products->filter(function ($product) use ($productID) {
-            return $product['product_id'] != intval($productID);
-        })->values()->toArray();
-
-        file_put_contents(database_path('seeders/data/products.json'), json_encode($newProducts, JSON_PRETTY_PRINT));
+        $product = Product::where("id", "=", $productID)->first();
+        if(!$product){
+            return response()->json([], 404);
+        }
+        $product->delete();
         return response()->json([], 200);
     }
 
@@ -96,28 +153,31 @@ class ApiController extends Controller
             'description' => 'required|string',
             'price' => 'required|numeric',
             'category_id' => 'required|integer',
-            'image-upload' => 'nullable|string', // Assuming image-upload is a URL string
+            'image-upload' => 'nullable|string'
         ]);
 
-        $products = collect(json_decode(file_get_contents(database_path('seeders/data/products.json')), true));
-        $productIndex = $products->search(function ($product) use ($productId) {
-            return $product['product_id'] == intval($productId);
-        });
+        $product = Product::where("id", "=", $productId)->first();
 
-        if ($productIndex === false) {
-            return response()->json(['error' => 'Product not found for editing.'], 404);
+        if (!$product) {
+            return response()->json([], 404);
         }
 
-        $products[$productIndex] = array_merge($products[$productIndex], [
-            'product_name' => $validatedData['product_name'],
-            'description' => $validatedData['description'],
-            'price' => floatval($validatedData['price']),
-            'category_id' => intval($validatedData['category_id']),
-            'product_images' => [$validatedData['image-upload'] ?? ''], // Use provided or default to empty array
-        ]);
+        dd($validatedData);
 
-        file_put_contents(database_path('seeders/data/products.json'), json_encode($products->values()->toArray(), JSON_PRETTY_PRINT));
+        $product->product_name = $validatedData['product_name'];
+        $product->description = $validatedData['description'];
+        $product->price = floatval($validatedData['price']);
+        $product->category_id = intval($validatedData['category_id']);
+        $product->save();
 
-        return response()->json(['message' => "Product with ID {$productId} updated successfully.", 'updatedProduct' => $products[$productIndex]], 200);
+        if ($validatedData['image-upload'] != "") {
+            $productImagesData = [
+                "product_id" => $product->id,
+                "image_url" => $validatedData['image-upload']
+            ];
+            ProductImage::create($productImagesData);
+        }
+
+        return response()->json(['message' => "Product with ID {$productId} updated successfully.", 'updatedProduct' => $product], 200); 
     }
 }

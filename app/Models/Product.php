@@ -13,6 +13,7 @@ class Product extends Model
     public $timestamps = true; // Assuming created_at and updated_at columns exist
 
     protected $fillable = [
+        'id',
         'product_id', // If you want to allow manual assignment of product_id
         'product_name',
         'description',

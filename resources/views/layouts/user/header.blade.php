@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{$title ?? 'Skincare Shop' }}</title>
     @vite("resources/css/app.css")
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   </head>
   <body
     class="bg-green-50 text-green-900 dark:bg-green-900 dark:text-green-50 font-sans min-h-screen"
@@ -29,8 +30,8 @@
           <a
             href="/cart"
             id="cart-link"
-            class="text-green-700 dark:text-green-300 hover:text-green-900 dark:hover:text-white px-3"
-            >Cart (<span id="cart-count">0</span>)</a
+            class="text-green-700 dark:text-green-300 hover:text-green-900 dark:hover:text-white px-3 group"
+            ><i class="fa-solid fa-cart-shopping"></i><sup class="mx-0.5 px-1 py-0 rounded-full bg-green-800 dark:bg-green-500 dark:group-hover:bg-green-100"><span id="cart-count" class="super text-white dark:text-black">0</span></sup></a
           >
 
           <!-- Dark Mode Toggle Switch -->

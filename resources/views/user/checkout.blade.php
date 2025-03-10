@@ -1,58 +1,58 @@
 @include('layouts.user.header', ['title' => 'Skincare Shop - Checkout'])
 
-<main class="container mx-auto p-4 md:p-8 lg:p-10">
+<main class="container mx-auto p-4 md:p-8 lg:p-10 min-h-[75vh]">
   <header class="mb-8">
-    <h1 class="text-3xl font-bold text-gray-800 dark:text-white mb-2">
+    <h1 class="text-3xl font-bold text-green-900 dark:text-white mb-2">
       Checkout
     </h1>
   </header>
 
   <div class="lg:flex lg:space-x-8">
     <section class="lg:w-1/2 mb-8 lg:mb-0">
-      <div class="bg-white dark:bg-gray-700 shadow-md rounded-lg p-6">
-        <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">
+      <div class="bg-white dark:bg-black shadow-md rounded-lg p-6">
+        <h2 class="text-xl font-semibold text-green-900 dark:text-white mb-4">
           Shipping Information
         </h2>
         <form id="checkoutForm">
           <div class="mb-4">
             <label
               for="name"
-              class="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2"
+              class="block text-green-800 dark:text-gray-200 text-sm font-bold mb-2"
               >Name</label
             >
             <input
               type="text"
               id="name"
               name="name"
-              class="shadow-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-white dark:bg-gray-800 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              class="shadow-sm appearance-none border rounded w-full py-2 px-3 text-green-700 dark:text-white dark:bg-black leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
               required
             />
           </div>
           <div class="mb-4">
             <label
               for="email"
-              class="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2"
+              class="block text-green-800 dark:text-gray-200 text-sm font-bold mb-2"
               >Email</label
             >
             <input
               type="email"
               id="email"
               name="email"
-              class="shadow-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-white dark:bg-gray-800 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              class="shadow-sm appearance-none border rounded w-full py-2 px-3 text-green-700 dark:text-white dark:bg-black leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
               required
             />
           </div>
           <div class="mb-6">
             <label
               for="address"
-              class="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2"
+              class="block text-green-800 dark:text-gray-200 text-sm font-bold mb-2"
               >Address</label
             >
             <textarea
               id="address"
               name="address"
               rows="3"
-              class="shadow-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-white dark:bg-gray-800 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              class="shadow-sm appearance-none border rounded w-full py-2 px-3 text-green-700 dark:text-white dark:bg-black leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
               required
             ></textarea>
           </div>
@@ -61,8 +61,8 @@
     </section>
 
     <section class="lg:w-1/2">
-      <div class="bg-white dark:bg-gray-700 shadow-md rounded-lg p-6">
-        <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">
+      <div class="bg-white dark:bg-black shadow-md rounded-lg p-6">
+        <h2 class="text-xl font-semibold text-green-900 dark:text-white mb-4">
           Order Summary
         </h2>
         <ul id="orderSummaryItems" class="mb-4">
@@ -70,36 +70,36 @@
           <li>Loading order items...</li>
         </ul>
         <div class="flex justify-between mb-2">
-          <span class="font-semibold text-gray-700 dark:text-gray-300"
+          <span class="font-semibold text-green-800 dark:text-gray-300"
             >Subtotal:</span
           >
-          <span id="orderSubtotal" class="text-gray-700 dark:text-gray-300"
+          <span id="orderSubtotal" class="text-green-700 dark:text-gray-300"
             >₦0.00</span
           >
         </div>
         <div class="flex justify-between mb-4">
-          <span class="font-semibold text-gray-700 dark:text-gray-300"
+          <span class="font-semibold text-green-800 dark:text-gray-300"
             >Shipping:</span
           >
-          <span class="text-gray-700 dark:text-gray-300"
+          <span class="text-green-700 dark:text-gray-300"
             >₦0.00 (Simulated)</span
           >
         </div>
         <div
-          class="border-t border-gray-200 dark:border-gray-600 pt-4 flex justify-between"
+          class="border-t border-green-200 dark:border-green-600 pt-4 flex justify-between"
         >
-          <span class="text-xl font-bold text-gray-800 dark:text-white"
+          <span class="text-xl font-bold text-green-900 dark:text-white"
             >Total:</span
           >
           <span
             id="orderTotal"
-            class="text-xl font-bold text-gray-800 dark:text-white"
+            class="text-xl font-bold text-green-900 dark:text-white"
             >₦0.00</span
           >
         </div>
         <button
           id="placeOrderButton"
-          class="mt-6 block w-full text-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 dark:bg-blue-700 dark:hover:bg-blue-800"
+          class="mt-6 block w-full text-center bg-green-500 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-1 dark:bg-black dark:border-1 dark:border-green-700 dark:text-green-700 dark:hover:border-green-800 dark:hover:text-white dark:hover:bg-green-800"
         >
           Place Order (Simulated)
         </button>
@@ -147,8 +147,8 @@
             "justify-between",
             "py-2",
             "border-b",
-            "border-gray-200",
-            "dark:border-gray-600"
+            "border-green-200",
+            "dark:border-green-600"
           );
           listItem.innerHTML = `
                             <div class="flex items-center">
@@ -164,7 +164,7 @@
             error
           );
           const errorItem = document.createElement("li");
-          errorItem.classList.add("text-red-500", "dark:text-red-400");
+          errorItem.classList.add("text-red-500", "dark:text-red-400"); // Keep red for error messages
           errorItem.textContent = "Error loading product details.";
           orderSummaryItemsList.appendChild(errorItem);
         }

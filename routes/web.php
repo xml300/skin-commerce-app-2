@@ -11,4 +11,8 @@ Route::get('/cart', [UserController::class, 'cart']);
 Route::get('/checkout', [UserController::class, 'checkout']);
 Route::get('/order-confirmation', [UserController::class, 'orderConfirmation']);
 
+Route::get('/login', [UserController::class, 'login']);
+Route::get("/register", [UserController::class, 'register']);
+
+
 Route::get('/admin', [AdminController::class, 'index']);

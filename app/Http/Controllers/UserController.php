@@ -17,6 +17,15 @@ class UserController extends Controller
         return view('user.index', compact("title", "products", "categories"));
     }
 
+    public function login(){
+        return view('auth.login', ['title' => 'Skincare Shop - Login']);
+    }
+
+    public function register(){
+        return view('auth.register', ['title' => 'Skincare Shop - Register']);
+    }
+
+
     public function products(Request $request): View
     {
         $products = Product::join("categories", "products.category_id", "categories.id")->get();

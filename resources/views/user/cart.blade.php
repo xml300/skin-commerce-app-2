@@ -6,7 +6,7 @@
         </header>
 
         <section id="cartItemsSection" class="mb-8">
-            <div id="cartItemsContainer" class="bg-white dark:bg-green-900 shadow-md rounded-lg overflow-hidden">
+            <div id="cartItemsContainer" class="bg-white dark:bg-green-950 shadow-md rounded-lg overflow-hidden">
                 <table class="min-w-full leading-normal">
                     <thead>
                         <tr>
@@ -110,9 +110,9 @@
                             <td class="px-4 py-4 whitespace-nowrap text-sm text-green-700 dark:text-gray-300">₦${product['price']}</td>
                             <td class="px-4 py-4 whitespace-nowrap text-sm text-green-700 dark:text-gray-300">
                                 <div class="flex items-center justify-center">
-                                    <button onclick="updateQuantity(${product['id'] }, -1)" class="bg-green-200 dark:bg-green-700 hover:bg-green-300 dark:hover:bg-green-600 text-green-700 dark:text-white font-bold py-1 px-2 rounded-l-md focus:outline-none">-</button>
-                                    <input type="number" class="shadow-sm appearance-none border border-green-300 rounded-none w-16 py-2 px-3 text-green-700 dark:text-white dark:bg-green-800 leading-tight focus:outline-none focus:shadow-outline text-center quantity-input" min="1" value="${cartItem['quantity'] }" data-product-id="${product['product_id'] }">
-                                    <button onclick="updateQuantity(${product['id'] }, 1)" class="bg-green-200 dark:bg-green-700 hover:bg-green-300 dark:hover:bg-green-600 text-green-700 dark:text-white font-bold py-1 px-2 rounded-r-md focus:outline-none">+</button>
+                                    <button onclick="updateQuantity(${product['id'] }, -1)" class="bg-green-200 dark:bg-green-700 hover:bg-green-300 dark:hover:bg-green-600 text-green-700 dark:text-white font-bold py-2 px-3 rounded-l-md focus:outline-none">-</button>
+                                    <input type="number" disabled class=" shadow-sm appearance-none  border border-green-700 rounded-none w-16 py-2 px-3 text-green-700 dark:text-white dark:bg-green-800 leading-tight focus:outline-none focus:shadow-outline text-center quantity-input" min="1" value="${cartItem['quantity'] }" data-product-id="${product['id'] }">
+                                    <button onclick="updateQuantity(${product['id'] }, 1)" class="bg-green-200 dark:bg-green-700 hover:bg-green-300 dark:hover:bg-green-600 text-green-700 dark:text-white font-bold py-2 px-3 rounded-r-md focus:outline-none">+</button>
                                 </div>
                             </td>
                             <td class="px-4 py-4 whitespace-nowrap text-sm text-green-700 dark:text-gray-300">₦${itemTotal}</td>

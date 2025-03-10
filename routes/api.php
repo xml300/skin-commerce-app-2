@@ -10,3 +10,6 @@ Route::get('/categories', [ApiController::class, 'categories']);
 Route::post('/admin/products', [ApiController::class, 'storeProduct']);
 Route::delete('/admin/products/{productID}', [ApiController::class, 'deleteProduct']);
 Route::put('/admin/products/{productId}', [ApiController::class, 'updateProduct']);
+
+Route::post("/login", [ApiController::class, "login"])->name("login");
+Route::post("/register", [ApiController::class, "register"])->name("register");
