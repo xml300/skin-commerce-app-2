@@ -46,7 +46,7 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction
 # RUN cp .env .
 RUN php artisan key:generate --no-interaction
 
-# Set storage and bootstrap cache permissions
+# Set age and bootstrap cache permissions
 RUN chown -R www-data:www-data storage bootstrap/cache
 RUN chmod -R 775 storage bootstrap/cache
 
