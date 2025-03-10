@@ -44,7 +44,7 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction
 
 # Copy .env.example to .env and generate app key
 # RUN cp .env .
-RUN php artisan key:generate --no-interaction
+# RUN php artisan key:generate --no-interaction
 
 # Set storage and bootstrap cache permissions
 RUN chown -R www-data:www-data storage bootstrap/cache
