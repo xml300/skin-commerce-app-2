@@ -24,3 +24,4 @@ yarn-error.log
 
 .dockerignore
 docker/ 
+x.sql
