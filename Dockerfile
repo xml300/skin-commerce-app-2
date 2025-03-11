@@ -14,6 +14,7 @@ RUN apk update && apk add --no-cache \
     shadow \
     supervisor \
     nginx \
+    postgresql-dev \
     php82-bcmath \
     php82-ctype \
     php82-fileinfo \
@@ -31,7 +32,9 @@ RUN apk update && apk add --no-cache \
     php82-pgsql \
     php82-tokenizer \
     php82-xml \
-    php82-zip
+    php82-zip 
+
+RUN docker-php-ext-install pdo_pgsql pgsql
 
 # Install composer
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
@@ -57,7 +60,7 @@ RUN php artisan config:cache
 RUN php artisan route:cache
 
 # Expose port for php artisan serve
-EXPOSE 8000
+EXPOSE 8080
 
 # Command to run the Laravel application using php artisan serve
-CMD ["npm", "run", "start"]
+CMD ["npm", "run", "prod"]

@@ -5,6 +5,7 @@
         "build": "vite build",
         "dev": "vite",
         "start": "concurrently \"npm run dev\" \"php artisan serve --host=0.0.0.0 --port=8080\"",
+        "prod": "concurrently \"npm run build\" \"php artisan serve --host=0.0.0.0 --port=8080\"",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "devDependencies": {
