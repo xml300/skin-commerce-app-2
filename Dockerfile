@@ -1,66 +1,16 @@
-FROM php:8.2-fpm-alpine
-
-# Set working directory
+FROM composer:2.8.6 AS build
 WORKDIR /app
-
-# Install system dependencies
-RUN apk update && apk add --no-cache \
-    curl \
-    git \
-    zip \
-    unzip \
-    nodejs \
-    npm \
-    shadow \
-    supervisor \
-    nginx \
-    postgresql-dev \
-    php82-bcmath \
-    php82-ctype \
-    php82-fileinfo \
-    php82-gd \
-    php82-iconv \
-    php82-intl \
-    php82-json \
-    php82-mbstring \
-    php82-mysqlnd \
-    php82-opcache \
-    php82-openssl \
-    php82-pdo_mysql \
-    php82-pdo_pgsql \
-    php82-pdo_sqlite \
-    php82-pgsql \
-    php82-tokenizer \
-    php82-xml \
-    php82-zip 
-
-RUN docker-php-ext-install pdo_pgsql pgsql
-
-# Install composer
-COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
-
-# Copy application files
 COPY . /app
+RUN composer install
 
-# Install PHP dependencies
-RUN composer install --no-dev --optimize-autoloader --no-interaction
+FROM php:8.2-apache
+RUN docker-php-ext-install pdo pdo_mysql
 
-# Copy .env.example to .env and generate app key
-# RUN cp .env .
-# RUN php artisan key:generate --no-interaction
-
-# Set age and bootstrap cache permissions
-RUN chown -R www-data:www-data storage bootstrap/cache
-RUN chmod -R 775 storage bootstrap/cache
-
-# Generate configuration cache
-RUN php artisan config:cache
-
-# Generate route cache
-RUN php artisan route:cache
-
-# Expose port for php artisan serve
 EXPOSE 8080
-
-# Command to run the Laravel application using php artisan serve
-CMD ["npm", "run", "prod"]
+COPY --from=build /app /var/www/
+COPY docker/000-default.conf /etc/apache2/sites-available/000-default.conf
+COPY .env /var/www/.env
+RUN chmod 777 -R /var/www/storage/ && \
+    echo "Listen 8080" >> /etc/apache2/ports.conf && \
+    chown -R www-data:www-data /var/www/ && \
+    a2enmod rewrite
