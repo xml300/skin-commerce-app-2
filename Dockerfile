@@ -1,6 +1,6 @@
 FROM php:8.3.4-fpm-alpine
 
-RUN apk add --no-cache postgresql-dev msmtp perl wget procps shadow libzip libpng libjpeg-turbo libwebp freetype icu
+RUN apk add --no-cache postgresql-dev msmtp perl wget procps shadow libzip libpng libjpeg-turbo libwebp freetype icu npm nodejs
 
 RUN apk add --no-cache --virtual build-essentials \
     icu-dev icu-libs zlib-dev g++ make automake autoconf libzip-dev \
@@ -24,6 +24,7 @@ WORKDIR  /app
 COPY composer.json .
 RUN composer install --no-scripts
 COPY . .
+RUN npm install
 
 EXPOSE 8080
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port", "8080"]
+CMD ["npm", "run", "prod"]
