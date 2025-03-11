@@ -1,16 +1,38 @@
-FROM composer:2.8.6 AS build
-WORKDIR /app
+FROM php:8.3.4-fpm-alpine
+
+RUN apk add --no-cache postgresql-dev msmtp perl wget procps shadow libzip libpng libjpeg-turbo libwebp freetype icu
+
+RUN apk add --no-cache --virtual build-essentials \
+    icu-dev icu-libs zlib-dev g++ make automake autoconf libzip-dev \
+    libpng-dev libwebp-dev libjpeg-turbo-dev freetype-dev && \
+    docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp && \
+    docker-php-ext-install gd \
+    pgsql pdo pdo_pgsql \
+    intl  \
+    bcmath \
+    opcache \
+    exif \
+    zip && \
+    apk del build-essentials && rm -rf /usr/src/php*
+
+RUN apk add --no-cache nginx wget
+
+RUN mkdir -p /run/nginx
+
+# Define a variável de ambiente LISTEN_PORT
+ENV LISTEN_PORT=8080
+
+COPY nginx/nginx.conf /etc/nginx/nginx.conf
+
+RUN mkdir -p /app
 COPY . /app
-RUN composer install
 
-FROM php:8.2-apache
-RUN docker-php-ext-install pdo pdo_mysql
 
-EXPOSE 8080
-COPY --from=build /app /var/www/
-COPY docker/000-default.conf /etc/apache2/sites-available/000-default.conf
-COPY .env /var/www/.env
-RUN chmod 777 -R /var/www/storage/ && \
-    echo "Listen 8080" >> /etc/apache2/ports.conf && \
-    chown -R www-data:www-data /var/www/ && \
-    a2enmod rewrite
+RUN sh -c "wget http://getcomposer.org/composer.phar && chmod a+x composer.phar && mv composer.phar /usr/local/bin/composer"
+RUN cd /app && \
+    /usr/local/bin/composer install --no-dev
+
+
+RUN chown -R www-data: /app
+
+CMD ["sh", "/app/nginx/startup.sh"]
