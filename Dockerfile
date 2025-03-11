@@ -16,23 +16,14 @@ RUN apk add --no-cache --virtual build-essentials \
     apk del build-essentials && rm -rf /usr/src/php*
 
 RUN apk add --no-cache nginx wget
-
-RUN mkdir -p /run/nginx
-
-# Define a variável de ambiente LISTEN_PORT
-ENV LISTEN_PORT=8080
-
-COPY nginx/nginx.conf /etc/nginx/nginx.conf
-
-RUN mkdir -p /app
-COPY . /app
-
-
 RUN sh -c "wget http://getcomposer.org/composer.phar && chmod a+x composer.phar && mv composer.phar /usr/local/bin/composer"
-RUN cd /app && \
-    /usr/local/bin/composer install --no-dev
 
 
-RUN chown -R www-data: /app
 
-CMD ["sh", "/app/nginx/startup.sh"]
+WORKDIR  /app
+COPY composer.json .
+RUN composer install --no-scripts
+COPY . .
+
+EXPOSE 8080
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port", "8080"]
