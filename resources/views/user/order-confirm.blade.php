@@ -1,5 +1,7 @@
-@include('layouts.user.header', ['title' => 'Skincare Shop - Order Confirmation'])
+@extends('layouts.user.user_dashboard')
+@section("title", 'Stara - Order Confirmation')
 
+@section('content')
 <main class="container mx-auto p-4 md:p-8 lg:p-10 h-[75vh] flex items-center justify-center">
   <div class="bg-white dark:bg-gray-700 shadow-md rounded-lg p-8 text-center">
     <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">
@@ -15,5 +17,4 @@
     >
   </div>
 </main>
-
-@include('layouts.user.footer')
+@endsection

@@ -12,10 +12,9 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
-    protected $table = 'Users';
-    protected $primaryKey = 'user_id';
-    public $timestamps = true; // Assuming created_at and updated_at columns exist
-
+    protected $table = 'users';
+    protected $primaryKey = 'id';
+    public $timestamps = true;
 
 
     /**
@@ -24,7 +23,7 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        'username',
         'email',
         'password',
         'first_name',

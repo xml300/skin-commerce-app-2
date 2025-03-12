@@ -26,5 +26,7 @@ RUN composer install --no-scripts
 COPY . .
 RUN npm install
 
+RUN php artisan storage:link
+
 EXPOSE 8080
 CMD ["npm", "run", "prod"]

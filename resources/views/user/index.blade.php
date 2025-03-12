@@ -1,5 +1,7 @@
-@include('layouts.user.header', ['title' => 'Skincare Shop - homepage'])
+@extends('layouts.user.user_dashboard')
+@section('title', 'Stara - homepage')
 
+@section("content")
 <main class="container mx-auto p-4 md:p-8 lg:p-10">
     <section class="mb-12">
         <h2 class="text-2xl font-bold text-green-900 dark:text-white mb-4">Featured Products</h2>
@@ -7,7 +9,7 @@
             @foreach ($products as $product)
                 <div class="bg-gray-100 dark:bg-green-950 rounded-lg shadow-md overflow-hidden">
                     <a href="/product/{{ $product->id }}">
-                        <img class="w-full h-48 object-cover" src="{{ $product->product_images }}"
+                        <img class="w-full h-48 object-cover" src="{{ Storage::url('demo'.($product->id % 4 + 1).'.jpg') }}"
                             alt="{{ $product->product_name }}">
                         <div class="p-4">
                             <h3 class="font-semibold text-green-800 dark:text-green-50">{{ $product->product_name }}</h3>
@@ -36,8 +38,8 @@
             @foreach ($products as $product)
                 <div class="bg-gray-100 dark:bg-green-950 rounded-lg shadow-md overflow-hidden">
                     <a href="/product/{{ $product->id }}">
-                        <img class="w-full h-48 object-cover" src="{{ $product->product_images }}"
-                            alt="{{ $product->product_name }}">
+                    <img class="w-full h-48 object-cover" src="{{ Storage::url('demo'.($product->id % 4 + 1).'.jpg') }}"
+                    alt="{{ $product->product_name }}">
                         <div class="p-4">
                             <h3 class="font-semibold text-green-800 dark:text-green-50">{{ $product->product_name }}</h3>
                             <p class="text-green-700 dark:text-green-300">₦{{ number_format($product->price, 2) }}</p>
@@ -48,4 +50,4 @@
         </div>
     </section>
 </main>
-@include('layouts.user.footer')
+@endsection
