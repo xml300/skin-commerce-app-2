@@ -40,7 +40,7 @@
                                     <div class="flex items-center">
                                         <div class="mr-2">
                                             <img class="w-16 h-16 object-cover rounded"
-                                                src="{{ Storage::url('demo' . ($item->product_id % 4 + 1) . '.jpg') }}"
+                                                src="{{ asset('images/'.'demo' . ($item->product_id % 4 + 1) . '.jpg') }}"
                                                 alt="{{ $item->product_name }}">
                                         </div>
                                         <div>{{ $item->product_name }}</div>

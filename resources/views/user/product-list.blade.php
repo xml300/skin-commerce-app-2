@@ -31,7 +31,7 @@
         @foreach($products as $product)
         <div class="bg-gray-100 dark:bg-green-950 rounded-lg shadow-md overflow-hidden">
                     <a href="/product/{{ $product->id }}">
-                        <img class="w-full h-48 object-cover" src="{{  Storage::url('demo'.($product->id % 4 + 1).'.jpg') }}"
+                        <img class="w-full h-48 object-cover" src="{{  asset('images/'.'demo'.($product->id % 4 + 1).'.jpg') }}"
                             alt="{{ $product->product_name }}">
                         <div class="p-4">
                             <h3 class="font-semibold text-green-800 dark:text-green-50">{{ $product->product_name }}</h3>

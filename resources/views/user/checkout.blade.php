@@ -48,7 +48,7 @@
         @foreach ($orderItems as $item)
       <li class="flex justify-between py-2 border-b border-green-200 dark:border-green-600">
       <div class="flex items-center">
-      <img class="w-12 h-12 object-cover rounded mr-2" src="{{  Storage::url('demo'.($item->id % 4 + 1).'.jpg') }}"
+      <img class="w-12 h-12 object-cover rounded mr-2" src="{{  asset('images/'.'demo'.($item->id % 4 + 1).'.jpg') }}"
       alt="{{ $item->product_name }}">
         <span>{{ $item->product_name }} x {{ $item->quantity }}</span>
       </div>

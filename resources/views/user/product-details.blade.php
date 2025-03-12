@@ -6,7 +6,7 @@
         <div id="productDetail" class="bg-white dark:bg-green-950 rounded-lg shadow-md overflow-hidden">
             <div class="md:flex">
                 <div class="md:w-1/2">
-                    <img class="w-full h-128 object-cover" src="{{ Storage::url('demo'.($product->id % 4 + 1).'.jpg') }}"
+                    <img class="w-full h-128 object-cover" src="{{ asset('images/'.'demo'.($product->id % 4 + 1).'.jpg') }}"
                         alt="{{ $product->product_name }}">
                 </div>
                 <div class="md:w-1/2 p-6 flex flex-col justify-center items-center">
