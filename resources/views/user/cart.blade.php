@@ -137,7 +137,7 @@
 
                 let totalPrice = 0;
                 document.querySelectorAll("span.total-class").forEach(span => {
-                    const price = parseFloat(span.textContent.replace(',', ''));
+                    const price = parseFloat(span.textContent.replace(/,/g, ''));
                     totalPrice += price;
                 });
                 cartSubtotalSpan.textContent = new Intl.NumberFormat("en-US", {
