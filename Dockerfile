@@ -24,7 +24,11 @@ WORKDIR  /app
 COPY composer.json .
 RUN composer install --no-scripts
 COPY . .
+RUN php artisan storage:link
 RUN npm install
+
+RUN chown -R www-data:www-data storage bootstrap/cache
+RUN chmod -R 775 storage bootstrap/cache
 
 EXPOSE 8080
 CMD ["npm", "run", "prod"]
