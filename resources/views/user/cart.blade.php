@@ -40,7 +40,7 @@
                                     <div class="flex items-center">
                                         <div class="mr-2">
                                             <img class="w-16 h-16 object-cover rounded"
-                                                src="{{ asset('images/'.'demo' . ($item->product_id % 4 + 1) . '.jpg') }}"
+                                                src="{{ asset('images/' . 'demo' . ($item->product_id % 4 + 1) . '.jpg') }}"
                                                 alt="{{ $item->product_name }}">
                                         </div>
                                         <div>{{ $item->product_name }}</div>
@@ -150,21 +150,22 @@
                 }).format(totalPrice).slice(1);
 
                 localStorage.setItem("cartChanges", JSON.stringify(cartChanges));
-
-                document.querySelectorAll("a").forEach(elem => {
-                    elem.href = elem.getAttribute("href") + "?update-cart=" + encodeURI(JSON.stringify(cartChanges));
-                });
             }
 
+
+            document.querySelectorAll("a").forEach(elem => {
+                elem.addEventListener('click', () => {
+                    if(cartChanges.update.length > 0 || cartChanges.remove.length > 0){
+                        elem.href = elem.getAttribute("href") + "?update-cart=" + encodeURI(JSON.stringify(cartChanges));
+                        localStorage.removeItem("cartCount");
+                    }
+                });
+            });
 
             window.removeItem = (productId) => {
                 changeLog = { productId: productId };
                 cartChanges.remove.push(changeLog);
                 localStorage.setItem("cartChanges", JSON.stringify(cartChanges));
-
-                document.querySelectorAll("a").forEach(elem => {
-                    elem.href = elem.getAttribute("href") + "?update-cart=" + encodeURI(JSON.stringify(cartChanges));
-                });
             };
 
         });

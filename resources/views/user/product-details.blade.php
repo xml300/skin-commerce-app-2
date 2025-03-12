@@ -32,8 +32,9 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const productDetailContainer = document.getElementById('productDetail');
-            const productId = window.location.pathname.split('/').pop(); // Extract product ID from URL
+           document.querySelector(".cart-btn").addEventListener("click", () => {
+            localStorage.removeItem("cartCount");
+           });
     
         });
     </script>

@@ -9,6 +9,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -25,11 +26,13 @@ class UserController extends Controller
         return view('user.index', compact("title", "products", "categories"));
     }
 
-    public function login(){
+    public function login()
+    {
         return view('auth.login', ['title' => 'Stara - Login']);
     }
 
-    public function register(){
+    public function register()
+    {
         return view('auth.register', ['title' => 'Stara - Register']);
     }
 
@@ -37,13 +40,13 @@ class UserController extends Controller
     public function products(Request $request): View
     {
         $products = Product::join("categories", "products.category_id", "categories.id")
-        ->get();
+            ->get();
         $categories = Category::all();
 
-        
-        if(!is_null($request->category)){
+
+        if (!is_null($request->category)) {
             $category = $request->category;
-            $products = $products->where("category_name", "=",$category);
+            $products = $products->where("category_name", "=", $category);
         }
         $title = 'Stara - Products';
         $currentCategory = $request->category;
@@ -53,19 +56,24 @@ class UserController extends Controller
     public function productDetails(string $productId): View
     {
         $product = Product::where("products.id", "=", $productId)
-        ->first();
+            ->first();
         $title = 'Stara - Product Details';
         return view('user.product-details', compact('title', 'product'));
     }
 
-    public function cart(): View
+    public function cart(): View|RedirectResponse
     {
         $cartItems = CartItem::where('user_id', '=', Auth::id())
-        ->join('products', 'cartitems.product_id', '=', 'products.id')
-        ->get();
+            ->join('products', 'cartitems.product_id', '=', 'products.id')
+            ->get();
+        
+        if($cartItems->count() == 0){
+            return redirect()->route('home');
+        }
+        
         $cartSubTotal = CartItem::where('user_id', '=', Auth::id())
-        ->join('products', 'cartitems.product_id', '=', 'products.id')
-        ->sum(DB::raw("price * quantity"));
+            ->join('products', 'cartitems.product_id', '=', 'products.id')
+            ->sum(DB::raw("price * quantity"));
         $title = 'Stara - Cart';
         return view('user.cart', compact('title', 'cartItems', 'cartSubTotal'));
     }
@@ -73,12 +81,12 @@ class UserController extends Controller
     public function checkout(): View
     {
         $orderItems = CartItem::where('user_id', '=', Auth::id())
-        ->join('products', 'cartitems.product_id', '=', 'products.id')
-        ->get();
+            ->join('products', 'cartitems.product_id', '=', 'products.id')
+            ->get();
         $title = 'Stara - Checkout';
         $orderSubtotal = CartItem::where('user_id', '=', Auth::id())
-        ->join('products', 'cartitems.product_id', '=', 'products.id')
-        ->sum(DB::raw("price * quantity"));
+            ->join('products', 'cartitems.product_id', '=', 'products.id')
+            ->sum(DB::raw("price * quantity"));
         return view('user.checkout', compact('orderItems', 'title', 'orderSubtotal'));
     }
 
@@ -87,12 +95,9 @@ class UserController extends Controller
         return view('user.order-confirm', ['title' => 'Stara - Order Confirmation']);
     }
 
-    public function massUpdateCart(Request $request): View
-    {
-        dd($request->all());
-    }
 
-    public function addToCart(Request $request){
+    public function addToCart(Request $request)
+    {
         $validatedData = $request->validate([
             'product_id' => 'required|integer',
             'quantity' => 'required|integer'
@@ -102,26 +107,38 @@ class UserController extends Controller
         $quantity = intval($validatedData['quantity']);
 
 
-        CartItem::create([
-            'user_id' => Auth::id(),
-            'product_id' => $productId,
-            'quantity' => $quantity
-        ]);
+        $cartItem = CartItem::where('user_id', '=', Auth::id())
+            ->where('product_id', '=', $productId)
+            ->first();
+
+        if (is_null($cartItem)) {
+            CartItem::create([
+                'user_id' => Auth::id(),
+                'product_id' => $productId,
+                'quantity' => $quantity
+            ]);
+        } else {
+            $cartItem->quantity = $cartItem->quantity + $quantity;
+            $cartItem->save();
+        }
 
         return redirect()->back();
     }
 
-    public function getCart(){
+    public function getCart()
+    {
         $cartItems = CartItem::where('user_id', '=', Auth::id())->get();
         return response()->json($cartItems->values()->toArray());
     }
 
-    public function getCartCount(){
-        $cartItemCount = CartItem::where('user_id', '=', Auth::id())->count();
+    public function getCartCount()
+    {
+        $cartItemCount = CartItem::where('user_id', '=', Auth::id())->sum('quantity');
         return response()->json(['count' => $cartItemCount]);
     }
 
-    public function updateCartItem(Request $request, $productId){
+    public function updateCartItem(Request $request, $productId)
+    {
         $validatedData = $request->validate([
             'quantity' => 'required|integer'
         ]);
@@ -130,7 +147,7 @@ class UserController extends Controller
 
         $cartItem = CartItem::where('product_id', '=', $productId)->first();
 
-        if(!$cartItem){
+        if (!$cartItem) {
             return response()->json([], 404);
         }
 
@@ -140,9 +157,10 @@ class UserController extends Controller
         return response()->json([], 200);
     }
 
-    public function removeCartItem($productId){
+    public function removeCartItem($productId)
+    {
         $cartItem = CartItem::where('product_id', '=', $productId)->first();
-        if(!$cartItem){
+        if (!$cartItem) {
             return response()->json([], 404);
         }
 
@@ -150,27 +168,32 @@ class UserController extends Controller
         return response()->json([], 200);
     }
 
-    public function clearCart(){
+    public function clearCart()
+    {
         $cartItems = CartItem::where('user_id', '=', Auth::id())
-                    ->delete();
-                    
+            ->delete();
+
         return response()->json([], 200);
     }
 
-    public function placeOrder(Request $request){
+    public function placeOrder(Request $request)
+    {
         $validatedData = $request->validate([
             'shipping_address' => 'required|string',
-            'payment_method' => 'required|string'
+            'payment_method' => 'string'
         ]);
 
         $cartItems = CartItem::where('user_id', '=', Auth::id());
 
         $shippingAddress = $validatedData['shipping_address'];
-        $paymentMethod = $validatedData['payment_method'];
+        $paymentMethod = $request->payment_method;
+
         $totalAmount = CartItem::where('user_id', '=', Auth::id())
-                        ->join('products', 'cartitems.product_id', '=', 'products.id')
-                        ->sum('products.price * cartitems.quantity');
+            ->join('products', 'cartitems.product_id', '=', 'products.id')
+            ->sum(DB::raw('price * quantity'));
         $trackingNumber = 0;
+
+        // dd($shippingAddress, $paymentMethod, $totalAmount, $trackingNumber);
 
 
         $order = Order::create([
@@ -185,7 +208,7 @@ class UserController extends Controller
             "tracking_number" => $trackingNumber
         ]);
 
-        foreach((clone $cartItems)->get() as $item){
+        foreach ((clone $cartItems)->get() as $item) {
             OrderItem::create([
                 "order_id" => $order->id,
                 "product_id" => $item->product_id,
@@ -194,6 +217,6 @@ class UserController extends Controller
         }
 
         $cartItems->delete();
-        return response()->json([], 200);
+        return redirect()->to('/order-confirmation');
     }
 }

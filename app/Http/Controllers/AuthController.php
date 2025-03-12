@@ -37,8 +37,8 @@ class AuthController extends Controller
         }
 
         return back()->withErrors([
-                'username' => 'The provided credentials do not match our records.', // Or 'email'
-            ])->withInput(); // Keep the username input for convenience
+                'email' => 'The provided credentials do not match our records.', // Or 'email'
+            ])->withInput(["email"]); // Keep the username input for convenience
     }
 
     public function register(Request $request)

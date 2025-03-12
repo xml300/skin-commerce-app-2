@@ -21,6 +21,8 @@ class UpdateCartMiddleware
         $queuedChanges = $request->query("update-cart");
         if ($queuedChanges != null) {
             $array = json_decode($queuedChanges);
+
+            
            
             $removeIDs = [];
             foreach ($array->remove as $remove) {
@@ -39,7 +41,7 @@ class UpdateCartMiddleware
                         'product_id',
                         '=',
                         $update->productId
-                    )->increment('quantity', $update->quantity);
+                    )->increment('quantity', $update->quantityChange);
             }
         }
 

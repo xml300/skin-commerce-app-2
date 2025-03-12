@@ -28,6 +28,7 @@
             ><i class="fa-solid fa-cart-shopping"></i><sup class="mx-0.5 px-1 py-0 rounded-full bg-green-800 dark:bg-green-500 dark:group-hover:bg-green-100"><span id="cart-count" class="super text-white dark:text-black">0</span></sup></a
             >
             <script>
+              if(location.pathname.startsWith('/cart')) localStorage.removeItem('cartChanges');
               const cartCount = localStorage.getItem('cartCount');
 
               if(cartCount == null){
@@ -116,23 +117,6 @@
     @yield('content')
 
     <script>
-    // document.addEventListener('DOMContentLoaded', function () {
-        // darkModeToggle.addEventListener('change', function () {
-        //     if (this.checked) {
-        //         document.documentElement.classList.add('dark');
-        //         localStorage.setItem('darkMode', 'enabled');
-        //     } else {
-        //         document.documentElement.classList.remove('dark');
-        //         localStorage.setItem('darkMode', 'disabled');
-        //     }
-        // });
-
-        // Check for dark mode preference on page load
-    //     if (localStorage.getItem('darkMode') === 'enabled') {
-    //         darkModeToggle.checked = true;
-    //         document.documentElement.classList.add('dark');
-    //     }
-    // });
       document.addEventListener("DOMContentLoaded", function () {
         const profileDropdownButton = document.getElementById('profile-dropdown-button');
         const profileDropdown = document.getElementById('profile-dropdown');
@@ -143,6 +127,7 @@
 
         if(location.search != "") location.search = "";
 
+  
         const setDarkMode = (isDark) => {
           if (isDark) {
             htmlElement.classList.add("dark");
@@ -175,18 +160,6 @@
           setDarkMode(darkModeToggle.checked);
         });
 
-        // Function to update cart counter in header
-        window.updateCartCounter = function () {
-          // Make it global for use in other scripts
-          let cart = JSON.parse(localStorage.getItem("cart") || "[]");
-          let totalQuantity = cart.reduce(
-            (sum, item) => sum + item.quantity,
-            0
-          );
-          cartCountSpan.textContent = totalQuantity;
-        };
-
-        updateCartCounter(); // Initial cart count update on page load
       });
     </script>
     @include("layouts.user.partials.footer")
