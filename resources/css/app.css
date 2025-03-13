@@ -10,6 +10,13 @@
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+
+    --color-warm-white: oklch(98.51% 0.000 0);
+    --color-warm-black: oklch(32.11% 0.000 0);
+    --color-soft-sand-beige: oklch(77.93% 0.062 78.34);
+    --color-muted-sage-green: oklch(75.09% 0.080 144.73);
+    --color-muted-sage-green-darker: oklch(67.87% 0.085 144.57);
+    --color-antique-gold: oklch(76.75% 0.098 104.51);
 }
 
 

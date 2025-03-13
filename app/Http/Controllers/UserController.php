@@ -67,9 +67,7 @@ class UserController extends Controller
             ->join('products', 'cartitems.product_id', '=', 'products.id')
             ->get();
         
-        if($cartItems->count() == 0){
-            return redirect()->route('home');
-        }
+ 
         
         $cartSubTotal = CartItem::where('user_id', '=', Auth::id())
             ->join('products', 'cartitems.product_id', '=', 'products.id')
