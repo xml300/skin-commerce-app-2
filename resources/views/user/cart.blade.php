@@ -5,107 +5,109 @@
 @endsection
 
 @section('content')
-    <main class="container mx-auto p-4 md:p-8 lg:p-10 min-h-[75vh]"> {{-- Consistent padding and min-height --}}
-        <header class="mb-12"> {{-- Increased margin bottom for better spacing --}}
-            <h1 class="text-3xl font-bold text-warm-black dark:text-warm-white mb-4">Shopping Cart</h1> {{-- Heading style and margin --}}
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <header class="mb-16">
+            <h1 class="text-4xl font-semibold text-warm-black dark:text-warm-white mb-6">Shopping Cart</h1>
         </header>
 
-        <section id="cartItemsSection" class="mb-12"> {{-- Increased margin bottom for section spacing --}}
-            <div id="cartItemsContainer" class="bg-warm-white dark:bg-warm-black shadow-md rounded-lg overflow-hidden"> {{-- Cart container styling --}}
-                <table class="min-w-full table-fixed leading-normal"> {{-- `table-fixed` for consistent layout --}}
-                    <thead class="bg-soft-sand-beige dark:bg-warm-black"> {{-- Header background color --}}
+        <section id="cartItemsSection" class="mb-16">
+            <div id="cartItemsContainer" class="bg-warm-white dark:bg-warm-black shadow-md rounded-xl overflow-hidden">
+                <table class="min-w-full table-fixed leading-normal">
+                    <thead class="bg-soft-sand-beige dark:bg-warm-black">
                         <tr>
                             <th
-                                class="px-6 py-3 border-b border-soft-sand-beige dark:border-muted-sage-green text-left text-sm font-semibold text-warm-black dark:text-warm-white uppercase tracking-wider"> {{-- Increased px for padding --}}
+                                class="px-6 py-4 border-b border-soft-sand-beige dark:border-muted-sage-green text-left text-sm font-semibold text-warm-black dark:text-warm-white uppercase tracking-wider">
                                 Product</th>
                             <th
-                                class="px-6 py-3 border-b border-soft-sand-beige dark:border-muted-sage-green text-left text-sm font-semibold text-warm-black dark:text-warm-white uppercase tracking-wider"> {{-- Increased px for padding --}}
+                                class="px-6 py-4 border-b border-soft-sand-beige dark:border-muted-sage-green text-left text-sm font-semibold text-warm-black dark:text-warm-white uppercase tracking-wider">
                                 Price</th>
                             <th
-                                class="px-6 py-3 border-b border-soft-sand-beige dark:border-muted-sage-green text-center text-sm font-semibold text-warm-black dark:text-warm-white uppercase tracking-wider"> {{-- Increased px for padding, centered text --}}
+                                class="px-6 py-4 border-b border-soft-sand-beige dark:border-muted-sage-green text-center text-sm font-semibold text-warm-black dark:text-warm-white uppercase tracking-wider">
                                 Quantity</th>
                             <th
-                                class="px-6 py-3 border-b border-soft-sand-beige dark:border-muted-sage-green text-right text-sm font-semibold text-warm-black dark:text-warm-white uppercase tracking-wider"> {{-- Increased px for padding, right-aligned text --}}
+                                class="px-6 py-4 border-b border-soft-sand-beige dark:border-muted-sage-green text-right text-sm font-semibold text-warm-black dark:text-warm-white uppercase tracking-wider">
                                 Total</th>
                             <th
-                                class="px-6 py-3 border-b border-soft-sand-beige dark:border-muted-sage-green text-right text-sm font-semibold text-warm-black dark:text-warm-white uppercase tracking-wider"> {{-- Increased px for padding, right-aligned text --}}
+                                class="px-6 py-4 border-b border-soft-sand-beige dark:border-muted-sage-green text-right text-sm font-semibold text-warm-black dark:text-warm-white uppercase tracking-wider">
                                 Actions</th>
                         </tr>
                     </thead>
                     <tbody id="cartTableBody">
-                        <!-- Cart items will be loaded here by JavaScript -->
                         @foreach ($cartItems as $item)
-                            <tr class="hover:bg-soft-sand-beige/50 dark:hover:bg-warm-black/50 transition-colors duration-100"> {{-- Hover effect on rows --}}
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-warm-black dark:text-warm-white"> {{-- Increased px for padding --}}
+                            <tr class="hover:bg-soft-sand-beige/50 dark:hover:bg-warm-black/50 transition-colors duration-100">
+                                <td class="px-6 py-5 whitespace-nowrap text-sm font-medium text-warm-black dark:text-warm-white">
                                     <div class="flex items-center">
-                                        <div class="mr-4"> {{-- Increased mr for spacing --}}
-                                            <img class="w-20 h-20 object-cover rounded" {{-- Increased image size --}}
+                                        <div class="mr-5">
+                                            <img class="w-24 h-24 object-cover rounded-xl"
                                                 src="{{ asset('images/' . 'demo' . ($item->product_id % 4 + 1) . '.jpg') }}"
                                                 alt="{{ $item->product_name }}">
                                         </div>
-                                        <div>{{ $item->product_name }}</div>
+                                        <div>
+                                            <h4 class="font-semibold text-lg text-warm-black dark:text-warm-white">{{ $item->product_name }}</h4>
+                                            {{-- <p class="text-sm text-muted-sage-green dark:text-muted-sage-green-darker">Some descriptive text</p> --}} {{-- Example description, can be added if product details are needed in cart --}}
+                                        </div>
                                     </div>
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-warm-black dark:text-warm-white"> {{-- Increased px for padding --}}
+                                <td class="px-6 py-5 whitespace-nowrap text-sm text-warm-black dark:text-warm-white">
                                     ₦{{ number_format($item->price, 2) }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-warm-black dark:text-warm-white text-center"> {{-- Increased px for padding, centered text --}}
+                                <td class="px-6 py-5 whitespace-nowrap text-sm text-warm-black dark:text-warm-white text-center">
                                     <div class="flex items-center justify-center">
-                                        <button onclick="updateQuantity({{ $item->product_id }}, -1)" aria-label="Decrease Quantity" {{-- Added aria-label for accessibility --}}
-                                            class="quantity-btn bg-soft-sand-beige dark:bg-muted-sage-green hover:bg-muted-sage-green-darker dark:hover:bg-antique-gold-darker text-warm-black dark:text-warm-white font-bold py-2 px-3 rounded-l-md focus:outline-none transition-colors duration-200">-</button> {{-- Updated button styles and added transition --}}
+                                        <button onclick="updateQuantity({{ $item->product_id }}, -1)" aria-label="Decrease Quantity"
+                                            class="quantity-btn bg-soft-sand-beige dark:bg-muted-sage-green hover:bg-muted-sage-green-darker dark:hover:bg-antique-gold text-warm-black dark:text-warm-white font-bold py-2 px-3 rounded-l-xl focus:outline-none transition-colors duration-200">-</button>
                                         <input type="number" disabled
                                             class="quantity-input shadow-sm appearance-none border border-soft-sand-beige dark:border-muted-sage-green rounded-none w-16 py-2 px-3 text-warm-black dark:text-warm-white dark:bg-warm-black leading-tight focus:outline-none focus:shadow-outline text-center"
                                             min="1" value="{{ $item->quantity }}" data-product-id="{{ $item->product_id }}"
-                                            data-product-price="{{ $item->price }}" aria-label="Product Quantity"> {{-- Added aria-label for accessibility --}}
-                                        <button onclick="updateQuantity({{ $item->product_id }}, 1)" aria-label="Increase Quantity" {{-- Added aria-label for accessibility --}}
-                                            class="quantity-btn bg-soft-sand-beige dark:bg-muted-sage-green hover:bg-muted-sage-green-darker dark:hover:bg-antique-gold-darker text-warm-black dark:text-warm-white font-bold py-2 px-3 rounded-r-md focus:outline-none transition-colors duration-200">+</button> {{-- Updated button styles and added transition --}}
+                                            data-product-price="{{ $item->price }}" aria-label="Product Quantity">
+                                        <button onclick="updateQuantity({{ $item->product_id }}, 1)" aria-label="Increase Quantity"
+                                            class="quantity-btn bg-soft-sand-beige dark:bg-muted-sage-green hover:bg-muted-sage-green-darker dark:hover:bg-antique-gold text-warm-black dark:text-warm-white font-bold py-2 px-3 rounded-r-xl focus:outline-none transition-colors duration-200">+</button>
                                     </div>
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-warm-black dark:text-warm-white text-right"> {{-- Increased px for padding, right-aligned text --}}
+                                <td class="px-6 py-5 whitespace-nowrap text-sm text-warm-black dark:text-warm-white text-right">
                                     ₦<span class="total-class"
                                         id="total_{{ $item->product_id }}">{{ number_format($item->price * $item->quantity, 2) }}</span>
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-right font-medium"> {{-- Increased px for padding, right-aligned text --}}
-                                    <button onclick="removeItem({{ $item->product_id }})" aria-label="Remove Item" {{-- Added aria-label for accessibility --}}
-                                        class="remove-btn text-muted-sage-green hover:text-muted-sage-green-darker dark:text-muted-sage-green dark:hover:text-antique-gold-darker transition-colors duration-200">Remove</button> {{-- Updated button style and added transition --}}
+                                <td class="px-6 py-5 whitespace-nowrap text-sm text-right font-medium">
+                                    <button onclick="removeItem({{ $item->product_id }})" aria-label="Remove Item"
+                                        class="remove-btn text-muted-sage-green dark:text-muted-sage-green-darker hover:text-muted-sage-green dark:hover:text-antique-gold transition-colors duration-200">Remove</button>
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
-                    <tfoot id="cartTableFooter" class="bg-soft-sand-beige dark:bg-warm-black">
+                    <tfoot id="cartTableFooter" class="bg-transparent"> {{-- Changed footer background to transparent --}}
                         <tr>
-                            <td colspan="5" class="px-6 py-3"></td> {{-- Empty cell for spacing --}}
+                            <td colspan="5" class="px-6 py-4"></td>
                         </tr>
                     </tfoot>
                 </table>
             </div>
 
-            <div id="emptyCartMessage" class="bg-warm-white dark:bg-warm-black shadow-md rounded-lg p-8 text-center {{ count($cartItems) > 0 ? 'hidden' : '' }}"> {{-- Padding and conditional hidden class --}}
-                <p class="text-lg text-warm-black dark:text-warm-white mb-4">Your cart is empty.</p> {{-- Larger text and margin --}}
+            <div id="emptyCartMessage" class="bg-warm-white dark:bg-warm-black shadow-md rounded-xl p-10 text-center {{ count($cartItems) > 0 ? 'hidden' : '' }}">
+                <p class="text-lg text-warm-black dark:text-warm-white mb-6">Your cart is currently empty.</p>
                 <a href="/products"
-                    class="inline-block bg-muted-sage-green hover:bg-muted-sage-green-darker text-warm-white font-bold py-3 px-6 rounded-md focus:outline-none focus:ring-2 focus:ring-muted-sage-green focus:ring-offset-1 dark:bg-antique-gold dark:text-warm-black dark:hover:bg-antique-gold-darker transition-colors duration-200">Shop {{-- Updated button style and padding, added transition --}}
+                    class="inline-block bg-muted-sage-green hover:bg-muted-sage-green-darker text-warm-white font-semibold py-3 px-6 rounded-xl focus:outline-none focus:ring-2 focus:ring-muted-sage-green focus:ring-offset-1 dark:bg-antique-gold dark:text-warm-black dark:hover:bg-antique-gold-darker transition-colors duration-200">Shop
                     Now</a>
             </div>
         </section>
 
-        <section id="cartSummarySection" class="bg-warm-white dark:bg-warm-black shadow-md rounded-lg p-8"> {{-- Padding increased --}}
-            <h2 class="text-xl font-semibold text-warm-black dark:text-warm-white mb-6">Order Summary</h2> {{-- Increased margin bottom --}}
-            <div class="flex justify-between mb-3"> {{-- Reduced margin bottom --}}
-                <span class="font-semibold text-warm-black dark:text-warm-white">Subtotal:</span>
+        <section id="cartSummarySection" class="bg-warm-white dark:bg-warm-black shadow-md rounded-xl p-10">
+            <h2 class="text-2xl font-semibold text-warm-black dark:text-warm-white mb-8">Order Summary</h2>
+            <div class="flex justify-between mb-4">
+                <span class="font-medium text-warm-black dark:text-warm-white">Subtotal:</span>
                 <span class="text-warm-black dark:text-warm-white">₦<span
                         id="cartSubtotal">{{ number_format($cartSubTotal, 2) }}</span></span>
             </div>
-            <div class="flex justify-between mb-3"> {{-- Reduced margin bottom --}}
-                <span class="font-semibold text-warm-black dark:text-warm-white">Shipping:</span>
+            <div class="flex justify-between mb-4">
+                <span class="font-medium text-warm-black dark:text-warm-white">Shipping:</span>
                 <span class="text-warm-black dark:text-warm-white">Calculated at checkout</span>
             </div>
-            <div class="border-t border-soft-sand-beige dark:border-muted-sage-green pt-6 flex justify-between"> {{-- Increased pt --}}
+            <div class="border-t border-soft-sand-beige dark:border-muted-sage-green pt-8 flex justify-between">
                 <span class="text-xl font-bold text-warm-black dark:text-warm-white">Total:</span>
                 <span class="text-xl font-bold text-warm-black dark:text-warm-white">₦<span
                         id="cartTotal">{{ number_format($cartSubTotal, 2) }}</span></span>
             </div>
-            <div class="mt-8"> {{-- Increased mt --}}
+            <div class="mt-10">
                 <a href="/checkout" id="checkoutButton"
-                    class="block text-center bg-antique-gold hover:bg-antique-gold-darker text-warm-black font-bold py-3 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-antique-gold focus:ring-offset-1 transition-colors duration-200 dark:bg-muted-sage-green dark:text-warm-white dark:hover:bg-muted-sage-green-darker"> {{-- Updated button style and padding, using antique gold as primary, and muted sage green for dark mode, added transition --}}
+                    class="block text-center bg-antique-gold hover:bg-antique-gold-darker text-warm-black font-bold py-3 px-6 rounded-xl focus:outline-none focus:ring-2 focus:ring-antique-gold focus:ring-offset-1 transition-colors duration-200 dark:bg-muted-sage-green dark:text-warm-white dark:hover:bg-muted-sage-green-darker">
                     Proceed to Checkout
                 </a>
             </div>
@@ -123,7 +125,7 @@
 
 
             const updateCartVisibility = () => {
-                if (cartTableBody.querySelectorAll('tr').length > 0) { // Check if table has rows (cart items)
+                if (cartTableBody.querySelectorAll('tr').length > 0) {
                     cartItemsContainer.classList.remove('hidden');
                     cartSummarySection.classList.remove('hidden');
                     emptyCartMessage.classList.add('hidden');
@@ -134,7 +136,7 @@
                 }
             };
 
-            updateCartVisibility(); // Initial visibility check
+            updateCartVisibility();
 
 
             window.updateQuantity = (productId, change) => {
@@ -188,11 +190,11 @@
 
             window.removeItem = (productId) => {
                 const cartItemRow = document.querySelector(`input[data-product-id="${productId}"]`).closest('tr');
-                cartItemRow.remove(); // Remove the row from the DOM
+                cartItemRow.remove();
                 changeLog = { productId: productId };
                 cartChanges.remove.push(changeLog);
                 localStorage.setItem("cartChanges", JSON.stringify(cartChanges));
-                updateCartVisibility(); // Update visibility after removing item
+                updateCartVisibility();
             };
 
         });

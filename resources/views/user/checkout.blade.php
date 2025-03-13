@@ -2,77 +2,79 @@
 @section('title', 'Stara - Checkout')
 
 @section('content')
-  <main class="container mx-auto p-4 md:p-8 lg:p-10 min-h-[75vh]"> {{-- Consistent padding and min-height --}}
-    <header class="mb-12"> {{-- Increased margin bottom for better spacing --}}
-    <h1 class="text-3xl font-bold text-warm-black dark:text-warm-white mb-4"> {{-- Heading style and margin --}}
+  <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <header class="mb-16">
+    <h1 class="text-4xl font-semibold text-warm-black dark:text-warm-white mb-6">
       Checkout
     </h1>
     </header>
 
-    <div class="lg:grid lg:grid-cols-2 lg:gap-8"> {{-- Using grid for two-column layout on larger screens --}}
-    <section class="mb-8 lg:mb-0"> {{-- Margin bottom for mobile, removed on larger screens --}}
-      <div class="bg-warm-white dark:bg-warm-black shadow-md rounded-lg p-8"> {{-- Increased padding --}}
-      <h2 class="text-2xl font-semibold text-warm-black dark:text-warm-white mb-6"> {{-- Increased font size and margin --}}
+    <div class="lg:grid lg:grid-cols-2 lg:gap-16">
+    <section class="mb-12 lg:mb-0">
+      <div class="bg-warm-white dark:bg-warm-black shadow-md rounded-xl p-10">
+      <h2 class="text-2xl font-semibold text-warm-black dark:text-warm-white mb-8">
         Shipping Information
       </h2>
       <form id="checkoutForm" action="{{ route('order.place') }}" method="POST">
         @csrf
-        <div class="mb-6"> {{-- Increased margin bottom --}}
-        <label for="name" class="block text-sm font-medium text-warm-black dark:text-warm-white mb-2">Name</label> {{-- Updated label style --}}
+        <div class="mb-8">
+        <label for="name" class="block text-sm font-medium text-muted-sage-green dark:text-muted-sage-green-darker mb-3">Full Name</label>
         <input type="text" id="name" name="name"
           value="{{ Auth::user()->first_name . ' ' . Auth::user()->last_name  }}"
-          class="form-input shadow-sm appearance-none border rounded-md w-full py-2 px-3 text-warm-black dark:text-warm-white dark:bg-warm-black leading-tight focus:outline-none focus:ring-2 focus:ring-muted-sage-green focus:border-muted-sage-green transition-colors duration-200" {{-- Applied form-input class and rounded corners, transition --}}
+          class="form-input shadow-sm appearance-none border rounded-xl w-full py-3 px-4 text-warm-black dark:text-warm-white dark:bg-warm-black leading-tight focus:outline-none focus:ring-2 focus:ring-muted-sage-green focus:border-muted-sage-green transition-colors duration-200"
           disabled required />
         </div>
-        <div class="mb-6"> {{-- Increased margin bottom --}}
-        <label for="email" class="block text-sm font-medium text-warm-black dark:text-warm-white mb-2">Email Address</label> {{-- Updated label style --}}
+        <div class="mb-8">
+        <label for="email" class="block text-sm font-medium text-muted-sage-green dark:text-muted-sage-green-darker mb-3">Email Address</label>
         <input type="email" id="email" name="email" value="{{ Auth::user()->email }}"
-          class="form-input shadow-sm appearance-none border rounded-md w-full py-2 px-3 text-warm-black dark:text-warm-white dark:bg-warm-black leading-tight focus:outline-none focus:ring-2 focus:ring-muted-sage-green focus:border-muted-sage-green transition-colors duration-200" {{-- Applied form-input class and rounded corners, transition --}}
+          class="form-input shadow-sm appearance-none border rounded-xl w-full py-3 px-4 text-warm-black dark:text-warm-white dark:bg-warm-black leading-tight focus:outline-none focus:ring-2 focus:ring-muted-sage-green focus:border-muted-sage-green transition-colors duration-200"
           required />
         </div>
-        <div class="mb-8"> {{-- Increased margin bottom --}}
-        <label for="address" class="block text-sm font-medium text-warm-black dark:text-warm-white mb-2">Shipping Address</label> {{-- Updated label style --}}
-        <textarea id="address" name="shipping_address" rows="3"
-          class="form-textarea shadow-sm appearance-none border rounded-md w-full py-2 px-3 text-warm-black dark:text-warm-white dark:bg-warm-black leading-tight focus:outline-none focus:ring-2 focus:ring-muted-sage-green focus:border-muted-sage-green transition-colors duration-200" {{-- Applied form-textarea class and rounded corners, transition --}}
-          required placeholder="Your shipping address"></textarea> {{-- Added placeholder --}}
+        <div class="mb-10">
+        <label for="address" class="block text-sm font-medium text-muted-sage-green dark:text-muted-sage-green-darker mb-3">Shipping Address</label>
+        <textarea id="address" name="shipping_address" rows="4"
+          class="form-textarea shadow-sm appearance-none border rounded-xl w-full py-3 px-4 text-warm-black dark:text-warm-white dark:bg-warm-black leading-tight focus:outline-none focus:ring-2 focus:ring-muted-sage-green focus:border-muted-sage-green transition-colors duration-200"
+          required placeholder="Enter your full shipping address"></textarea>
         </div>
       </div>
     </section>
 
     <section>
-      <div class="bg-warm-white dark:bg-warm-black shadow-md rounded-lg p-8"> {{-- Increased padding --}}
-      <h2 class="text-2xl font-semibold text-warm-black dark:text-warm-white mb-6"> {{-- Increased font size and margin --}}
+      <div class="bg-warm-white dark:bg-warm-black shadow-md rounded-xl p-10">
+      <h2 class="text-2xl font-semibold text-warm-black dark:text-warm-white mb-8">
         Order Summary
       </h2>
-      <ul id="orderSummaryItems" class="mb-6"> {{-- Increased margin bottom --}}
-        <!-- Order summary items will be loaded here by JavaScript -->
+      <ul id="orderSummaryItems" class="mb-8">
         @foreach ($orderItems as $item)
-      <li class="flex justify-between py-3 border-b border-soft-sand-beige dark:border-muted-sage-green"> {{-- Increased py for spacing --}}
+      <li class="flex justify-between py-4 border-b border-soft-sand-beige dark:border-muted-sage-green">
       <div class="flex items-center">
-        <img class="w-16 h-16 object-cover rounded mr-4" {{-- Increased image size and margin --}}
+        <img class="w-20 h-20 object-cover rounded-xl mr-5"
         src="{{  asset('images/' . 'demo' . ($item->id % 4 + 1) . '.jpg') }}" alt="{{ $item->product_name }}">
-        <span class="text-warm-black dark:text-warm-white">{{ $item->product_name }} x {{ $item->quantity }}</span>
+        <div>
+          <h4 class="font-semibold text-lg text-warm-black dark:text-warm-white">{{ $item->product_name }}</h4>
+          <p class="text-sm text-muted-sage-green dark:text-muted-sage-green-darker">Quantity: {{ $item->quantity }}</p> {{-- Added quantity display in order summary --}}
+        </div>
       </div>
       <span class="text-warm-black dark:text-warm-white">₦{{ number_format($item->price * $item->quantity, 2) }}</span>
       </li>
     @endforeach
       </ul>
-      <div class="flex justify-between mb-3"> {{-- Reduced margin bottom --}}
-        <span class="font-semibold text-warm-black dark:text-warm-white">Subtotal:</span>
+      <div class="flex justify-between mb-4">
+        <span class="font-medium text-muted-sage-green dark:text-muted-sage-green-darker">Subtotal:</span>
         <span id="orderSubtotal"
-        class="text-warm-black dark:text-warm-white">₦{{ number_format($orderSubtotal, 2) }}</span>
+        class="text-muted-sage-green dark:text-muted-sage-green-darker">₦{{ number_format($orderSubtotal, 2) }}</span>
       </div>
-      <div class="flex justify-between mb-4"> {{-- Increased margin bottom --}}
-        <span class="font-semibold text-warm-black dark:text-warm-white">Shipping:</span>
-        <span class="text-warm-black dark:text-warm-white">₦0.00 (Simulated)</span>
+      <div class="flex justify-between mb-5">
+        <span class="font-medium text-muted-sage-green dark:text-muted-sage-green-darker">Shipping:</span>
+        <span class="text-muted-sage-green dark:text-muted-sage-green-darker">₦0.00 (Simulated)</span>
       </div>
-      <div class="border-t border-soft-sand-beige dark:border-muted-sage-green pt-6 flex justify-between"> {{-- Increased pt --}}
+      <div class="border-t border-soft-sand-beige dark:border-muted-sage-green pt-8 flex justify-between">
         <span class="text-xl font-bold text-warm-black dark:text-warm-white">Total:</span>
         <span id="orderTotal"
         class="text-xl font-bold text-warm-black dark:text-warm-white">₦{{ number_format($orderSubtotal, 2) }}</span>
       </div>
       <button id="placeOrderButton" type="submit"
-        class="mt-8 block w-full text-center bg-antique-gold hover:bg-antique-gold-darker text-warm-black font-bold py-3 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-antique-gold focus:ring-offset-1 transition-colors duration-200 dark:bg-muted-sage-green dark:text-warm-white dark:hover:bg-muted-sage-green-darker"> {{-- Updated button style to antique gold, transition --}}
+        class="mt-10 block w-full text-center bg-muted-sage-green hover:bg-muted-sage-green-darker text-warm-white font-semibold py-3 px-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-muted-sage-green focus:ring-offset-1 transition-colors duration-200 dark:bg-antique-gold dark:text-warm-black dark:hover:bg-antique-gold-darker">
         Place Order (Simulated)
       </button>
       </form>
