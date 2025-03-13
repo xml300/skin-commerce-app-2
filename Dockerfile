@@ -1,63 +1,34 @@
-FROM php:8.2-fpm-alpine
+FROM php:8.3.4-fpm-alpine
 
-# Set working directory
-WORKDIR /app
+RUN apk add --no-cache postgresql-dev msmtp perl wget procps shadow libzip libpng libjpeg-turbo libwebp freetype icu npm nodejs
 
-# Install system dependencies
-RUN apk update && apk add --no-cache \
-    curl \
-    git \
-    zip \
-    unzip \
-    nodejs \
-    npm \
-    shadow \
-    supervisor \
-    nginx \
-    php82-bcmath \
-    php82-ctype \
-    php82-fileinfo \
-    php82-gd \
-    php82-iconv \
-    php82-intl \
-    php82-json \
-    php82-mbstring \
-    php82-mysqlnd \
-    php82-opcache \
-    php82-openssl \
-    php82-pdo_mysql \
-    php82-pdo_pgsql \
-    php82-pdo_sqlite \
-    php82-pgsql \
-    php82-tokenizer \
-    php82-xml \
-    php82-zip
+RUN apk add --no-cache --virtual build-essentials \
+    icu-dev icu-libs zlib-dev g++ make automake autoconf libzip-dev \
+    libpng-dev libwebp-dev libjpeg-turbo-dev freetype-dev && \
+    docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp && \
+    docker-php-ext-install gd \
+    pgsql pdo pdo_pgsql \
+    intl  \
+    bcmath \
+    opcache \
+    exif \
+    zip && \
+    apk del build-essentials && rm -rf /usr/src/php*
 
-# Install composer
-COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
+RUN apk add --no-cache nginx wget
+RUN sh -c "wget http://getcomposer.org/composer.phar && chmod a+x composer.phar && mv composer.phar /usr/local/bin/composer"
 
-# Copy application files
-COPY . /app
 
-# Install PHP dependencies
-RUN composer install --no-dev --optimize-autoloader --no-interaction
 
-# Copy .env.example to .env and generate app key
-# RUN cp .env .
-# RUN php artisan key:generate --no-interaction
+WORKDIR  /app
+COPY composer.json .
+RUN composer install --no-scripts
+COPY . .
+RUN php artisan storage:link
+RUN npm install
 
-# Set storage and bootstrap cache permissions
 RUN chown -R www-data:www-data storage bootstrap/cache
 RUN chmod -R 775 storage bootstrap/cache
 
-# Generate configuration cache
-RUN php artisan config:cache
-
-# Generate route cache
-RUN php artisan route:cache
-
-# Expose port for php artisan serve
-EXPOSE 8000
-
-# Command to run the Laravel application using php artisan serve
-CMD ["npm", "run", "start"]
+EXPOSE 8080
+CMD ["npm", "run", "prod"]

@@ -1,5 +1,7 @@
-@include('layouts.user.header', ['title' => 'Skincare Shop - Products'])
+@extends('layouts.user.user_dashboard')
+@section('title', 'Stara - Products')
 
+@section('content')
 <main class="container mx-auto p-4 md:p-8 lg:p-10 min-h-[75vh]">
     <header class="mb-8">
         <h1 class="text-3xl font-bold text-green-900 dark:text-white mb-2">All Products</h1>
@@ -29,7 +31,7 @@
         @foreach($products as $product)
         <div class="bg-gray-100 dark:bg-green-950 rounded-lg shadow-md overflow-hidden">
                     <a href="/product/{{ $product->id }}">
-                        <img class="w-full h-48 object-cover" src="{{ $product->product_images }}"
+                        <img class="w-full h-48 object-cover" src="{{  asset('images/'.'demo'.($product->id % 4 + 1).'.jpg') }}"
                             alt="{{ $product->product_name }}">
                         <div class="p-4">
                             <h3 class="font-semibold text-green-800 dark:text-green-50">{{ $product->product_name }}</h3>
@@ -56,5 +58,4 @@
         });
     });
 </script>
-
-@include('layouts.user.footer')
+@endsection

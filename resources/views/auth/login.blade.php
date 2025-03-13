@@ -1,19 +1,22 @@
-@include("layouts.user.header", ["title" => "Login"])
+@extends("layouts.auth.auth_layout")
+@section( "title", "Stara")
+@section('auth-title', 'Login')
+@section('auth-subtitle', 'Sign in to access your account.')
 
-<main class="container mx-auto p-4 md:p-8 lg:p-10 flex justify-center items-center min-h-[75vh]">
-    <div class="w-full max-w-md">
-        <div class="bg-white dark:bg-green-950 shadow-md rounded-lg px-8 pt-6 pb-8 mb-4">
-            <h2 class="text-2xl font-bold text-green-900 dark:text-white mb-6 text-center">Login to Skincare Shop</h2>
+@section('content')
+<!-- <main class="container mx-auto p-4 md:p-8 lg:p-10 flex justify-center items-center min-h-[75vh]"> -->
+    <div class="w-full">
+            <h2 class="text-2xl font-bold text-green-900 dark:text-white mb-6 text-center">Login to Stara</h2>
+
 
             <form method="POST" action="{{ route('login') }}">
-                @csrf {{-- CSRF protection --}}
-
+                @csrf
                 <div class="mb-4">
-                    <label for="username" class="block text-green-800 dark:text-gray-200 text-sm font-bold mb-2">
-                        Username or Email
+                    <label for="email" class="block text-green-800 dark:text-gray-200 text-sm font-bold mb-2">
+                        Email
                     </label>
-                    <input id="username" type="text" class="shadow-sm appearance-none border rounded w-full py-2 px-3 text-green-700 dark:text-white dark:bg-green-800 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 @error('username') border-red-500 @enderror" name="username" value="{{ old('username') }}" required autocomplete="username" autofocus>
-                    @error('username')
+                    <input id="email" type="text" class="shadow-sm appearance-none border rounded w-full py-2 px-3 text-green-700 dark:text-white dark:bg-green-800 leading-tight focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 @error('email') border-red-500 @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                    @error('email')
                         <p class="text-red-500 text-xs italic">{{ $message }}</p>
                     @enderror
                 </div>
@@ -37,7 +40,6 @@
                     </a>
                 </div>
             </form>
-        </div>
     </div>
-</main>
-@include("layouts.user.footer")
+<!-- </main> -->
+@endsection
