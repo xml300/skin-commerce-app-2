@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\AuthMiddleware;
+use App\Http\Middleware\TrustProxies;
 use App\Http\Middleware\UpdateCartMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -21,7 +22,8 @@ return Application::configure(basePath: dirname(__DIR__))
          * @var array<string, array<int, string>>
          */
         $middleware->appendToGroup('web', [
-            UpdateCartMiddleware::class
+            UpdateCartMiddleware::class,
+            TrustProxies::class
         ]);
     
         // $middleware->appendToGroup('api', [
