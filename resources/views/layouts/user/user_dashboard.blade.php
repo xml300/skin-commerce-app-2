@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@yield('title', 'Stara')</title>
+    <title>Stara - @yield('title', 'Homepage')</title>
     @vite('resources/css/app.css')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
@@ -22,6 +22,20 @@
                        class="text-warm-black dark:text-warm-white hover:text-muted-sage-green dark:hover:text-antique-gold transition-colors duration-200">Home</a>
                     <a href="/products"
                        class="text-warm-black dark:text-warm-white hover:text-muted-sage-green dark:hover:text-antique-gold transition-colors duration-200">Products</a>
+
+                    <!-- Desktop Search Form -->
+                    <form role="search" action="/search" method="GET" class="flex items-center">
+                        <input type="search" id="desktop-search" name="q" placeholder="Search products..." aria-label="Search products"
+                               class="block w-full p-2 pl-3 text-sm rounded-r-none text-warm-black dark:text-warm-white bg-warm-white dark:bg-warm-black border border-soft-sand-beige dark:border-muted-sage-green rounded-md focus:ring-muted-sage-green dark:focus:ring-antique-gold focus:border-muted-sage-green dark:focus:border-antique-gold" />
+                        <button type="submit" class="p-2.5 ml-0 rounded-l-none text-sm font-medium text-warm-white bg-muted-sage-green dark:bg-antique-gold rounded-md border border-muted-sage-green dark:border-antique-gold hover:bg-muted-sage-green-darker dark:hover:opacity-90 focus:ring-4 focus:outline-none focus:ring-muted-sage-green dark:focus:ring-antique-gold">
+                            <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                            </svg>
+                            <span class="sr-only">Search</span>
+                        </button>
+                    </form>
+                    <!-- End Desktop Search Form -->
+
 
                     @auth
                     <a
@@ -108,6 +122,9 @@
                                     <p class="text-xs text-warm-black dark:text-warm-white">{{ Auth::user()->email }}</p>
                                 </div>
                                 <hr class="border-t border-soft-sand-beige dark:border-warm-black">
+                                <a href="{{ route('orders.get') }}" class="block px-4 py-2 text-sm text-warm-black dark:text-warm-white hover:bg-soft-sand-beige dark:hover:bg-warm-black" role="menuitem" tabindex="-1">
+                                    My Orders
+                                </a>
                                 <a href="{{ route('logout') }}" class="block px-4 py-2 text-sm text-warm-black dark:text-warm-white hover:bg-soft-sand-beige dark:hover:bg-warm-black" role="menuitem" tabindex="-1" id="logout-menu-item"
                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     Logout
@@ -129,6 +146,20 @@
             </div>
              {{-- Mobile Navigation Menu (Hidden by default) --}}
              <div class="hidden sm:hidden" id="mobile-menu">
+                <!-- Mobile Search Form -->
+                <form role="search" action="/search" method="GET" class="mb-2 px-2">
+                    <label for="mobile-search" class="sr-only">Search</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                            <svg class="w-4 h-4 text-warm-black dark:text-warm-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                            </svg>
+                        </div>
+                        <input type="search" id="mobile-search" name="q" class="block w-full p-2 pl-10 text-sm text-warm-black dark:text-warm-white bg-warm-white dark:bg-warm-black border border-soft-sand-beige dark:border-muted-sage-green rounded-md focus:ring-muted-sage-green dark:focus:ring-antique-gold focus:border-muted-sage-green dark:focus:border-antique-gold" placeholder="Search products..." aria-label="Search products">
+                    </div>
+                </form>
+                <!-- End Mobile Search Form -->
+
                 <div class="px-2 pt-2 pb-3 space-y-1">
                     <a href="/" class="block px-3 py-2 rounded-md text-base font-medium text-warm-black dark:text-warm-white hover:bg-soft-sand-beige dark:hover:bg-warm-black" aria-current="page">Home</a>
                     <a href="/products" class="block px-3 py-2 rounded-md text-base font-medium text-warm-black dark:text-warm-white hover:bg-soft-sand-beige dark:hover:bg-warm-black">Products</a>
@@ -181,8 +212,11 @@
                                     <p class="text-xs text-warm-black dark:text-warm-white">{{ Auth::user()->email }}</p>
                                 </div>
                                 <hr class="border-t border-soft-sand-beige dark:border-warm-black">
+                                <a href="{{ route('orders.get') }}" class="block px-4 py-2 text-sm text-warm-black dark:text-warm-white hover:bg-soft-sand-beige dark:hover:bg-warm-black" role="menuitem" tabindex="-1">
+                                    My Orders
+                                </a>
                                 <a href="{{ route('logout') }}" class="block px-4 py-2 text-sm text-warm-black dark:text-warm-white hover:bg-soft-sand-beige dark:hover:bg-warm-black" role="menuitem" tabindex="-1" id="logout-mobile-menu-item"
-                                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                   onclick="event.preventDefault(); document.getElementById('mobile-logout-form').submit();">
                                     Logout
                                 </a>
                                 <form id="mobile-logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
@@ -198,6 +232,61 @@
     </header>
 
     @yield('content')
+
+
+    @if(session('message'))
+    <div id="sessionModal" class="fixed z-50 inset-0 overflow-y-auto" aria-labelledby="sessionModalLabel" role="dialog" aria-modal="true">
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">​</span>
+            <div class="inline-block align-bottom bg-warm-white dark:bg-warm-black rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <div class="bg-warm-white dark:bg-warm-black px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div class="sm:flex sm:items-start">
+                        <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10">
+                            <!-- Heroicon name: outline/check -->
+                            <svg class="h-6 w-6 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                        </div>
+                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                            <h3 class="text-lg leading-6 font-medium text-warm-black dark:text-warm-white" id="sessionModalLabel">
+                                Success!
+                            </h3>
+                            <div class="mt-2">
+                                <p class="text-sm text-muted-sage-green dark:text-muted-sage-green-darker">
+                                    {{ session('message') }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 dark:bg-gray-800 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <button onclick="closeSessionModal()" type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 dark:border-gray-700 shadow-sm px-4 py-2 bg-warm-white dark:bg-warm-black text-base font-medium text-warm-black dark:text-warm-white hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const modal = document.getElementById('sessionModal');
+            if (modal) {
+                setTimeout(() => { // Optional: Auto-close after a delay
+                    closeSessionModal();
+                }, 5000); // Adjust delay (milliseconds) as needed. Set to 0 to disable auto-close.
+            }
+        });
+
+        function closeSessionModal() {
+            const modal = document.getElementById('sessionModal');
+            if (modal) {
+                modal.classList.add('hidden'); // Hide the modal
+            }
+        }
+    </script>
+@endif
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {

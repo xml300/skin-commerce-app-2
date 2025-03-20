@@ -1,5 +1,5 @@
 @extends('layouts.user.user_dashboard')
-@section("title", 'Stara - Order Confirmation')
+@section("title", 'Order Confirmation')
 
 @section('content')
 <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 min-h-[75vh] flex items-center justify-center">

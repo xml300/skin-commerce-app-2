@@ -6,8 +6,12 @@ use App\Http\Controllers\UserController; // Create UserController later
 use App\Http\Controllers\AdminController; // Create AdminController later
 
 Route::get('/', [UserController::class, 'index'])->name("home");
-Route::get('/products', [UserController::class, 'products']);
-Route::get('/product/{productId}', [UserController::class, 'productDetails']);
+Route::get('/search', [UserController::class, 'search'])->name('search');
+Route::get('/contact', [UserController::class, 'contact']);
+Route::get('/privacy', [UserController::class, 'privacy']);
+Route::get('/terms', [UserController::class, 'terms']);
+Route::get('/products', [UserController::class, 'products'])->name('products');
+Route::get('/product/{productId}', [UserController::class, 'productDetails'])->name('product.details');
 
 Route::get('/login', [UserController::class, 'login'])->name('login.get');
 Route::get("/register", [UserController::class, 'register'])->name('register.get');
@@ -17,21 +21,28 @@ Route::post('/api/register', [AuthController::class, 'register'])->name("registe
 
 Route::middleware(['auth.user'])->group(function () {
     Route::get('/cart', [UserController::class, 'cart'])->withoutMiddleware('update.cart');
+    Route::get('/orders', [UserController:: class, 'orders'])->name('orders.get');
+    Route::get('/orders/{orderId}', [UserController::class, 'orderDetails'])->name('user.orders.show');
     Route::get('/checkout', [UserController::class, 'checkout']);
-    Route::get('/order-confirmation', [UserController::class, 'orderConfirmation']);
+    Route::get('/order-confirmation', [UserController::class, 'orderConfirmation'])->name('user.order-confirm');
+    Route::get('/order-confirmation/success', [UserController::class, 'orderSuccess'])->name('user.order-success');
+    Route::get('/order-confirmation/failed', [UserController::class, 'orderFailed'])->name('user.order-failed');
     Route::post('/logout', [AuthController::class, 'logout'])->name("logout");
 
     Route::get('/api/cart', [UserController::class, 'getCart'])->name('cart.get');
     Route::get('/api/cart/count', [UserController::class, 'getCartCount']);
-    // Route::post('/api/cart', [UserController::class, 'massUpdateCart'])->name('cart.mass.update');
     Route::post('/api/cart/item', [UserController::class, 'addToCart'])->name('cart.add');
     Route::put('/api/cart/item/{productID}', [UserController::class, 'updateCartItem'])->name('cart.update');
     Route::delete('/api/cart/item/{productID}', [UserController::class, 'removeCartItem'])->name('cart.remove');
     Route::delete('/api/cart', [UserController::class, 'clearCart'])->name('cart.clear');
 
     Route::post('/api/order', [UserController::class, 'placeOrder'])->name('order.place');
+    Route::get('/callback', [UserController::class, 'paymentCallback']);
 });
 
+
+Route::middleware(['auth.admin'])->group(function () {
+});
 
 Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
 Route::get('/admin/products', [AdminController::class, 'products'])->name('admin.products');

@@ -1,6 +1,6 @@
 @extends('layouts.user.user_dashboard')
 @section('title')
-    Stara - Cart</title>
+    Cart</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
 
@@ -35,7 +35,8 @@
                     <tbody id="cartTableBody">
                         @foreach ($cartItems as $item)
                             <tr class="hover:bg-soft-sand-beige/50 dark:hover:bg-warm-black/50 transition-colors duration-100">
-                                <td class="px-6 py-5 whitespace-nowrap text-sm font-medium text-warm-black dark:text-warm-white">
+                                <td
+                                    class="px-6 py-5 whitespace-nowrap text-sm font-medium text-warm-black dark:text-warm-white">
                                     <div class="flex items-center">
                                         <div class="mr-5">
                                             <img class="w-24 h-24 object-cover rounded-xl"
@@ -43,23 +44,38 @@
                                                 alt="{{ $item->product_name }}">
                                         </div>
                                         <div>
-                                            <h4 class="font-semibold text-lg text-warm-black dark:text-warm-white">{{ $item->product_name }}</h4>
-                                            {{-- <p class="text-sm text-muted-sage-green dark:text-muted-sage-green-darker">Some descriptive text</p> --}} {{-- Example description, can be added if product details are needed in cart --}}
+                                            <h4 class="font-semibold text-lg text-warm-black dark:text-warm-white">
+                                                {{ $item->product_name }}</h4>
+                                            {{-- <p class="text-sm text-muted-sage-green dark:text-muted-sage-green-darker">Some
+                                                descriptive text</p> --}} {{-- Example description, can be added if product
+                                            details are needed in cart --}}
                                         </div>
                                     </div>
                                 </td>
                                 <td class="px-6 py-5 whitespace-nowrap text-sm text-warm-black dark:text-warm-white">
                                     ₦{{ number_format($item->price, 2) }}</td>
-                                <td class="px-6 py-5 whitespace-nowrap text-sm text-warm-black dark:text-warm-white text-center">
-                                    <div class="flex items-center justify-center">
+                                <td
+                                    class="px-6 py-5 whitespace-nowrap text-sm text-warm-black dark:text-warm-white text-center">
+                                    <div
+                                        class="relative flex items-center justify-center rounded-md shadow-sm border border-soft-sand-beige dark:border-muted-sage-green">
                                         <button onclick="updateQuantity({{ $item->product_id }}, -1)" aria-label="Decrease Quantity"
-                                            class="quantity-btn bg-soft-sand-beige dark:bg-muted-sage-green hover:bg-muted-sage-green-darker dark:hover:bg-antique-gold text-warm-black dark:text-warm-white font-bold py-2 px-3 rounded-l-xl focus:outline-none transition-colors duration-200">-</button>
-                                        <input type="number" disabled
-                                            class="quantity-input shadow-sm appearance-none border border-soft-sand-beige dark:border-muted-sage-green rounded-none w-16 py-2 px-3 text-warm-black dark:text-warm-white dark:bg-warm-black leading-tight focus:outline-none focus:shadow-outline text-center"
+                                            class="w-full  flex items-center justify-center bg-transparent hover:bg-soft-sand-beige dark:hover:bg-muted-sage-green-darker text-warm-black dark:text-warm-white font-semibold py-2 px-3 rounded-l-md focus:outline-none focus:ring-2 focus:ring-inset focus:ring-antique-gold transition-colors duration-200">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                                class="w-5 h-5">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12h-15" />
+                                            </svg>
+                                        </button>
+                                        <input type="number" readonly
+                                            class="appearance-none border-l border-r border-soft-sand-beige dark:border-l-muted-sage-green dark:border-r-muted-sage-green text-center w-16 py-2 pl-3 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-antique-gold text-warm-black dark:text-warm-white dark:bg-warm-black leading-tight"
                                             min="1" value="{{ $item->quantity }}" data-product-id="{{ $item->product_id }}"
-                                            data-product-price="{{ $item->price }}" aria-label="Product Quantity">
+                                            data-product-price="{{ $item->price }}" aria-label="Product Quantity" />
                                         <button onclick="updateQuantity({{ $item->product_id }}, 1)" aria-label="Increase Quantity"
-                                            class="quantity-btn bg-soft-sand-beige dark:bg-muted-sage-green hover:bg-muted-sage-green-darker dark:hover:bg-antique-gold text-warm-black dark:text-warm-white font-bold py-2 px-3 rounded-r-xl focus:outline-none transition-colors duration-200">+</button>
+                                            class="w-full  flex items-center justify-center bg-transparent hover:bg-soft-sand-beige dark:hover:bg-muted-sage-green-darker text-warm-black dark:text-warm-white font-semibold py-2 px-3 rounded-r-md focus:outline-none focus:ring-2 focus:ring-inset focus:ring-antique-gold transition-colors duration-200">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                                class="w-5 h-5">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                            </svg>
+                                        </button>
                                     </div>
                                 </td>
                                 <td class="px-6 py-5 whitespace-nowrap text-sm text-warm-black dark:text-warm-white text-right">
@@ -81,7 +97,8 @@
                 </table>
             </div>
 
-            <div id="emptyCartMessage" class="bg-warm-white dark:bg-warm-black shadow-md rounded-xl p-10 text-center {{ count($cartItems) > 0 ? 'hidden' : '' }}">
+            <div id="emptyCartMessage"
+                class="bg-warm-white dark:bg-warm-black shadow-md rounded-xl p-10 text-center {{ count($cartItems) > 0 ? 'hidden' : '' }}">
                 <p class="text-lg text-warm-black dark:text-warm-white mb-6">Your cart is currently empty.</p>
                 <a href="/products"
                     class="inline-block bg-muted-sage-green hover:bg-muted-sage-green-darker text-warm-white font-semibold py-3 px-6 rounded-xl focus:outline-none focus:ring-2 focus:ring-muted-sage-green focus:ring-offset-1 dark:bg-antique-gold dark:text-warm-black dark:hover:bg-antique-gold-darker transition-colors duration-200">Shop
@@ -181,7 +198,7 @@
 
             document.querySelectorAll("a").forEach(elem => {
                 elem.addEventListener('click', () => {
-                    if(cartChanges.update.length > 0 || cartChanges.remove.length > 0){
+                    if (cartChanges.update.length > 0 || cartChanges.remove.length > 0) {
                         elem.href = elem.getAttribute("href") + "?update-cart=" + encodeURI(JSON.stringify(cartChanges));
                         localStorage.removeItem("cartCount");
                     }

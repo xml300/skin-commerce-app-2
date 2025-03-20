@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('skin_concerns', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::create('skinconcerns', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('skin_concern_name')->nullable();
         });
     }
 
@@ -22,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('skin_concerns');
+        Schema::dropIfExists('skinconcerns');
     }
 };

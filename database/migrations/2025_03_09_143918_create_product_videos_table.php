@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('product_videos', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::create('productvideos', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('product_id');
+            $table->string('video_url');
+
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });
     }
 
@@ -22,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('product_videos');
+        Schema::dropIfExists('productvideos');
     }
 };

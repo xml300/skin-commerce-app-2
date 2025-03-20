@@ -1,5 +1,5 @@
 @extends('layouts.user.user_dashboard')
-@section('title', 'Stara - Products')
+@section('title', 'Products')
 
 @section('content')
 <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 min-h-[75vh]">
@@ -37,7 +37,7 @@
     <section id="productList" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         @foreach($products as $product)
         <div class="bg-warm-white dark:bg-warm-black rounded-xl shadow-md hover:shadow-lg transition-shadow duration-200">
-            <a href="/product/{{ $product->id }}" class="block">
+            <a href="/product/{{ Crypt::encrypt($product->id) }}" class="block">
                 <div class="aspect-w-4 aspect-h-3">
                     <img class="w-full h-48 object-cover rounded-t-xl" src="{{  asset('images/'.'demo'.($product->id % 4 + 1).'.jpg') }}"
                         alt="{{ $product->product_name }}">
