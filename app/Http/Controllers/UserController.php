@@ -277,8 +277,8 @@ class UserController extends Controller
             $fields = [
                 'email' => Auth::user()->email,
                 'amount' => $totalAmount * 100,
-                'callback_url' => "http://localhost:8080/callback",
-                'metadata' => ["cancel_action" => "http://localhost:8080/", "order_id" => Crypt::encrypt($order->id)]
+                'callback_url' => config('app.url') . "/callback",
+                'metadata' => ["cancel_action" => config('app.url'), "order_id" => Crypt::encrypt($order->id)]
             ];
             $headers = [
                 "Authorization" => "Bearer sk_test_8da4254202f409573cf78bac2e9ea2d86a32adb4",
