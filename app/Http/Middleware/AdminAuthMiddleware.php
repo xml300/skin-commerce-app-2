@@ -4,10 +4,10 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Auth;
 
-class AuthMiddleware
+class AdminAuthMiddleware
 {
     /**
      * Handle an incoming request.
@@ -16,10 +16,9 @@ class AuthMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(!Auth::check()){
+        if(!Auth::check() || Auth::user()->user_type != 1){
             return redirect()->guest(route('login.get'));
         }
-
         return $next($request);
     }
 }

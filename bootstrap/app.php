@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Middleware\AdminAuthMiddleware;
 use App\Http\Middleware\AuthMiddleware;
+use App\Http\Middleware\RedirectMiddleware;
 use App\Http\Middleware\TrustProxies;
 use App\Http\Middleware\UpdateCartMiddleware;
+use App\Http\Middleware\UserMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -32,8 +35,11 @@ return Application::configure(basePath: dirname(__DIR__))
 
 
         $middleware->alias([
-           'auth.user' => AuthMiddleware::class ,
-           'update.cart' => UpdateCartMiddleware::class
+           'auth.user' => AuthMiddleware::class,
+           'user' => UserMiddleware::class,
+           'auth.admin' => AdminAuthMiddleware::class,
+           'update.cart' => UpdateCartMiddleware::class,
+           'redirect' => RedirectMiddleware::class
         ]);
     
         /**

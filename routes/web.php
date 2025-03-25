@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController; // Create UserController later
 use App\Http\Controllers\AdminController; // Create AdminController later
 
+
+Route::middleware(['user', 'redirect'])->group(function () {
 Route::get('/', [UserController::class, 'index'])->name("home");
 Route::get('/search', [UserController::class, 'search'])->name('search');
 Route::get('/contact', [UserController::class, 'contact']);
@@ -12,6 +14,7 @@ Route::get('/privacy', [UserController::class, 'privacy']);
 Route::get('/terms', [UserController::class, 'terms']);
 Route::get('/products', [UserController::class, 'products'])->name('products');
 Route::get('/product/{productId}', [UserController::class, 'productDetails'])->name('product.details');
+});
 
 Route::get('/login', [UserController::class, 'login'])->name('login.get');
 Route::get("/register", [UserController::class, 'register'])->name('register.get');
@@ -19,9 +22,9 @@ Route::get("/register", [UserController::class, 'register'])->name('register.get
 Route::post('/api/login', [AuthController::class, 'login'])->name("login");
 Route::post('/api/register', [AuthController::class, 'register'])->name("register");
 
-Route::middleware(['auth.user'])->group(function () {
+Route::middleware(['auth.user', 'redirect'])->group(function () {
     Route::get('/cart', [UserController::class, 'cart'])->withoutMiddleware('update.cart');
-    Route::get('/orders', [UserController:: class, 'orders'])->name('orders.get');
+    Route::get('/orders', [UserController::class, 'orders'])->name('orders.get');
     Route::get('/orders/{orderId}', [UserController::class, 'orderDetails'])->name('user.orders.show');
     Route::get('/checkout', [UserController::class, 'checkout']);
     Route::get('/order-confirmation', [UserController::class, 'orderConfirmation'])->name('user.order-confirm');
@@ -42,16 +45,15 @@ Route::middleware(['auth.user'])->group(function () {
 
 
 Route::middleware(['auth.admin'])->group(function () {
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::get('/admin/products', [AdminController::class, 'products'])->name('admin.products');
+    Route::get('/admin/orders', [AdminController::class, 'orders'])->name('admin.orders');
+    Route::get('/admin/customers', [AdminController::class, 'customers'])->name('admin.customers');
+    Route::get('/admin/categories', [AdminController::class, 'categories'])->name('admin.categories');
+    Route::get('/admin/reports', [AdminController::class, 'reports'])->name('admin.reports');
+
+
+    Route::post('/admin/categories', [AdminController::class, 'storeCategory'])->name('admin.categories.store');
+    Route::put('/admin/categories/{category}', [AdminController::class, 'updateCategory'])->name('admin.categories.update');
+    Route::delete('/admin/categories/{category}', [AdminController::class, 'deleteCategory'])->name('admin.categories.destroy'); // or destroy if you prefer
 });
-
-Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
-Route::get('/admin/products', [AdminController::class, 'products'])->name('admin.products');
-Route::get('/admin/orders', [AdminController::class, 'orders'])->name('admin.orders');
-Route::get('/admin/customers', [AdminController::class, 'customers'])->name('admin.customers');
-Route::get('/admin/categories', [AdminController::class, 'categories'])->name('admin.categories');
-Route::get('/admin/reports', [AdminController::class, 'reports'])->name('admin.reports');
-
-
-Route::post('/admin/categories', [AdminController::class, 'storeCategory'])->name('admin.categories.store');
-Route::put('/admin/categories/{category}', [AdminController::class, 'updateCategory'])->name('admin.categories.update');
-Route::delete('/admin/categories/{category}', [AdminController::class, 'deleteCategory'])->name('admin.categories.destroy'); // or destroy if you prefer

@@ -272,16 +272,16 @@ class UserController extends Controller
 
 
         if ($paymentMethod == "paystack") {
-            $url = "https://api.paystack.co/transaction/initialize";
+            $url = config('constants.pay_init_url');
 
             $fields = [
                 'email' => Auth::user()->email,
                 'amount' => $totalAmount * 100,
-                'callback_url' => config('app.url') . "/callback",
+                'callback_url' => config('constants.pay_callback_url'),
                 'metadata' => ["cancel_action" => config('app.url'), "order_id" => Crypt::encrypt($order->id)]
             ];
             $headers = [
-                "Authorization" => "Bearer sk_test_8da4254202f409573cf78bac2e9ea2d86a32adb4",
+                "Authorization" => "Bearer " . config('constants.pay_secret_key'),
                 "Cache-Control" => "no-cache",
             ];
 
@@ -331,9 +331,9 @@ class UserController extends Controller
     public function paymentCallback(Request $request)
     {
         $transRef = $request->get('trxref');
-        $verify_url = "https://api.paystack.co/transaction/verify/" . $transRef;
+        $verify_url = config('constants.pay_verify_url') . $transRef;
         $headers = [
-            "Authorization" => "Bearer sk_test_8da4254202f409573cf78bac2e9ea2d86a32adb4",
+            "Authorization" => "Bearer " . config('constants.pay_secret_key'),
         ];
         $result = Http::withHeaders($headers)
             ->get($verify_url);

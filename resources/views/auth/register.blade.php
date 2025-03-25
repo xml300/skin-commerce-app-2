@@ -11,6 +11,18 @@
             <form method="POST" action="{{ route('register') }}">
                 @csrf
 
+
+                <div class="mb-8">
+                    <label for="user_type" class="block text-sm font-medium text-muted-sage-green dark:text-muted-sage-green-darker mb-3">
+                       User Type
+                    </label>
+                    <select id="user_type" type="text" class="form-input appearance-none border rounded-xl w-full py-3 px-4 text-warm-black dark:text-warm-white dark:bg-warm-black leading-tight focus:outline-none focus:ring-2 focus:ring-muted-sage-green focus:border-muted-sage-green transition-colors duration-200" name="user_type" value="{{ old('first_name') }}" required>
+                        <option value="">Select a user type...</option>
+                        <option value="0">Customer</option>
+                        <option value="1">Admin</option>
+                    </select> 
+                </div>
+
                 <div class="grid md:grid-cols-2 md:gap-8">
                 <div class="mb-8">
                     <label for="first_name" class="block text-sm font-medium text-muted-sage-green dark:text-muted-sage-green-darker mb-3">

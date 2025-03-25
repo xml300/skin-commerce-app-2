@@ -4,7 +4,7 @@
 @section("content")
 <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <section class="mb-16">
-        <h2 class="text-3xl font-semibold text-warm-black dark:text-warm-white mb-6">Featured Products</h2>
+        <h2 class="text-3xl font-semibold text-warm-black dark:text-warm-white mb-6">Featured Products {{ Auth::user()->user_type }}</h2>
         <div id="featuredProducts" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             @foreach ($products as $product)
                 <div class="bg-warm-white dark:bg-warm-black rounded-xl shadow-md hover:shadow-lg transition-shadow duration-200">
