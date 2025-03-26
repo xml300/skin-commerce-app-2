@@ -10,6 +10,7 @@ class Product extends Model
     use HasFactory;
 
     protected $table = 'products';
+    protected $primary = 'id';
     public $timestamps = true; // Assuming created_at and updated_at columns exist
 
     protected $fillable = [
