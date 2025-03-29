@@ -11,13 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('orderitems', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('order_id')->nullable();
-            $table->integer('product_id')->nullable();
-            $table->integer('quantity')->nullable();
+        Schema::create('product_images', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('product_id');
+            $table->string('image_url'); 
+            
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+ $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            
 
-            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });
     }
@@ -27,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('orderitems');
+        Schema::dropIfExists('product_images');
     }
 };

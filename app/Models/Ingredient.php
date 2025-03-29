@@ -10,7 +10,7 @@ class Ingredient extends Model
     use HasFactory;
 
     protected $table = 'ingredients';
-    public $timestamps = false; // Assuming no timestamps columns
+    public $timestamps = false; 
 
     protected $fillable = [
         'ingredient_name',

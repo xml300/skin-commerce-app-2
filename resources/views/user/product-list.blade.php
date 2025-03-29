@@ -10,14 +10,14 @@
 
     <section id="productFilter" class="mb-10">
         <h2 class="text-lg font-medium text-warm-black dark:text-warm-white mb-4">Filter by Category</h2>
-        <div class="flex max-w-full gap-3 overflow-x-auto pb-2 custom-scrollbar"> {{-- Horizontal scrollable container for categories --}}
+        <div class="flex max-w-full gap-3 overflow-x-auto pb-2 custom-scrollbar"> 
             <a href="/products"
                class="category-filter-button inline-block px-4 py-2 rounded-full text-sm font-medium text-center
                       bg-soft-sand-beige hover:bg-muted-sage-green dark:bg-warm-black dark:hover:bg-antique-gold
                       text-warm-black dark:text-warm-white hover:text-warm-black dark:hover:text-warm-white
                       transition-colors duration-200 shadow-md hover:shadow-lg
                       {{ $currentCategory == null ? 'bg-muted-sage-green-darker dark:bg-antique-gold text-warm-white dark:text-warm-black font-semibold' : '' }}"
-                      data-category=""> {{-- "All Categories" button --}}
+                      data-category=""> 
                 All Categories
             </a>
             @foreach ($categories as $category)
@@ -27,7 +27,7 @@
                           text-warm-black dark:text-warm-white hover:text-warm-black dark:hover:text-warm-white
                           transition-colors duration-200 shadow-md hover:shadow-lg
                           {{ $category->category_name == $currentCategory ? 'bg-muted-sage-green-darker! dark:bg-antique-gold! text-warm-white! dark:text-warm-black! font-semibold' : '' }}"
-                   data-category="{{ $category->category_name }}"> {{-- Category buttons --}}
+                   data-category="{{ $category->category_name }}"> 
                     {{ ucfirst($category->category_name) }}
                 </a>
             @endforeach
@@ -58,13 +58,13 @@
 
         categoryFilterButtons.forEach(button => {
             button.addEventListener('click', function(event) {
-                event.preventDefault(); // Prevent default link behavior
+                event.preventDefault(); 
                 const selectedCategory = this.dataset.category;
                 let url = "/products";
                 if (selectedCategory) {
                     url += "?category=" + selectedCategory;
                 }
-                window.location.href = url; // Navigate to the filtered URL
+                window.location.href = url; 
             });
         });
     });

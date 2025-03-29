@@ -1,13 +1,13 @@
-@extends('layouts.admin.admin_dashboard') {{-- Assuming this is your redesigned layout --}}
+@extends('layouts.admin.admin_dashboard') 
 
-{{-- Set the page title dynamically --}}
+
 @section('title', 'Edit Product: ' . $product->product_name)
 
 @section('content')
-    {{-- Page Header: Title and Actions --}}
+    
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
         <div>
-            {{-- Breadcrumbs --}}
+            
             <nav class="text-sm mb-1 text-gray-500 dark:text-gray-400" aria-label="Breadcrumb">
                 <ol class="list-none p-0 inline-flex space-x-2">
                     <li class="flex items-center">
@@ -27,7 +27,7 @@
                     </li>
                 </ol>
             </nav>
-            {{-- Page Title --}}
+            
             <h1 class="text-2xl font-semibold text-gray-900 dark:text-white flex items-center gap-2">
                 <i class="fas fa-pencil-alt text-xl text-gray-500 dark:text-gray-400"></i>
                 Edit Product
@@ -37,9 +37,9 @@
             </p>
         </div>
 
-        {{-- Action Buttons --}}
+        
         <div class="flex items-center space-x-2 flex-wrap gap-2">
-             {{-- Back to Details Button --}}
+             
             <a href="{{ route('admin.products.details', $product->id) }}"
                class="inline-flex items-center px-4 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md font-semibold text-xs text-gray-700 dark:text-gray-200 uppercase tracking-widest shadow-sm hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 disabled:opacity-25 transition ease-in-out duration-150 whitespace-nowrap">
                 <i class="fas fa-eye mr-2 -ml-1"></i>
@@ -48,16 +48,16 @@
         </div>
     </div>
 
-    {{-- Edit Form --}}
+    
     <form action="{{ route('admin.products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
-        @csrf {{-- CSRF Protection --}}
-        @method('PUT') {{-- Method spoofing for UPDATE --}}
+        @csrf 
+        @method('PUT') 
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-            {{-- Main Content Column (Fields) --}}
+            
             <div class="lg:col-span-2 space-y-6">
-                {{-- Product Details Card --}}
+                
                 <div class="bg-white dark:bg-gray-800 shadow-md rounded-lg">
                     <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h3 class="text-lg font-medium text-gray-900 dark:text-white">
@@ -65,7 +65,7 @@
                         </h3>
                     </div>
                     <div class="p-6 space-y-4">
-                        {{-- Product Name --}}
+                        
                         <div>
                             <label for="product_name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Product Name <span class="text-red-500">*</span></label>
                             <input type="text" id="product_name" name="product_name"
@@ -76,7 +76,7 @@
                             @enderror
                         </div>
 
-                        {{-- Description --}}
+                        
                         <div>
                             <label for="description" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
                             <textarea id="description" name="description" rows="6"
@@ -86,12 +86,12 @@
                             @error('description')
                                 <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                             @enderror
-                            {{-- Consider adding a WYSIWYG editor like TinyMCE or CKEditor here --}}
+                            
                         </div>
                     </div>
                 </div>
 
-                {{-- Pricing & Inventory Card --}}
+                
                 <div class="bg-white dark:bg-gray-800 shadow-md rounded-lg">
                      <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h3 class="text-lg font-medium text-gray-900 dark:text-white">
@@ -99,7 +99,7 @@
                         </h3>
                     </div>
                     <div class="p-6 grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-4">
-                         {{-- Price --}}
+                         
                         <div> 
                             <label for="price" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Regular Price (₦) <span class="text-red-500">*</span></label>
                             <input type="number" id="price" name="price" step="0.01" min="0" required
@@ -110,7 +110,7 @@
                             @enderror
                         </div>
 
-                        {{-- Sale Price --}}
+                        
                         <div>
                             <label for="sale_price" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Sale Price (₦)</label>
                             <input type="number" id="sale_price" name="sale_price" step="0.01" min="0"
@@ -123,7 +123,7 @@
                             @enderror
                         </div>
 
-                        {{-- Stock Quantity --}}
+                        
                          <div class="sm:col-span-2">
                             <label for="stock_quantity" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Stock Quantity <span class="text-red-500">*</span></label>
                             <input type="number" id="stock_quantity" name="stock_quantity" min="0" required
@@ -137,9 +137,9 @@
                 </div>
             </div>
 
-            {{-- Sidebar Column (Category, Status, Image) --}}
+            
             <div class="lg:col-span-1 space-y-6">
-                {{-- Organize Card --}}
+                
                 <div class="bg-white dark:bg-gray-800 shadow-md rounded-lg">
                      <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h3 class="text-lg font-medium text-gray-900 dark:text-white">
@@ -147,13 +147,13 @@
                         </h3>
                     </div>
                     <div class="p-6 space-y-4">
-                        {{-- Category --}}
+                        
                         <div>
                             <label for="category_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Category <span class="text-red-500">*</span></label>
                             <select id="category_id" name="category_id" required
                                     class="p-2 block w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm @error('category_id') border-red-500 @enderror">
                                 <option value="">-- Select Category --</option>
-                                @foreach($categories as $category) {{-- Assuming $categories is passed from controller --}}
+                                @foreach($categories as $category) 
                                     <option value="{{ $category->id }}" {{ old('category_id', $product->category_id) == $category->id ? 'selected' : '' }}>
                                         {{ $category->category_name }}
                                     </option>
@@ -164,8 +164,8 @@
                             @enderror
                         </div>
 
-                        {{-- Status --}}
-                        {{-- <div>
+                        
+                        <div>
                             <label for="status" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Status <span class="text-red-500">*</span></label>
                             <select id="status" name="status" required
                                     class="block w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm @error('status') border-red-500 @enderror">
@@ -176,11 +176,11 @@
                             @error('status')
                                 <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                             @enderror
-                        </div> --}}
+                        </div>
                     </div>
                 </div>
 
-                 {{-- Product Image Card --}}
+                 
                 <div class="bg-white dark:bg-gray-800 shadow-md rounded-lg">
                     <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h3 class="text-lg font-medium text-gray-900 dark:text-white">
@@ -188,7 +188,7 @@
                         </h3>
                     </div>
                     <div class="p-6 space-y-4">
-                         {{-- Current Image Preview --}}
+                         
                         <div>
                              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Current Image</label>
                              <img src="{{ $product->image_url ?? asset('images/placeholder_product_medium.png') }}"
@@ -196,7 +196,7 @@
                                   class="h-32 w-32 object-cover rounded-md shadow-sm bg-gray-100 dark:bg-gray-700">
                         </div>
 
-                        {{-- Image Upload --}}
+                        
                         <div>
                             <label for="image" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Upload New Image</label>
                             <input type="file" id="image" name="image" accept="image/jpeg,image/png,image/webp,image/gif"
@@ -217,7 +217,7 @@
             </div>
         </div>
 
-        {{-- Form Actions Footer --}}
+        
         <div class="mt-8 pt-5 border-t border-gray-200 dark:border-gray-700 flex justify-end items-center space-x-3">
              <a href="{{ route('admin.products.details', $product->id) }}"
                 class="px-4 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md font-semibold text-xs text-gray-700 dark:text-gray-200 uppercase tracking-widest shadow-sm hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 disabled:opacity-25 transition ease-in-out duration-150">
@@ -225,7 +225,7 @@
              </a>
              <button type="submit"
                     class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 active:bg-indigo-800 focus:outline-none focus:border-indigo-800 focus:ring focus:ring-indigo-300 dark:focus:ring-indigo-700 disabled:opacity-25 transition ease-in-out duration-150">
-                 {{-- Optional: Add a loading spinner here --}}
+                 
                  Save Changes
             </button>
         </div>
@@ -233,16 +233,3 @@
     </form>
 
 @endsection
-
-@push('scripts')
-    {{-- Add scripts for WYSIWYG editor initialization if used --}}
-    {{-- <script src="https://cdn.tiny.cloud/1/YOUR_API_KEY/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
-    <script>
-      tinymce.init({
-        selector: '#description',
-        plugins: '...', // Configure plugins
-        toolbar: '...', // Configure toolbar
-        // Add dark mode support if needed based on your layout's dark mode toggle
-      });
-    </script> --}}
-@endpush

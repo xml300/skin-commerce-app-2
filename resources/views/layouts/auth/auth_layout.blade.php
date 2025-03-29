@@ -8,7 +8,7 @@ control with JS --}}
 
     <title>@yield('title', 'Authentication')</title>
 
-    <!-- Scripts -->
+    
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 

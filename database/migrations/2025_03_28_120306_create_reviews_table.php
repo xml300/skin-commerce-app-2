@@ -12,17 +12,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('reviews', function (Blueprint $table) {
-            $table->integer('id')->primary();
-            $table->integer('user_id');
-            $table->integer('product_id');
-            $table->integer('rating');
-            $table->text('review_text');
-            $table->timestamp('review_date');
+            $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('product_id');
+            $table->unsignedTinyInteger('rating');
+            $table->text('review_text')->nullable();
             $table->boolean('is_approved')->default(false);
-            $table->timestamps();
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+ $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+             
 
-
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+            $table->unique(['user_id', 'product_id']);
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });
     }

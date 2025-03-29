@@ -10,7 +10,7 @@ class Brand extends Model
     use HasFactory;
 
     protected $table = 'brands';
-    public $timestamps = false; // Assuming no timestamps columns
+    public $timestamps = false; 
 
     protected $fillable = [
         'brand_name',

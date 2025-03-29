@@ -1,9 +1,9 @@
 @php
-    $searchQuery = request('q'); // Assuming the search query is passed as 'q' parameter
-    $searchResults = [ // Placeholder for search results - replace with actual data from backend
+    $searchQuery = request('q'); 
+    $searchResults = [ 
         [
             'id' => 1,
-            'image' => asset('images/product-placeholder.jpg'), // Placeholder image
+            'image' => asset('images/product-placeholder.jpg'), 
             'title' => 'Hydrating Cleanser',
             'description' => 'A gentle cleanser that hydrates and cleanses...',
             'price' => '$25.00',
@@ -11,7 +11,7 @@
         ],
         [
             'id' => 2,
-            'image' => asset('images/product-placeholder.jpg'), // Placeholder image
+            'image' => asset('images/product-placeholder.jpg'), 
             'title' => 'Vitamin C Serum',
             'description' => 'Brighten your skin with our potent Vitamin C serum...',
             'price' => '$45.00',
@@ -19,17 +19,17 @@
         ],
         [
             'id' => 3,
-            'image' => asset('images/product-placeholder.jpg'), // Placeholder image
+            'image' => asset('images/product-placeholder.jpg'), 
             'title' => 'Daily Moisturizer',
             'description' => 'A lightweight moisturizer for daily hydration...',
             'price' => '$30.00',
             'category' => 'Moisturizers',
         ],
-        // ... more placeholder products ...
+        
     ];
 @endphp
 
-@extends('layouts.user.user_dashboard') {{-- Assuming you have a user layout --}}
+@extends('layouts.user.user_dashboard') 
 
 @section('title', 'Search Results for "' . $searchQuery . '"')
 
@@ -103,7 +103,7 @@
 
                                             <input type="number" name="quantity" id="quantityInput" value="{{ Auth::user()->cart->where('product_id', $product->id)->first()->quantity }}" min="1"
                                                 class="appearance-none w-16 text-center py-2 border-x border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-0 focus:shadow-none dark:bg-gray-900 dark:text-white"
-                                                readonly {{-- Make the input readonly to prevent direct typing --}}
+                                                readonly 
                                                 aria-label="quantity" />
 
                                             <button type="button"
@@ -130,7 +130,7 @@
                     @endforeach
                 </div>
 
-                {{-- Pagination Placeholder (Replace with actual pagination logic) --}}
+                
                 <div class="flex justify-center mt-8">
                     <button
                         class="bg-soft-sand-beige dark:bg-warm-black text-warm-black dark:text-warm-white hover:bg-muted-sage-green dark:hover:text-antique-gold font-semibold py-2 px-4 rounded-md mr-2"
@@ -165,8 +165,8 @@
             value = isNaN(value) ? 1 : value;
             value++;
             input.value = value;
-            // You can trigger an event here if you need to react to value changes
-            // input.dispatchEvent(new Event('change'));
+            
+            
         }
 
         function decrementValue(button) {
@@ -176,8 +176,8 @@
             if (value > parseInt(input.min)) {
                 value--;
                 input.value = value;
-                // You can trigger an event here if you need to react to value changes
-                // input.dispatchEvent(new Event('change'));
+                
+                
             }
         }
     </script>

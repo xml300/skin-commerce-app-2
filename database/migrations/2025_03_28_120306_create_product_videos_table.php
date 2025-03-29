@@ -11,13 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('productskinconcerns', function (Blueprint $table) {
-            $table->integer('product_id');
-            $table->integer('skin_concern_id');
+        Schema::create('product_videos', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('product_id');
+            $table->string('video_url'); 
+            
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+ $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            
 
-            $table->primary(['product_id', 'skin_concern_id']);
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
-            $table->foreign('skin_concern_id')->references('id')->on('skinconcerns')->onDelete('cascade');
         });
     }
 
@@ -26,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('productskinconcerns');
+        Schema::dropIfExists('product_videos');
     }
 };

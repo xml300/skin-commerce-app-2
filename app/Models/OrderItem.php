@@ -9,8 +9,8 @@ class OrderItem extends Model
 {
     use HasFactory;
 
-    protected $table = 'orderitems';
-    public $timestamps = false; // Assuming no timestamps columns
+    protected $table = 'order_items';
+    public $timestamps = false; 
 
     protected $fillable = [
         'order_id',

@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('skintypes', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('skin_type_name')->nullable();
+        Schema::create('skin_types', function (Blueprint $table) {
+            $table->id();
+            $table->string('skin_type_name')->unique();
+            
         });
     }
 
@@ -22,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('skintypes');
+        Schema::dropIfExists('skin_types');
     }
 };

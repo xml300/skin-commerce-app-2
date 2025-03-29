@@ -25,7 +25,7 @@ class UserController extends Controller
         $products = Product::all();
         $categories = Category::all();
         $title = 'Homepage';
- 
+
         return view('user.index', compact("title", "products", "categories"))->with('message', 'Order not found');
     }
 
@@ -92,14 +92,16 @@ class UserController extends Controller
     public function cart(): View|RedirectResponse
     {
         $cartItems = CartItem::where('user_id', '=', Auth::id())
-            ->join('products', 'cartitems.product_id', '=', 'products.id')
+            ->with('product')
             ->get();
 
+        $cartSubTotal = CartItem::where('cart_items.user_id', Auth::id())
+            ->join('products', 'cart_items.product_id', '=', 'products.id')
+            ->selectRaw('SUM(products.price * cart_items.quantity) as subtotal')
+            ->value('subtotal'); // Pluck the single calculated value
 
-
-        $cartSubTotal = CartItem::where('user_id', '=', Auth::id())
-            ->join('products', 'cartitems.product_id', '=', 'products.id')
-            ->sum(DB::raw("price * quantity"));
+        // Handle empty cart (value returns null if no rows match)
+        $cartSubTotal = $cartSubTotal ?? 0;
         $title = 'Cart';
         return view('user.cart', compact('title', 'cartItems', 'cartSubTotal'));
     }
@@ -107,12 +109,17 @@ class UserController extends Controller
     public function checkout(): View
     {
         $orderItems = CartItem::where('user_id', '=', Auth::id())
-            ->join('products', 'cartitems.product_id', '=', 'products.id')
+            ->with('product')
             ->get();
         $title = 'Checkout';
-        $orderSubtotal = CartItem::where('user_id', '=', Auth::id())
-            ->join('products', 'cartitems.product_id', '=', 'products.id')
-            ->sum(DB::raw("price * quantity"));
+
+        $orderSubtotal = CartItem::where('cart_items.user_id', Auth::id())
+            ->join('products', 'cart_items.product_id', '=', 'products.id')
+            ->selectRaw('SUM(products.price * cart_items.quantity) as subtotal')
+            ->value('subtotal'); // Pluck the single calculated value
+
+        // Handle empty cart (value returns null if no rows match)
+        $orderSubtotal = $orderSubtotal ?? 0;
         return view('user.checkout', compact('orderItems', 'title', 'orderSubtotal'));
     }
 
@@ -201,22 +208,24 @@ class UserController extends Controller
         return response()->json([], 200);
     }
 
-    public function orders(Request $request){
+    public function orders(Request $request)
+    {
         $orders = Order::where('user_id', Auth::id());
 
-        if($request->has('status') && $request->status != ''){
+        if ($request->has('status') && $request->status != '') {
             $orders = $orders->where('order_status', '=', $request->status);
         }
         $orders = $orders->get();
         return view('user.orders', compact('orders'));
     }
 
-    public function orderDetails($orderId){
+    public function orderDetails($orderId)
+    {
         $order = Order::where('id', '=', Crypt::decrypt($orderId))
-        ->where('user_id', '=', Auth::id())
-        ->first();
+            ->where('user_id', '=', Auth::id())
+            ->first();
 
-        if($order == null){
+        if ($order == null) {
             return redirect()->route('home');
         }
 
@@ -231,8 +240,6 @@ class UserController extends Controller
             'payment_method' => 'required|string'
         ]);
 
-        $cartItems = CartItem::where('user_id', '=', Auth::id());
-
         $shippingAddress = $validatedData['shipping_address'];
         $paymentMethod = $validatedData['payment_method'];
         $shippingMethod = $validatedData['shipping_method'];
@@ -243,7 +250,7 @@ class UserController extends Controller
         }
 
         $totalAmount = CartItem::where('user_id', '=', Auth::id())
-            ->join('products', 'cartitems.product_id', '=', 'products.id')
+            ->join('products', 'cart_items.product_id', '=', 'products.id')
             ->sum(DB::raw('price * quantity')) + $shippingCost;
         $trackingNumber = 'ORD-' . Str::random(25);
 
@@ -251,7 +258,7 @@ class UserController extends Controller
             "user_id" => Auth::id(),
             "order_status" => "pending",
             "shipping_address" => $shippingAddress,
-            "billing_address" => Auth::user()->billing_address,
+            "billing_address" => Auth::user()->billing_address ?? $shippingAddress,
             "payment_method" => $paymentMethod,
             "shipping_method" => $shippingMethod,
             "tax_amount" => 0,
@@ -262,13 +269,21 @@ class UserController extends Controller
             "payment_status" => "pending"
         ]);
 
-        foreach ((clone $cartItems)->get() as $item) {
-            OrderItem::create([
+        $products = Product::all();
+        $orderItems = [];
+        foreach (CartItem::where('user_id', '=', Auth::id())->get() as $item) {
+            $orderItems[] = [
                 "order_id" => $order->id,
                 "product_id" => $item->product_id,
                 "quantity" => $item->quantity
-            ]);
+            ];
+
+            $product = Product::where('id', $item->product_id)->first();
+            $product->stock_quantity = $product->stock_quantity - $item->quantity;
+            $product->save();
         }
+
+        OrderItem::insert($orderItems);
 
 
         if ($paymentMethod == "paystack") {
@@ -311,10 +326,10 @@ class UserController extends Controller
             ->where('order_status', '=', 'pending')
             ->first();
 
-        if(is_null($order)){
+        if (is_null($order)) {
             return redirect()->to('/')->with('message', 'Order not found');
         }
-        
+
         $order->order_status = 'processing';
         $order->payment_status = 'paid';
         $order->save();
@@ -339,11 +354,11 @@ class UserController extends Controller
             ->get($verify_url);
 
         $body = json_decode($result->body());
-        $data = $body->data; 
+        $data = $body->data;
 
         if ($data->status == "success" && $data->amount === $data->requested_amount) {
-            return redirect()->to('/order-confirmation/success?id='.$data->metadata->order_id);
-        }else{
+            return redirect()->to('/order-confirmation/success?id=' . $data->metadata->order_id);
+        } else {
             return redirect()->to('/order-confirmation/failed');
         }
     }

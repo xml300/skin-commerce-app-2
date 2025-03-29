@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"> {{-- Removed initial `light` class, will be set by JS --}}
+<html lang="en"> 
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -23,7 +23,7 @@
                     <a href="/products"
                        class="text-warm-black dark:text-warm-white hover:text-muted-sage-green dark:hover:text-antique-gold transition-colors duration-200">Products</a>
 
-                    <!-- Desktop Search Form -->
+                    
                     <form role="search" action="/search" method="GET" class="flex items-center">
                         <input type="search" id="desktop-search" name="q" placeholder="Search products..." aria-label="Search products"
                                class="block w-full p-2 pl-3 text-sm rounded-r-none text-warm-black dark:text-warm-white bg-warm-white dark:bg-warm-black border border-soft-sand-beige dark:border-muted-sage-green rounded-md focus:ring-muted-sage-green dark:focus:ring-antique-gold focus:border-muted-sage-green dark:focus:border-antique-gold" />
@@ -34,7 +34,7 @@
                             <span class="sr-only">Search</span>
                         </button>
                     </form>
-                    <!-- End Desktop Search Form -->
+                    
 
 
                     @auth
@@ -46,7 +46,7 @@
                     >
                         <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i>
                         <sup class="absolute top-[-0.4rem] left-full px-[0.375rem] p-[0.025rem]  text-xs font-normal bg-muted-sage-green dark:bg-antique-gold text-warm-white dark:text-warm-black rounded-full" id="cart-count">
-                            <!-- Cart Count -->
+                            
                         </sup>
                     </a>
                     <script>
@@ -88,7 +88,7 @@
                              role="menu" aria-orientation="vertical" aria-labelledby="profile-dropdown-button" tabindex="-1">
 
                             <div class="py-1" role="none">
-                                <!-- Dark Mode Toggle Switch -->
+                                
                                 <div class="flex items-center justify-between px-4 py-2">
                                     <label for="darkModeToggleDropdown" class="block text-sm text-warm-black dark:text-warm-white"
                                            >Dark Mode</label>
@@ -137,16 +137,16 @@
                         </div>
                     </div>
                 </nav>
-                 {{-- Mobile Navigation Button --}}
+                 
                  <div class="sm:hidden flex items-center">
                     <button id="mobile-menu-button" type="button" class="text-warm-black dark:text-warm-white focus:outline-none" aria-label="Mobile Menu">
                         <i class="fa-solid fa-bars"></i>
                     </button>
                 </div>
             </div>
-             {{-- Mobile Navigation Menu (Hidden by default) --}}
+             
              <div class="hidden sm:hidden" id="mobile-menu">
-                <!-- Mobile Search Form -->
+                
                 <form role="search" action="/search" method="GET" class="mb-2 px-2">
                     <label for="mobile-search" class="sr-only">Search</label>
                     <div class="relative">
@@ -158,7 +158,7 @@
                         <input type="search" id="mobile-search" name="q" class="block w-full p-2 pl-10 text-sm text-warm-black dark:text-warm-white bg-warm-white dark:bg-warm-black border border-soft-sand-beige dark:border-muted-sage-green rounded-md focus:ring-muted-sage-green dark:focus:ring-antique-gold focus:border-muted-sage-green dark:focus:border-antique-gold" placeholder="Search products..." aria-label="Search products">
                     </div>
                 </form>
-                <!-- End Mobile Search Form -->
+                
 
                 <div class="px-2 pt-2 pb-3 space-y-1">
                     <a href="/" class="block px-3 py-2 rounded-md text-base font-medium text-warm-black dark:text-warm-white hover:bg-soft-sand-beige dark:hover:bg-warm-black" aria-current="page">Home</a>
@@ -166,7 +166,7 @@
                     @auth
                     <a href="/cart"  class="block px-3 py-2 rounded-md text-base font-medium text-warm-black dark:text-warm-white hover:bg-soft-sand-beige dark:hover:bg-warm-black">Cart</a>
                     @endauth
-                    <!-- Account/Profile Dropdown in Mobile Menu -->
+                    
                     <div class="relative group">
                         <button id="mobile-profile-dropdown-button" type="button"
                                 class="flex w-full justify-between items-center px-3 py-2 rounded-md text-base font-medium text-warm-black dark:text-warm-white hover:bg-soft-sand-beige dark:hover:bg-warm-black focus:outline-none"
@@ -178,7 +178,7 @@
                              role="menu" aria-orientation="vertical" aria-labelledby="mobile-profile-dropdown-button" tabindex="-1">
 
                             <div class="py-1" role="none">
-                                <!-- Dark Mode Toggle Switch -->
+                                
                                 <div class="flex items-center justify-between px-4 py-2">
                                     <label for="darkModeToggleMobile" class="block text-sm text-warm-black dark:text-warm-white"
                                            >Dark Mode</label>
@@ -243,7 +243,7 @@
                 <div class="bg-warm-white dark:bg-warm-black px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                     <div class="sm:flex sm:items-start">
                         <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10">
-                            <!-- Heroicon name: outline/check -->
+                            
                             <svg class="h-6 w-6 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                             </svg>
@@ -273,16 +273,16 @@
         document.addEventListener('DOMContentLoaded', function () {
             const modal = document.getElementById('sessionModal');
             if (modal) {
-                setTimeout(() => { // Optional: Auto-close after a delay
+                setTimeout(() => { 
                     closeSessionModal();
-                }, 5000); // Adjust delay (milliseconds) as needed. Set to 0 to disable auto-close.
+                }, 5000); 
             }
         });
 
         function closeSessionModal() {
             const modal = document.getElementById('sessionModal');
             if (modal) {
-                modal.classList.add('hidden'); // Hide the modal
+                modal.classList.add('hidden'); 
             }
         }
     </script>
@@ -350,7 +350,7 @@
         });
 
 
-        // Dropdown Toggle (Basic JS)
+        
         profileDropdownButton.addEventListener('click', () => {
             const expanded = !profileDropdown.classList.contains('hidden');
             profileDropdownButton.setAttribute('aria-expanded', !expanded);

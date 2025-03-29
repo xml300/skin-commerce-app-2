@@ -11,11 +11,11 @@ class Product extends Model
 
     protected $table = 'products';
     protected $primary = 'id';
-    public $timestamps = true; // Assuming created_at and updated_at columns exist
+    public $timestamps = true; 
 
     protected $fillable = [
         'id',
-        'product_id', // If you want to allow manual assignment of product_id
+        'product_id', 
         'product_name',
         'description',
         'brand_id',
@@ -43,17 +43,17 @@ class Product extends Model
 
     public function ingredients()
     {
-        return $this->belongsToMany(Ingredient::class, 'ProductIngredients', 'product_id', 'ingredient_id');
+        return $this->belongsToMany(Ingredient::class, 'product_ingredients', 'product_id', 'ingredient_id');
     }
 
     public function skinTypes()
     {
-        return $this->belongsToMany(SkinType::class, 'ProductSkinTypes', 'product_id', 'skin_type_id');
+        return $this->belongsToMany(SkinType::class, 'product_skin_types', 'product_id', 'skin_type_id');
     }
 
     public function skinConcerns()
     {
-        return $this->belongsToMany(SkinConcern::class, 'ProductSkinConcerns', 'product_id', 'skin_concern_id');
+        return $this->belongsToMany(SkinConcern::class, 'product_skin_concerns', 'product_id', 'skin_concern_id');
     }
 
     public function productImages()

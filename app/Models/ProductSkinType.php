@@ -9,10 +9,10 @@ class ProductSkinType extends Model
 {
     use HasFactory;
 
-    protected $table = 'productskintypes';
+    protected $table = 'product_skin_types';
     protected $primaryKey = ['product_id', 'skin_type_id'];
-    public $incrementing = false; // Composite primary key, not auto-incrementing
-    public $timestamps = false; // Assuming no timestamps columns
+    public $incrementing = false; 
+    public $timestamps = false; 
 
     protected $fillable = [
         'product_id',

@@ -40,12 +40,12 @@
                                     <div class="flex items-center">
                                         <div class="mr-5">
                                             <img class="w-24 h-24 object-cover rounded-xl"
-                                                src="{{ asset('images/' . 'demo' . ($item->product_id % 4 + 1) . '.jpg') }}"
-                                                alt="{{ $item->product_name }}">
+                                                src="{{ asset('images/' . 'demo' . ($item->product->id % 4 + 1) . '.jpg') }}"
+                                                alt="{{ $item->product->product_name }}">
                                         </div>
                                         <div>
                                             <h4 class="font-semibold text-lg text-warm-black dark:text-warm-white">
-                                                {{ $item->product_name }}</h4>
+                                                {{ $item->product->product_name  }}</h4>
                                             {{-- <p class="text-sm text-muted-sage-green dark:text-muted-sage-green-darker">Some
                                                 descriptive text</p> --}} {{-- Example description, can be added if product
                                             details are needed in cart --}}
@@ -53,7 +53,7 @@
                                     </div>
                                 </td>
                                 <td class="px-6 py-5 whitespace-nowrap text-sm text-warm-black dark:text-warm-white">
-                                    ₦{{ number_format($item->price, 2) }}</td>
+                                    ₦{{ number_format($item->product->price, 2) }}</td>
                                 <td
                                     class="px-6 py-5 whitespace-nowrap text-sm text-warm-black dark:text-warm-white text-center">
                                     <div
@@ -67,9 +67,9 @@
                                         </button>
                                         <input type="number" readonly
                                             class="appearance-none border-l border-r border-soft-sand-beige dark:border-l-muted-sage-green dark:border-r-muted-sage-green text-center w-16 py-2 pl-3 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-antique-gold text-warm-black dark:text-warm-white dark:bg-warm-black leading-tight"
-                                            min="1" value="{{ $item->quantity }}" data-product-id="{{ $item->product_id }}"
-                                            data-product-price="{{ $item->price }}" aria-label="Product Quantity" />
-                                        <button onclick="updateQuantity({{ $item->product_id }}, 1)" aria-label="Increase Quantity"
+                                            min="1" value="{{ $item->quantity }}" data-product-id="{{ $item->product->id }}"
+                                            data-product-price="{{ $item->product->price }}" aria-label="Product Quantity" />
+                                        <button onclick="updateQuantity({{ $item->product->id }}, 1)" aria-label="Increase Quantity"
                                             class="w-full  flex items-center justify-center bg-transparent hover:bg-soft-sand-beige dark:hover:bg-muted-sage-green-darker text-warm-black dark:text-warm-white font-semibold py-2 px-3 rounded-r-md focus:outline-none focus:ring-2 focus:ring-inset focus:ring-antique-gold transition-colors duration-200">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
                                                 class="w-5 h-5">
@@ -80,16 +80,16 @@
                                 </td>
                                 <td class="px-6 py-5 whitespace-nowrap text-sm text-warm-black dark:text-warm-white text-right">
                                     ₦<span class="total-class"
-                                        id="total_{{ $item->product_id }}">{{ number_format($item->price * $item->quantity, 2) }}</span>
+                                        id="total_{{ $item->product->id }}">{{ number_format($item->product->price * $item->quantity, 2) }}</span>
                                 </td>
                                 <td class="px-6 py-5 whitespace-nowrap text-sm text-right font-medium">
-                                    <button onclick="removeItem({{ $item->product_id }})" aria-label="Remove Item"
+                                    <button onclick="removeItem({{ $item->product->id }})" aria-label="Remove Item"
                                         class="remove-btn text-muted-sage-green dark:text-muted-sage-green-darker hover:text-muted-sage-green dark:hover:text-antique-gold transition-colors duration-200">Remove</button>
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
-                    <tfoot id="cartTableFooter" class="bg-transparent"> {{-- Changed footer background to transparent --}}
+                    <tfoot id="cartTableFooter" class="bg-transparent"> 
                         <tr>
                             <td colspan="5" class="px-6 py-4"></td>
                         </tr>

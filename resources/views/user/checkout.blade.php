@@ -20,7 +20,7 @@
         </h2>
       </div>
 
-      <!-- Step 1: Shipping Information -->
+      
       <div id="step1" class="checkout-step">
         <div class="bg-warm-white dark:bg-warm-black shadow-md rounded-xl p-10">
         <h2 class="text-xl font-semibold text-warm-black dark:text-warm-white mb-8">
@@ -51,7 +51,7 @@
           class="form-textarea shadow-sm appearance-none border rounded-xl w-full py-3 px-4 text-warm-black dark:text-warm-white dark:bg-warm-black leading-tight focus:outline-none focus:ring-2 focus:ring-muted-sage-green focus:border-muted-sage-green transition-colors duration-200"
           required placeholder="Enter your full shipping address"></textarea>
         </div>
-        <!-- Phone Number Field -->
+        
         <div class="mb-8">
           <label for="phone"
           class="block text-sm font-medium text-muted-sage-green dark:text-muted-sage-green-darker mb-3">Phone
@@ -67,7 +67,7 @@
         </div>
       </div>
 
-      <!-- Step 2: Shipping Method -->
+      
       <div id="step2" class="checkout-step hidden">
         <div class="bg-warm-white dark:bg-warm-black shadow-md rounded-xl p-10">
         <h2 class="text-xl font-semibold text-warm-black dark:text-warm-white mb-8">
@@ -103,7 +103,7 @@
         </div>
       </div>
 
-      <!-- Step 3: Payment Information -->
+      
       <div id="step3" class="checkout-step hidden">
         <div class="bg-warm-white dark:bg-warm-black shadow-md rounded-xl p-10">
         <h2 class="text-xl font-semibold text-warm-black dark:text-warm-white mb-8">
@@ -115,10 +115,10 @@
           Method</label>
           <select id="paymentMethod" name="payment_method"
           class="form-select shadow-sm appearance-none border rounded-xl w-full py-3 px-4 text-warm-black dark:text-warm-white dark:bg-warm-black leading-tight focus:outline-none focus:ring-2 focus:ring-muted-sage-green focus:border-muted-sage-green transition-colors duration-200">
-          <option value="paystack">Paystack</option> {{-- Only Paystack option for now --}}
-          {{-- You can add other payment methods if needed --}}
-          {{-- <option value="paypal">PayPal</option> --}}
-          {{-- <option value="bank_transfer">Bank Transfer</option> --}}
+          <option value="paystack">Paystack</option> 
+          
+          
+          
           </select>
         </div>
 
@@ -139,7 +139,7 @@
         </div>
       </div>
 
-      <!-- Step 4: Order Review -->
+      
       <div id="step4" class="checkout-step hidden">
         <div class="bg-warm-white dark:bg-warm-black shadow-md rounded-xl p-10">
         <h2 class="text-xl font-semibold text-warm-black dark:text-warm-white mb-8">
@@ -193,7 +193,7 @@
       </div>
 
 
-      <!-- Loading Indicator -->
+      
       <div id="loadingIndicator" class="hidden mt-4 text-center">
         <svg class="animate-spin h-5 w-5 mx-auto text-muted-sage-green" xmlns="http://www.w3.org/2000/svg" fill="none"
         viewBox="0 0 24 24">
@@ -204,7 +204,7 @@
         </svg>
         <p>Processing...</p>
       </div>
-      <!-- Success Message (Hidden by Default) -->
+      
       <div id="successMessage"
         class="hidden mt-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
         role="alert">
@@ -212,7 +212,7 @@
         <span class="block sm:inline">Your order has been placed (simulated).</span>
       </div>
 
-      <!-- Error Message (Hidden by Default) -->
+      
       <div id="errorMessage"
         class="hidden fixed top-0 left-0 w-full bg-rose-100 border-b-2 border-rose-300 text-rose-700 px-4 py-3 shadow-md z-50 transition-transform duration-300 transform translate-y-[-100%] dark:bg-rose-800 dark:border-rose-700 dark:text-rose-100"
         role="alert">
@@ -220,11 +220,11 @@
         <div>
           <strong class="font-bold dark:text-rose-50">Error!</strong>
           <span class="block sm:inline text-sm text-gray-700 ml-1 dark:text-gray-300">
-          <!-- De-emphasized generic message -->
+          
           (See details below)
           </span>
           <ul id="errorList" class="list-disc list-inside mt-2 font-semibold dark:text-rose-50">
-          <!-- Make error list bolder -->
+          
           </ul>
         </div>
         <button id="closeErrorMessage" type="button"
@@ -245,7 +245,7 @@
       <h2 class="text-2xl font-semibold text-warm-black dark:text-warm-white mb-8">
         Order Summary
       </h2>
-      <ul id="orderSummarySidebarItems" class="mb-8"> <!-- Separate ID for sidebar summary -->
+      <ul id="orderSummarySidebarItems" class="mb-8"> 
         @foreach ($orderItems as $item)
       <li class="flex justify-between py-4 border-b border-soft-sand-beige dark:border-muted-sage-green">
       <div class="flex items-center">
@@ -271,7 +271,7 @@
       <div class="flex justify-between mb-5">
         <span class="font-medium text-muted-sage-green dark:text-muted-sage-green-darker">Shipping:</span>
         <span id="orderSidebarShipping" class="text-muted-sage-green dark:text-muted-sage-green-darker">₦0.00</span>
-        <!-- Separate ID for sidebar shipping -->
+        
       </div>
       <div class="border-t border-soft-sand-beige dark:border-muted-sage-green pt-8 flex justify-between">
         <span class="text-xl font-bold text-warm-black dark:text-warm-white">Total:</span>
@@ -302,12 +302,12 @@
     const shippingStandardRadio = document.getElementById('shippingStandard');
     const shippingExpressRadio = document.getElementById('shippingExpress');
 
-    // Sidebar Summary Elements - Ensure they are updated consistently
+    
     const orderSidebarSubtotalSpan = document.getElementById('orderSidebarSubtotal');
     const orderSidebarShippingSpan = document.getElementById('orderSidebarShipping');
     const orderSidebarTotalSpan = document.getElementById('orderSidebarTotal');
 
-    const closeErrorMessageButton = document.getElementById("closeErrorMessage"); // Get close button
+    const closeErrorMessageButton = document.getElementById("closeErrorMessage"); 
 
 
     document.querySelector("form#checkoutForm").addEventListener("submit", function (event) {
@@ -332,41 +332,41 @@
       let shippingCost = 0;
 
       if (shippingExpressRadio.checked) {
-      shippingCost = 1000; // Simulated express shipping cost
+      shippingCost = 1000; 
       }
 
       orderShippingSpan.textContent = `₦${numFmt.format(shippingCost).slice(1)}`;
-      orderSidebarShippingSpan.textContent = `₦${numFmt.format(shippingCost).slice(1)}`; // Update sidebar shipping
+      orderSidebarShippingSpan.textContent = `₦${numFmt.format(shippingCost).slice(1)}`; 
       const total = subtotal + shippingCost;
       orderTotalSpan.textContent = `₦${numFmt.format(total).slice(1)}`;
-      orderSidebarTotalSpan.textContent = `₦${numFmt.format(total).slice(1)}`; // Update sidebar total
+      orderSidebarTotalSpan.textContent = `₦${numFmt.format(total).slice(1)}`; 
     }
 
-    // Initial setup - show only step 1
+    
     showStep(currentStep);
-    updateOrderSummary(); // Initial summary calculation
+    updateOrderSummary(); 
 
-    // Event listeners for "Next" buttons
+    
     nextStepButtons.forEach(button => {
       button.addEventListener('click', function () {
       if (currentStep < checkoutSteps.length) {
-        // Basic validation before proceeding (you can add more specific validation for each step)
+        
         if (currentStep === 1) {
         if (!validateStep1()) return;
         } else if (currentStep === 3) {
-        if (!validateStep3()) return; // Example validation for step 3
+        if (!validateStep3()) return; 
         }
 
         currentStep++;
         showStep(currentStep);
-        if (currentStep === 4) { // Update summary only when reaching review step
+        if (currentStep === 4) { 
         updateOrderSummary();
         }
       }
       });
     });
 
-    // Event listeners for "Previous" buttons
+    
     prevStepButtons.forEach(button => {
       button.addEventListener('click', function () {
       if (currentStep > 1) {
@@ -376,7 +376,7 @@
       });
     });
 
-    // Shipping method change listener
+    
     shippingStandardRadio.addEventListener('change', updateOrderSummary);
     shippingExpressRadio.addEventListener('change', updateOrderSummary);
 
@@ -420,7 +420,7 @@
         li.textContent = error;
         errorList.appendChild(li);
       });
-      slideInErrorMessage(); // Show error message with slide-in animation
+      slideInErrorMessage(); 
       return false;
       }
       return true;
@@ -433,45 +433,45 @@
 
     function slideInErrorMessage() {
       errorMessage.classList.remove("hidden");
-      // Force reflow to restart animation if it was previously shown and hidden
+      
       void errorMessage.offsetWidth;
-      errorMessage.classList.remove("translate-y-[-100%]"); // Slide in by removing translate
+      errorMessage.classList.remove("translate-y-[-100%]"); 
       setTimeout(() => {
       slideOutErrorMessage();
       }, 6 * 1000);
     }
 
     function slideOutErrorMessage() {
-      errorMessage.classList.add("translate-y-[-100%]"); // Slide out
-      setTimeout(() => { errorMessage.classList.add("hidden"); }, 300); // Hide completely after animation
+      errorMessage.classList.add("translate-y-[-100%]"); 
+      setTimeout(() => { errorMessage.classList.add("hidden"); }, 300); 
     }
 
     closeErrorMessageButton.addEventListener('click', slideOutErrorMessage);
 
 
     placeOrderButton.addEventListener("click", function (event) {
-      // Clear any previous messages
+      
       successMessage.classList.add("hidden");
       errorMessage.classList.add("hidden");
-      errorList.innerHTML = ''; // Clear previous error list
+      errorList.innerHTML = ''; 
 
-      // Final Validation before submit - could re-run all step validations or just ensure all steps are reached.
+      
       if (!validateStep1() || !validateStep3()) { //Example: Re-validate step 1 and 3 before final submit
-      return; // Stop if final validation fails
+      return; 
       }
 
-      // if (!isValid) {
-      //   errorList.innerHTML = '';
-      //   errors.forEach(error => {
-      //   const li = document.createElement("li");
-      //   li.textContent = error;
-      //   errorList.appendChild(li);
-      //   });
-      //   slideInErrorMessage(); // Show error message with slide-in animation
-      //   return; // Stop processing if validation fails
-      // }
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
 
-      // Show loading indicator
+      
       placeOrderButton.classList.add("hidden");
       loadingIndicator.classList.remove("hidden");
     });

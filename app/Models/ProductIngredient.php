@@ -9,10 +9,10 @@ class ProductIngredient extends Model
 {
     use HasFactory;
 
-    protected $table = 'productingredients';
+    protected $table = 'product_ingredients';
     protected $primaryKey = ['product_id', 'ingredient_id'];
-    public $incrementing = false; // Composite primary key, not auto-incrementing
-    public $timestamps = false; // Assuming no timestamps columns
+    public $incrementing = false; 
+    public $timestamps = false; 
 
     protected $fillable = [
         'product_id',

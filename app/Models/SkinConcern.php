@@ -9,8 +9,8 @@ class SkinConcern extends Model
 {
     use HasFactory;
 
-    protected $table = 'skinconcerns';
-    public $timestamps = false; // Assuming no timestamps columns
+    protected $table = 'skin_concerns';
+    public $timestamps = false; 
 
     protected $fillable = [
         'skin_concern_name',

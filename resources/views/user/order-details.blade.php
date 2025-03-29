@@ -42,7 +42,7 @@
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-warm-black dark:text-warm-white">Payment Status</label>
-                        <p class="mt-1 text-sm text-muted-sage-green dark:text-muted-sage-green-darker">{{ ucfirst($order->payment_status) ?? 'N/A' }}</p> {{-- Assuming you have payment_status --}}
+                        <p class="mt-1 text-sm text-muted-sage-green dark:text-muted-sage-green-darker">{{ ucfirst($order->payment_status) ?? 'N/A' }}</p> 
                     </div>
                 </div>
             </div>
@@ -62,7 +62,7 @@
                     <div>
                         <label class="block text-sm font-medium text-warm-black dark:text-warm-white">Shipping Address</label>
                         <address class="mt-1 text-sm text-muted-sage-green dark:text-muted-sage-green-darker">
-                            {{ $order->shipping_address?? 'N/A' }}<br> {{-- Adjust based on your address structure --}}
+                            {{ $order->shipping_address?? 'N/A' }}<br> 
                             <!-- {{ $order->shipping_address->address_line_2 ?? '' }}<br>
                             {{ $order->shipping_address->city ?? 'N/A' }}, {{ $order->shipping_address->state ?? 'N/A' }} {{ $order->shipping_address->zip_code ?? 'N/A' }}<br>
                             {{ $order->shipping_address->country ?? 'N/A' }} -->
@@ -70,13 +70,13 @@
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-warm-black dark:text-warm-white">Shipping Method</label>
-                        <p class="mt-1 text-sm text-muted-sage-green dark:text-muted-sage-green-darker">{{ $order->shipping_method ?? 'Standard Shipping' }}</p> {{-- Adjust based on your data --}}
+                        <p class="mt-1 text-sm text-muted-sage-green dark:text-muted-sage-green-darker">{{ $order->shipping_method ?? 'Standard Shipping' }}</p> 
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-warm-black dark:text-warm-white">Tracking Number</label>
-                        <p class="mt-1 text-sm text-muted-sage-green dark:text-muted-sage-green-darker">{{ $order->tracking_number ?? 'N/A' }}</p> {{-- Make sure to handle cases where tracking number is not available --}}
+                        <p class="mt-1 text-sm text-muted-sage-green dark:text-muted-sage-green-darker">{{ $order->tracking_number ?? 'N/A' }}</p> 
                     </div>
-                    {{-- Add Estimated Delivery Date if available --}}
+                    
                 </div>
             </div>
         </div>
@@ -95,7 +95,7 @@
                     <div>
                         <label class="block text-sm font-medium text-warm-black dark:text-warm-white">Billing Address</label>
                         <address class="mt-1 text-sm text-muted-sage-green dark:text-muted-sage-green-darker">
-                            {{ $order->billing_address ?? 'Same as Shipping' }}<br> {{-- Adjust based on your address structure & logic for same as shipping --}}
+                            {{ $order->billing_address ?? 'Same as Shipping' }}<br> 
                             <!-- {{ $order->billing_address->address_line_2 ?? '' }}<br>
                             {{ $order->billing_address->city ?? 'N/A' }}, {{ $order->billing_address->state ?? 'N/A' }} {{ $order->billing_address->zip_code ?? 'N/A' }}<br>
                             {{ $order->billing_address->country ?? 'N/A' }} -->
@@ -103,9 +103,9 @@
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-warm-black dark:text-warm-white">Payment Method</label>
-                        <p class="mt-1 text-sm text-muted-sage-green dark:text-muted-sage-green-darker">{{ $order->payment_method ?? 'N/A' }}</p> {{-- Adjust based on your data --}}
+                        <p class="mt-1 text-sm text-muted-sage-green dark:text-muted-sage-green-darker">{{ $order->payment_method ?? 'N/A' }}</p> 
                     </div>
-                    {{-- Add Payment Transaction ID if available --}}
+                    
                 </div>
             </div>
         </div>
@@ -115,42 +115,42 @@
     <h2 class="text-2xl font-semibold text-warm-black dark:text-warm-white mb-6">Order Items</h2>
     <div class="overflow-x-auto custom-scrollbar">
         <table class="min-w-full table-auto">
-            <thead class="bg-soft-sand-beige dark:bg-warm-black"> {{-- Slightly adjusted header background --}}
+            <thead class="bg-soft-sand-beige dark:bg-warm-black"> 
                 <tr>
-                    <th class="px-4 py-3 text-sm font-medium text-warm-black dark:text-warm-white text-left"></th> {{-- Empty TH for image --}}
+                    <th class="px-4 py-3 text-sm font-medium text-warm-black dark:text-warm-white text-left"></th> 
                     <th class="px-4 py-3 text-sm font-medium text-warm-black dark:text-warm-white text-left">Product</th>
                     <th class="px-4 py-3 text-sm font-medium text-warm-black dark:text-warm-white text-left">Price</th>
                     <th class="px-4 py-3 text-sm font-medium text-warm-black dark:text-warm-white text-left">Quantity</th>
-                    <th class="px-4 py-3 text-sm font-medium text-warm-black dark:text-warm-white text-right">Subtotal</th> {{-- Right align subtotal header --}}
+                    <th class="px-4 py-3 text-sm font-medium text-warm-black dark:text-warm-white text-right">Subtotal</th> 
                 </tr>
             </thead>
             <tbody>
                 @foreach($order->orderItems as $item)
-                <tr class="border-b border-muted-sage-green dark:border-muted-sage-green-darker hover:bg-soft-sand-beige dark:hover:bg-warm-black transition-colors duration-150"> {{-- Hover effect for rows --}}
-                    <td class="px-4 py-4"> {{-- Image cell --}}
-                        <div class="w-12 h-12 rounded-md overflow-hidden shadow-sm"> {{-- Container for image --}}
-                            <a href="{{ route('product.details', Crypt::encrypt($item->product->id)) }}"> {{-- Link to product page --}}
-                                <img src="{{ asset('images/'.'demo'.($item->product->id % 4 + 1).'.jpg') }}"  {{-- Use your actual image path logic --}}
+                <tr class="border-b border-muted-sage-green dark:border-muted-sage-green-darker hover:bg-soft-sand-beige dark:hover:bg-warm-black transition-colors duration-150"> 
+                    <td class="px-4 py-4"> 
+                        <div class="w-12 h-12 rounded-md overflow-hidden shadow-sm"> 
+                            <a href="{{ route('product.details', Crypt::encrypt($item->product->id)) }}"> 
+                                <img src="{{ asset('images/'.'demo'.($item->product->id % 4 + 1).'.jpg') }}"  
                                      alt="{{ $item->product->product_name }}"
                                      class="w-full h-full object-cover">
                             </a>
                         </div>
                     </td>
-                    <td class="px-4 py-4 text-sm font-medium text-warm-black dark:text-warm-white"> {{-- Product Name Cell --}}
-                        <a href="{{ route('product.details', Crypt::encrypt($item->product->id)) }}" class="hover:text-muted-sage-green dark:hover:text-antique-gold transition-colors duration-200"> {{-- Link styling --}}
+                    <td class="px-4 py-4 text-sm font-medium text-warm-black dark:text-warm-white"> 
+                        <a href="{{ route('product.details', Crypt::encrypt($item->product->id)) }}" class="hover:text-muted-sage-green dark:hover:text-antique-gold transition-colors duration-200"> 
                             {{ $item->product->product_name }}
                         </a>
                     </td>
                     <td class="px-4 py-4 text-sm text-muted-sage-green dark:text-muted-sage-green-darker">₦{{ number_format($item->product->price, 2) }}</td>
                     <td class="px-4 py-4 text-sm text-muted-sage-green dark:text-muted-sage-green-darker">{{ $item->quantity }}</td>
-                    <td class="px-4 py-4 text-sm font-medium text-warm-black dark:text-warm-white text-right">₦{{ number_format($item->product->price * $item->quantity, 2) }}</td> {{-- Right align subtotal value --}}
+                    <td class="px-4 py-4 text-sm font-medium text-warm-black dark:text-warm-white text-right">₦{{ number_format($item->product->price * $item->quantity, 2) }}</td> 
                 </tr>
                 @endforeach
             </tbody>
             <tfoot class="bg-soft-sand-beige dark:bg-warm-black">
                 <tr>
-                    <td colspan="4" class="px-4 py-3 font-semibold text-sm text-warm-black dark:text-warm-white text-right">Subtotal:</td> {{-- Adjusted colspan --}}
-                    <td class="px-4 py-3 font-semibold text-sm text-warm-black dark:text-warm-white text-right">₦{{ number_format($order->total_amount - $order->shipping_cost - $order->tax_amount, 2) }}</td> {{-- Right align values in footer --}}
+                    <td colspan="4" class="px-4 py-3 font-semibold text-sm text-warm-black dark:text-warm-white text-right">Subtotal:</td> 
+                    <td class="px-4 py-3 font-semibold text-sm text-warm-black dark:text-warm-white text-right">₦{{ number_format($order->total_amount - $order->shipping_cost - $order->tax_amount, 2) }}</td> 
                 </tr>
                 <tr>
                     <td colspan="4" class="px-4 py-3 font-semibold text-sm text-warm-black dark:text-warm-white text-right">Shipping:</td>
@@ -168,10 +168,8 @@
         </table>
     </div>
 </section>
-    {{-- Optional: Order Timeline/History Section --}}
-    {{-- <section id="orderTimeline" class="bg-warm-white dark:bg-warm-black rounded-xl shadow-md p-6 mb-8">
-        <h2 class="text-2xl font-semibold text-warm-black dark:text-warm-white mb-6">Order Timeline</h2>
-        </section> --}}
+ 
+    {{-- Order Timeline --}}
 
 </main>
 @endsection

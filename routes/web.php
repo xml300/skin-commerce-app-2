@@ -32,6 +32,8 @@ Route::middleware(['auth.user', 'redirect'])->group(function () {
     Route::get('/order-confirmation/failed', [UserController::class, 'orderFailed'])->name('user.order-failed');
     Route::post('/logout', [AuthController::class, 'logout'])->name("logout");
 
+    Route::get('/review/store', [UserController::class, 'reviewStore'])->name('reviews.store');
+
     Route::get('/api/cart', [UserController::class, 'getCart'])->name('cart.get');
     Route::get('/api/cart/count', [UserController::class, 'getCartCount']);
     Route::post('/api/cart/item', [UserController::class, 'addToCart'])->name('cart.add');

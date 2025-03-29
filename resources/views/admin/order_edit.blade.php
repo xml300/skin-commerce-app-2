@@ -1,7 +1,7 @@
 @extends('layouts.admin.admin_dashboard')
 
 @section('content')
-    {{-- Page Title --}}
+    
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">
             Edit Order <span class="text-base font-normal text-gray-500 dark:text-gray-400">#{{ strtoupper(substr(Crypt::encrypt($order->id), 0,20)) }}</span>
@@ -12,7 +12,7 @@
         </a>
     </div>
 
-    {{-- Display Validation Errors --}}
+    
     @if ($errors->any())
         <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative dark:bg-red-700 dark:border-red-600 dark:text-red-100" role="alert">
             <strong class="font-bold">Oops!</strong>
@@ -25,16 +25,16 @@
         </div>
     @endif
 
-    {{-- Edit Form Card --}}
+    
     <div class="bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden">
         <form action="{{ route('admin.orders.update', $order->id) }}" method="POST">
             @csrf
-            @method('PUT') {{-- Or PATCH --}}
+            @method('PUT') 
 
             <div class="p-6 space-y-6">
                 <input type="text" name="id" value="{{ $order->id }}" hidden>
 
-                {{-- Non-Editable Info --}}
+                
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 border-b border-gray-200 dark:border-gray-700 pb-6">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Order ID</label>
@@ -50,15 +50,15 @@
                     </div>
                 </div>
 
-                {{-- Editable Fields --}}
+                
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {{-- Order Status --}}
+                    
                     <div>
                         <label for="order_status" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Order Status <span class="text-red-600">*</span></label>
                         <select id="order_status" name="order_status" required
                                 class="p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-indigo-600 dark:focus:border-indigo-600 sm:text-sm @error('order_status') border-red-500 @enderror">
                             @php
-                                // Define possible statuses (could also come from config or controller)
+                                
                                 $statuses = ['pending', 'processing', 'shipped', 'delivered', 'completed', 'cancelled', 'failed'];
                             @endphp
                             @foreach($statuses as $status)
@@ -72,30 +72,19 @@
                         @enderror
                     </div>
 
-                    {{-- Add other editable fields as needed --}}
-                    {{-- Example: Tracking Number --}}
-                    {{-- <div>
+                    
+                    
+                    <div>
                         <label for="tracking_number" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tracking Number</label>
                         <input type="text" id="tracking_number" name="tracking_number" value="{{ old('tracking_number', $order->tracking_number) }}"
-                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-indigo-600 dark:focus:border-indigo-600 sm:text-sm @error('tracking_number') border-red-500 @enderror">
+                               class="p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-indigo-600 dark:focus:border-indigo-600 sm:text-sm @error('tracking_number') border-red-500 @enderror">
                          @error('tracking_number')
                            <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                         @enderror
-                    </div> --}}
-
-                    {{-- Example: Admin Notes --}}
-                    {{-- <div class="md:col-span-2">
-                        <label for="admin_notes" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Admin Notes</label>
-                        <textarea id="admin_notes" name="admin_notes" rows="3"
-                                  class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-indigo-600 dark:focus:border-indigo-600 sm:text-sm @error('admin_notes') border-red-500 @enderror">{{ old('admin_notes', $order->admin_notes) }}</textarea>
-                        @error('admin_notes')
-                            <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
-                        @enderror
-                    </div> --}}
-
+                    </div>
                 </div>
 
-                {{-- Display Order Items (Usually non-editable here, or needs complex JS) --}}
+                
                  <div>
                     <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4 pt-4 border-t border-gray-200 dark:border-gray-700">Order Items (Read-only)</h3>
                     <div class="overflow-x-auto border border-gray-200 dark:border-gray-700 rounded-md">
@@ -112,7 +101,7 @@
                                 @forelse($order->orderItems as $item)
                                     <tr class="border-b border-gray-200 dark:border-gray-700">
                                         <td class="px-4 py-3 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                            {{ $item->product->name ?? 'Product Not Found' }}
+                                            {{ $item->product->product_name ?? 'Product Not Found' }}
                                         </td>
                                         <td class="px-4 py-3 text-center">{{ $item->quantity }}</td>
                                         <td class="px-4 py-3 text-right">₦{{ number_format($item->product->price, 2) }}</td>
@@ -140,9 +129,9 @@
                     </div>
                 </div>
 
-            </div> {{-- End p-6 --}}
+            </div> 
 
-            {{-- Form Actions --}}
+            
             <div class="px-6 py-4 bg-gray-50 dark:bg-gray-800/50 border-t border-gray-200 dark:border-gray-700 flex justify-end items-center space-x-3">
                 <a href="{{ route('admin.orders.show', $order->id) }}" class="text-sm text-gray-600 dark:text-gray-400 hover:underline">Cancel</a>
                 <button type="submit"
@@ -151,6 +140,6 @@
                 </button>
             </div>
         </form>
-    </div> {{-- End Card --}}
+    </div> 
 
 @endsection

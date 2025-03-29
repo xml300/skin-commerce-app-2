@@ -9,8 +9,8 @@ class ProductVideo extends Model
 {
     use HasFactory;
 
-    protected $table = 'productvideos';
-    public $timestamps = false; // Assuming no timestamps columns
+    protected $table = 'product_videos';
+    public $timestamps = false; 
 
     protected $fillable = [
         'product_id',

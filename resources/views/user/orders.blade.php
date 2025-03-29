@@ -68,13 +68,13 @@
         </div>
     </section>
 
-    <section id="orderList" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"> {{-- Adjusted grid for larger screens --}}
+    <section id="orderList" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"> 
         @if(count($orders) > 0)
             @foreach($orders as $order)
             <div class="bg-warm-white dark:bg-warm-black rounded-xl shadow-md hover:shadow-lg transition-shadow duration-200">
                 <a href="{{ route('user.orders.show',  Crypt::encrypt($order->id)) }}" class="block">
-                    <div class="p-6"> {{-- Increased padding for better spacing --}}
-                        <div class="flex justify-between items-start mb-4"> {{-- Flex for order number and status badge --}}
+                    <div class="p-6"> 
+                        <div class="flex justify-between items-start mb-4"> 
                             <div>
                                 <h3 class="font-semibold text-lg text-warm-black dark:text-warm-white mb-1">Order #{{ strtoupper(substr(Crypt::encrypt($order->id),0, 20)) }}</h3>
                                 <p class="text-muted-sage-green dark:text-muted-sage-green-darker text-sm">Placed on {{ $order->created_at->format('F j, Y') }}</p>
@@ -92,11 +92,11 @@
                             </div>
                         </div>
 
-                        <div class="mb-4"> {{-- Order Items Summary --}}
+                        <div class="mb-4"> 
                             <h4 class="text-md font-medium text-warm-black dark:text-warm-white mb-2">Items:</h4>
                             <ul class="list-disc list-inside text-muted-sage-green dark:text-muted-sage-green-darker text-sm">
-                                @foreach($order->orderItems->take(3) as $item) {{-- Display up to 3 items --}}
-                                    <li>{{ $item->product->product_name }} x {{ $item->quantity }}</li> {{-- Assuming product_name is accessible via relation --}}
+                                @foreach($order->orderItems->take(3) as $item) 
+                                    <li>{{ $item->product->product_name }} x {{ $item->quantity }}</li> 
                                 @endforeach
                                 @if(count($order->orderItems) > 3)
                                     <li>...and {{ count($order->orderItems) - 3 }} more items</li>
@@ -104,7 +104,7 @@
                             </ul>
                         </div>
 
-                        <div class="flex justify-between items-center"> {{-- Total and View Details button --}}
+                        <div class="flex justify-between items-center"> 
                             <div>
                                 <p class="font-medium text-warm-black dark:text-warm-white">Total: <span class="text-muted-sage-green dark:text-muted-sage-green-darker">₦{{ number_format($order->total_amount, 2) }}</span></p>
                             </div>
@@ -117,9 +117,9 @@
             </div>
             @endforeach
         @else
-        <div class="text-center py-16 px-4 sm:px-6 lg:px-8 col-span-3"> {{-- Increased padding and centering --}}
+        <div class="text-center py-16 px-4 sm:px-6 lg:px-8 col-span-3"> 
                 <div class="mx-auto mb-6 w-24 h-24 text-muted-sage-green-darker dark:text-muted-sage-green-darker-dark flex items-center justify-center rounded-full border-2 border-dashed border-muted-sage-green-darker dark:border-muted-sage-green-darker-dark">
-                    {{-- Replace with your preferred "empty" icon - Example SVG below --}}
+                    
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-12 h-12 opacity-70">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.375c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H7.5c-.621 0-1.125.504-1.125 1.125v7.5c0 .621.504 1.125 1.125 1.125H16.5m-9-5.25H7.5c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125H16.5m-9-5.25h5.375c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H7.5c-.621 0-1.125.504-1.125 1.125v7.5c0 .621.504 1.125 1.125 1.125H16.5" />
                     </svg>

@@ -9,8 +9,8 @@ class SkinType extends Model
 {
     use HasFactory;
 
-    protected $table = 'skintypes';
-    public $timestamps = false; // Assuming no timestamps columns
+    protected $table = 'skin_types';
+    public $timestamps = false; 
 
     protected $fillable = [
         'skin_type_name',

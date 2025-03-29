@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\Auth;
 
 class ApiController extends Controller
 {
-
     public function products(Request $request): JsonResponse
     {
         $categories = Category::all();

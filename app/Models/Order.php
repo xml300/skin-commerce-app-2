@@ -10,16 +10,17 @@ class Order extends Model
     use HasFactory;
 
     protected $table = 'orders';
-    public $timestamps = true; // Assuming created_at and updated_at columns exist
+    public $timestamps = true; 
 
     protected $fillable = [
-        'order_id', // If you want to allow manual assignment of order_id
+        'order_id', 
         'user_id',
-        'order_date',
         'order_status',
         'shipping_address',
+        'shipping_method',
         'billing_address',
         'payment_method',
+        'payment_status',
         'total_amount',
         'shipping_cost',
         'discount_applied',
@@ -27,7 +28,6 @@ class Order extends Model
     ];
 
     protected $casts = [
-        'order_date' => 'datetime',
         'total_amount' => 'decimal:2',
         'shipping_cost' => 'decimal:2',
         'discount_applied' => 'decimal:2',

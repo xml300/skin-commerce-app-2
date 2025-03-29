@@ -16,7 +16,7 @@ class RedirectMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::user()->user_type == 1){
+        if(Auth::user() && Auth::user()->user_type == 1){
             return redirect()->route('admin.dashboard');
         }
         return $next($request);
