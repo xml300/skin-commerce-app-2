@@ -150,10 +150,10 @@
         <li class="flex justify-between py-4 border-b border-soft-sand-beige dark:border-muted-sage-green">
         <div class="flex items-center">
         <img class="w-20 h-20 object-cover rounded-xl mr-5"
-        src="{{  asset('images/' . 'demo' . ($item->id % 4 + 1) . '.jpg') }}"
-        alt="{{ $item->product_name }}">
+        src="{{ $item->product->productImages->count() > 0 ? asset('storage/'.$item->product->productImages->get(0)->image_url) : asset('images/' . 'demo' . ($item->id % 4 + 1) . '.jpg') }}"
+        alt="{{ $item->product->product_name }}">
         <div>
-        <h4 class="font-semibold text-lg text-warm-black dark:text-warm-white">{{ $item->product_name }}
+        <h4 class="font-semibold text-lg text-warm-black dark:text-warm-white">{{ $item->product->product_name }}
         </h4>
         <p class="text-sm text-muted-sage-green dark:text-muted-sage-green-darker">Quantity:
           {{ $item->quantity }}
@@ -161,7 +161,7 @@
         </div>
         </div>
         <span class="item-total text-warm-black dark:text-warm-white"
-        data-item-price="{{ $item->price * $item->quantity }}">₦{{ number_format($item->price * $item->quantity, 2) }}</span>
+        data-item-price="{{ $item->product->price * $item->quantity }}">₦{{ number_format($item->product->price * $item->quantity, 2) }}</span>
         </li>
       @endforeach
         </ul>
@@ -250,16 +250,16 @@
       <li class="flex justify-between py-4 border-b border-soft-sand-beige dark:border-muted-sage-green">
       <div class="flex items-center">
         <img class="w-20 h-20 object-cover rounded-xl mr-5"
-        src="{{  asset('images/' . 'demo' . ($item->id % 4 + 1) . '.jpg') }}" alt="{{ $item->product_name }}">
+        src="{{ $item->product->productImages->count() > 0 ? asset('storage/'.$item->product->productImages->get(0)->image_url) : asset('images/' . 'demo' . ($item->id % 4 + 1) . '.jpg') }}" alt="{{ $item->product->product_name }}">
         <div>
-        <h4 class="font-semibold text-lg text-warm-black dark:text-warm-white">{{ $item->product_name }}</h4>
+        <h4 class="font-semibold text-lg text-warm-black dark:text-warm-white">{{ $item->product->product_name }}</h4>
         <p class="text-sm text-muted-sage-green dark:text-muted-sage-green-darker">Quantity:
         {{ $item->quantity }}
         </p>
         </div>
       </div>
       <span class="item-total text-warm-black dark:text-warm-white"
-        data-item-price="{{ $item->price * $item->quantity }}">₦{{ number_format($item->price * $item->quantity, 2) }}</span>
+        data-item-price="{{ $item->product->price * $item->quantity }}">₦{{ number_format($item->product->price * $item->quantity, 2) }}</span>
       </li>
     @endforeach
       </ul>
@@ -456,7 +456,7 @@
       errorList.innerHTML = ''; 
 
       
-      if (!validateStep1() || !validateStep3()) { //Example: Re-validate step 1 and 3 before final submit
+      if (!validateStep1() || !validateStep3()) { 
       return; 
       }
 

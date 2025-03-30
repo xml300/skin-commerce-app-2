@@ -96,9 +96,6 @@
                         <label class="block text-sm font-medium text-warm-black dark:text-warm-white">Billing Address</label>
                         <address class="mt-1 text-sm text-muted-sage-green dark:text-muted-sage-green-darker">
                             {{ $order->billing_address ?? 'Same as Shipping' }}<br> 
-                            {{-- {{ $order->billing_address->address_line_2 ?? '' }}<br>
-                            {{ $order->billing_address->city ?? 'N/A' }}, {{ $order->billing_address->state ?? 'N/A' }} {{ $order->billing_address->zip_code ?? 'N/A' }}<br>
-                            {{ $order->billing_address->country ?? 'N/A' }} --}}
                         </address>
                     </div>
                     <div>
@@ -130,7 +127,7 @@
                     <td class="px-4 py-4"> 
                         <div class="w-12 h-12 rounded-md overflow-hidden shadow-sm"> 
                             <a href="{{ route('product.details', Crypt::encrypt($item->product->id)) }}"> 
-                                <img src="{{ asset('images/'.'demo'.($item->product->id % 4 + 1).'.jpg') }}"  
+                                <img src="{{ $item->product->productImages->count() > 0 ? asset('storage/'.$item->product->productImages->get(0)->image_url) : asset('images/' . 'demo' . ($item->id % 4 + 1) . '.jpg') }}"  
                                      alt="{{ $item->product->product_name }}"
                                      class="w-full h-full object-cover">
                             </a>
@@ -169,7 +166,7 @@
     </div>
 </section>
  
-    {{-- Order Timeline --}}
+    
 
 </main>
 @endsection

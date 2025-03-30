@@ -83,7 +83,7 @@
 
                             <td class="px-6 py-4 text-center">
                                 @php
-                                    // Ensure is_active attribute exists or provide default
+                                    
                                     $isActive = $customer->is_active ?? true;
                                     $statusColor = $isActive
                                         ? 'bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-100'

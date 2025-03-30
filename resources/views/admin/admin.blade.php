@@ -250,7 +250,7 @@
                                         title="Edit Product">
                                         <i class="fas fa-pencil-alt fa-fw"></i>
                                     </a>
-                                    {{-- Delete Button (using AlpineJS event) --}}
+                                    
                                     <button type="button" @click="console.log('Delete button clicked. ID:', {{ $product->id }});
                                         $dispatch('open-delete-confirm-modal', {
                                             id: {{ $product->id }},

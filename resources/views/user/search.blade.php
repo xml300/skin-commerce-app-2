@@ -65,7 +65,7 @@
                             <a href="/product/{{ Crypt::encrypt($product->id) }}"
                                 aria-label="View product details for {{ $product->product_name }}">
                                 <img class="w-full h-48 object-cover object-center"
-                                    src="{{ asset('images/demo' . ($product->id % 5 + 1) . '.jpg') }}"
+                                    src="{{ $product->productImages->count() > 0 ? asset('storage/'.$product->productImages->get(0)->image_url) : asset('images/' . 'demo' . ($product->id % 4 + 1) . '.jpg') }}"
                                     alt="{{ $product->product_name }}" title="{{ $product->product_name }}" loading="lazy">
                             </a>
                             <div class="p-4">

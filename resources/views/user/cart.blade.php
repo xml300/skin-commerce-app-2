@@ -40,15 +40,12 @@
                                     <div class="flex items-center">
                                         <div class="mr-5">
                                             <img class="w-24 h-24 object-cover rounded-xl"
-                                                src="{{ asset('images/' . 'demo' . ($item->product->id % 4 + 1) . '.jpg') }}"
+                                                src="{{ $item->product->productImages->count() > 0 ? asset('storage/'.$item->product->productImages->get(0)->image_url) : asset('images/' . 'demo' . ($item->product->id % 4 + 1) . '.jpg') }}"
                                                 alt="{{ $item->product->product_name }}">
                                         </div>
                                         <div>
                                             <h4 class="font-semibold text-lg text-warm-black dark:text-warm-white">
                                                 {{ $item->product->product_name  }}</h4>
-                                            {{-- <p class="text-sm text-muted-sage-green dark:text-muted-sage-green-darker">Some
-                                                descriptive text</p> --}} {{-- Example description, can be added if product
-                                            details are needed in cart --}}
                                         </div>
                                     </div>
                                 </td>

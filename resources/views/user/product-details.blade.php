@@ -2,7 +2,7 @@
 @section('title', 'Product Details')
 
 @push('styles')
-    {{-- GLightbox CSS --}}
+    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
     <style>
         /* Style for the active thumbnail */
@@ -31,24 +31,24 @@
 @section('content')
 
     <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {{-- Product Details Section --}}
+        
         <div id="productDetail" class="bg-warm-white dark:bg-warm-black rounded-xl shadow-md overflow-hidden mb-12">
-            <div class="md:grid md:grid-cols-2 md:gap-8 lg:gap-12"> {{-- Adjusted gap --}}
-                {{-- Image Gallery Section --}}
+            <div class="md:grid md:grid-cols-2 md:gap-8 lg:gap-12"> 
+                
                 <div class="p-4 md:p-6 lg:p-8">
                     @php
-                        // Determine all available images, including fallback
+                        
                         $allImages = collect();
                         if ($product->productImages->count() > 0) {
-                            // Add actual product images
+                            
                             foreach ($product->productImages as $img) {
                                 $allImages->push((object)[
                                     'url' => asset('storage/'.$img->image_url),
-                                    'alt_text' => "Image of {$product->product_name}" // Add alt text if available from DB
+                                    'alt_text' => "Image of {$product->product_name}" 
                                 ]);
                             }
                         } else {
-                            // Add the single fallback demo image
+                            
                             $allImages->push((object)[
                                 'url' => asset('images/'.'demo'.($product->id % 4 + 1).'.jpg'),
                                 'alt_text' => "Demo image for {$product->product_name}"
@@ -58,31 +58,31 @@
                         $firstImageAlt = $allImages->first()->alt_text;
                     @endphp
 
-                    {{-- Main Image Display --}}
+                    
                     <div class="aspect-w-1 aspect-h-1 mb-4 rounded-lg overflow-hidden border border-soft-sand-beige dark:border-muted-sage-green">
                         <a href="{{ $firstImageUrl }}"
                            id="mainProductImageLink"
-                           class="glightbox block w-full h-full" {{-- Added block, w-full, h-full --}}
+                           class="glightbox block w-full h-full" 
                            data-gallery="product-gallery"
                            aria-label="View larger image">
                             <img id="mainProductImage"
-                                class="w-full h-full object-cover" {{-- Ensure cover and dimensions --}}
+                                class="w-full h-full object-cover" 
                                 src="{{ $firstImageUrl }}"
                                 alt="{{ $firstImageAlt }}">
                         </a>
                     </div>
 
-                    {{-- Thumbnails --}}
+                    
                     @if ($allImages->count() > 1)
                         <div id="productThumbnails" class="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-4 lg:grid-cols-5 gap-2">
                             @foreach($allImages as $index => $image)
-                                <a href="{{ $image->url }}" {{-- Keep href for accessibility/fallback --}}
+                                <a href="{{ $image->url }}" 
                                    class="thumbnail-link block border-2 border-transparent rounded-md overflow-hidden cursor-pointer hover:border-muted-sage-green dark:hover:border-antique-gold focus:outline-none focus:border-muted-sage-green dark:focus:border-antique-gold transition-all duration-200 {{ $index == 0 ? 'active-thumbnail' : '' }}"
                                    data-full-src="{{ $image->url }}"
                                    data-alt-text="{{ $image->alt_text }}"
                                    aria-label="View image {{ $index + 1 }}"
-                                   onclick="updateMainImage(event, this)"> {{-- Call JS function on click --}}
-                                    <img class="w-full h-full object-cover" {{-- Ensure cover and dimensions --}}
+                                   onclick="updateMainImage(event, this)"> 
+                                    <img class="w-full h-full object-cover" 
                                          src="{{ $image->url }}"
                                          alt="Thumbnail {{ $index + 1 }} for {{ $product->product_name }}">
                                 </a>
@@ -91,8 +91,8 @@
                     @endif
                 </div>
 
-                {{-- Product Info Section --}}
-                <div class="px-6 pb-8 pt-0 md:py-10 md:px-8 lg:px-12 flex flex-col justify-center"> {{-- Adjusted padding --}}
+                
+                <div class="px-6 pb-8 pt-0 md:py-10 md:px-8 lg:px-12 flex flex-col justify-center"> 
                      <h1 class="text-3xl lg:text-4xl font-semibold text-warm-black dark:text-warm-white mb-3 lg:mb-4">
                         {{ $product->product_name }}
                     </h1>
@@ -108,8 +108,8 @@
                     <form action="{{ route('cart.add') }}" method="POST">
                         @csrf
                         <input type="number" name="product_id" value="{{ $product->id }}" hidden>
-                        <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mb-8 items-stretch sm:items-center"> {{-- Adjusted spacing and alignment --}}
-                            <div class="flex items-center justify-center border border-soft-sand-beige dark:border-muted-sage-green rounded-lg h-12"> {{-- Fixed height --}}
+                        <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mb-8 items-stretch sm:items-center"> 
+                            <div class="flex items-center justify-center border border-soft-sand-beige dark:border-muted-sage-green rounded-lg h-12"> 
                                 <button type="button" onclick="changeQuantity(-1)" aria-label="Decrease Quantity"
                                 class="quantity-btn text-2xl text-warm-black dark:text-warm-white hover:text-muted-sage-green-darker dark:hover:text-antique-gold font-bold px-3 py-2 focus:outline-none transition-colors duration-200 rounded-l-lg h-full">-</button>
                                 <input type="number" readonly
@@ -120,30 +120,30 @@
                                     class="quantity-btn text-2xl text-warm-black dark:text-warm-white hover:text-muted-sage-green-darker dark:hover:text-antique-gold font-bold px-3 py-2 focus:outline-none transition-colors duration-200 rounded-r-lg h-full">+</button>
                             </div>
                             <button type="submit"
-                                class="cart-btn flex-grow sm:flex-grow-0 bg-muted-sage-green hover:bg-muted-sage-green-darker text-warm-white font-semibold py-3 px-6 rounded-xl focus:outline-none focus:ring-2 focus:ring-muted-sage-green focus:ring-offset-1 dark:bg-warm-black dark:text-muted-sage-green dark:hover:text-warm-white dark:hover:bg-antique-gold transition-colors duration-200 h-12"> {{-- Fixed height --}}
+                                class="cart-btn flex-grow sm:flex-grow-0 bg-muted-sage-green hover:bg-muted-sage-green-darker text-warm-white font-semibold py-3 px-6 rounded-xl focus:outline-none focus:ring-2 focus:ring-muted-sage-green focus:ring-offset-1 dark:bg-warm-black dark:text-muted-sage-green dark:hover:text-warm-white dark:hover:bg-antique-gold transition-colors duration-200 h-12"> 
                                 Add to Cart
                             </button>
                         </div>
                     </form>
-                     {{-- Removed Ingredients placeholder --}}
+                     
                 </div>
             </div>
         </div>
 
-        {{-- Reviews Section (kept commented out as per original) --}}
-        {{-- <div id="reviewsSection" class="..."> ... </div> --}}
+        
+        
 
     </main>
 
 
-    {{-- GLightbox JS --}}
+    
     <script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
 
     <script>
-        let lightbox; // Make lightbox accessible globally within the script
+        let lightbox; 
 
         document.addEventListener('DOMContentLoaded', function () {
-            // Keep existing cart button logic if needed
+            
              const cartButton = document.querySelector(".cart-btn");
              if (cartButton) {
                 cartButton.addEventListener("click", () => {
@@ -151,15 +151,15 @@
                 });
              }
 
-             // Initialize GLightbox
+             
              lightbox = GLightbox({
-                 selector: '.glightbox', // Target links for the main image lightbox
+                 selector: '.glightbox', 
                  touchNavigation: true,
                  loop: true,
-                 // You can add more options here if needed
+                 
              });
 
-            // --- Quantity adjustment logic (no changes needed here) ---
+            
             const quantityInput = document.querySelector('input[name="quantity"].quantity-input');
 
              if (quantityInput) {
@@ -167,60 +167,60 @@
                     quantityInput.value = 1;
                 }
              }
-             // Using changeQuantity function below
-             // --- End Quantity Logic ---
+             
+             
 
-        }); // End DOMContentLoaded
+        }); 
 
-         // Function to update the main image when a thumbnail is clicked
+         
         function updateMainImage(event, thumbnailElement) {
-            event.preventDefault(); // Prevent default link behavior
+            event.preventDefault(); 
 
             const mainProductImage = document.getElementById('mainProductImage');
             const mainProductImageLink = document.getElementById('mainProductImageLink');
             const thumbnails = document.querySelectorAll('.thumbnail-link');
 
             const fullSrc = thumbnailElement.getAttribute('data-full-src');
-            const altText = thumbnailElement.getAttribute('data-alt-text'); // Get alt text
+            const altText = thumbnailElement.getAttribute('data-alt-text'); 
 
-            // Add fade effect
+            
             mainProductImage.style.opacity = '0';
 
             setTimeout(() => {
-                // Update the main image src and alt
+                
                 mainProductImage.src = fullSrc;
-                mainProductImage.alt = altText; // Update alt text
+                mainProductImage.alt = altText; 
 
-                // Update the main image link href (so GLightbox opens the correct image)
+                
                 mainProductImageLink.href = fullSrc;
 
-                // Update active thumbnail state
+                
                 thumbnails.forEach(thumb => thumb.classList.remove('active-thumbnail'));
                 thumbnailElement.classList.add('active-thumbnail');
 
-                // Fade in the new image
+                
                 mainProductImage.style.opacity = '1';
 
-                 // Optional: If GLightbox instance needs updating after changing the main link's href
-                 // This might be needed if the gallery structure changes dynamically in complex ways,
-                 // but usually updating the href is sufficient for this setup.
-                 // if (lightbox) {
-                 //    lightbox.reload();
-                 // }
+                 
+                 
+                 
+                 
+                 
+                 
 
-            }, 150); // Adjust timing to match CSS transition duration
+            }, 150); 
         }
 
-        // Updated quantity function
+        
         function changeQuantity(change) {
             const quantityInput = document.querySelector('input[name="quantity"].quantity-input');
             let currentValue = parseInt(quantityInput.value);
             let newValue = currentValue + change;
 
-            if (newValue >= 1) { // Ensure quantity doesn't go below 1
+            if (newValue >= 1) { 
                 quantityInput.value = newValue;
             } else {
-                quantityInput.value = 1; // Reset to 1 if attempt to go below
+                quantityInput.value = 1; 
             }
         }
     </script>

@@ -175,10 +175,6 @@
                             <button aria-label="View notifications"
                                 class="relative p-1 rounded-full text-gray-400 dark:text-gray-400 hover:text-gray-500 dark:hover:text-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 dark:focus:ring-offset-gray-800 focus:ring-indigo-500">
                                 <i class="far fa-bell text-xl"></i>
-
-                                {{-- <span
-                                    class="absolute -top-1 -right-1 block h-3 w-3 rounded-full ring-2 ring-white dark:ring-gray-800 bg-red-500 text-xs text-white flex items-center justify-center">3</span>
-                                --}}
                             </button>
 
 

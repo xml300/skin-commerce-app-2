@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full light"> {{-- Set initial theme to light,
-control with JS --}}
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full light"> 
 
 <head>
     <meta charset="utf-8">
@@ -29,8 +28,7 @@ control with JS --}}
         </div>
 
         <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-            <div class="bg-warm-white dark:bg-warm-black px-10 py-8 rounded-xl shadow-md"> {{-- Increased padding and
-                rounded corners --}}
+            <div class="bg-warm-white dark:bg-warm-black px-10 py-8 rounded-xl shadow-md"> 
                 <div class="flex justify-end">
                     <div class="flex gap-x-3 items-center justify-between px-4 py-2">
                         <label for="darkModeToggleDropdown"
@@ -47,8 +45,7 @@ control with JS --}}
 
                 @yield('content')
             </div>
-            <p class="mt-4 text-center text-sm text-muted-sage-green dark:text-muted-sage-green-darker"> {{-- Added
-                extra text area for auth pages --}}
+            <p class="mt-4 text-center text-sm text-muted-sage-green dark:text-muted-sage-green-darker"> 
                 @yield('auth-extra')
             </p>
         </div>

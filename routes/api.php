@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ApiController; // Create ApiController later
+use App\Http\Controllers\ApiController; 
 
 Route::get('/products', [ApiController::class, 'products']);
 Route::get('/products/{productID}', [ApiController::class, 'product']);

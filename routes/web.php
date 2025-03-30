@@ -2,8 +2,8 @@
 
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController; // Create UserController later
-use App\Http\Controllers\AdminController; // Create AdminController later
+use App\Http\Controllers\UserController; 
+use App\Http\Controllers\AdminController; 
 
 
 Route::middleware(['user', 'redirect'])->group(function () {
@@ -85,5 +85,5 @@ Route::middleware(['auth.admin'])->group(function () {
 
     Route::post('/admin/categories', [AdminController::class, 'storeCategory'])->name('admin.categories.store');
     Route::put('/admin/categories/{category}', [AdminController::class, 'updateCategory'])->name('admin.categories.update');
-    Route::delete('/admin/categories/{category}', [AdminController::class, 'deleteCategory'])->name('admin.categories.destroy'); // or destroy if you prefer
+    Route::delete('/admin/categories/{category}', [AdminController::class, 'deleteCategory'])->name('admin.categories.destroy'); 
 });

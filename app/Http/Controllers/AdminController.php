@@ -45,28 +45,28 @@ class AdminController extends Controller
 
     public function products(Request $request): View
     {
-              // Start base query, eager load category to avoid N+1 issues
-              $query = Product::with('category')->latest(); // Order by newest first, for example
 
-              // Filter by Category
-              if ($request->filled('category')) { // Check if 'category' exists and is not empty
-                  $query->where('category_id', $request->input('category'));
-              }
-      
-              // Filter by Search Term
-              if ($request->filled('search')) { // Check if 'search' exists and is not empty
-                  $searchTerm = $request->input('search');
-                  $query->where(function ($q) use ($searchTerm) {
-                      $q->where('product_name', 'LIKE', "%{$searchTerm}%")
-                        ->orWhere('description', 'LIKE', "%{$searchTerm}%"); // Optional: search description too
-                      // Add other searchable fields if needed
-                      // ->orWhere('sku', 'LIKE', "%{$searchTerm}%");
-                  });
-              }
-      
-              // Paginate the results
-              // Make sure to use a reasonable number per page
-              $products = $query->paginate(10); // Get paginated results 
+        $query = Product::with('category')->latest();
+
+
+        if ($request->filled('category')) {
+            $query->where('category_id', $request->input('category'));
+        }
+
+
+        if ($request->filled('search')) {
+            $searchTerm = $request->input('search');
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('product_name', 'LIKE', "%{$searchTerm}%")
+                    ->orWhere('description', 'LIKE', "%{$searchTerm}%");
+
+
+            });
+        }
+
+
+
+        $products = $query->paginate(10);
         $categories = Category::all();
         return view('admin.products', compact('products', 'categories'));
     }
@@ -378,7 +378,7 @@ class AdminController extends Controller
             'product_images.*.mimes' => 'Each image must be a JPEG, PNG, or JPG file.'
         ]);
 
-       
+
         $products = Product::all();
         $productData = [
             'id' => $products->max('id') + 1,
@@ -392,18 +392,19 @@ class AdminController extends Controller
             'updated_at' => now()->toDateString(),
         ];
 
-        if($request->has("status")){
+        if ($request->has("status")) {
             $productData['status'] = $validatedData["status"];
         }
 
 
         $productImages = [];
-        $i=0;
-        foreach($validatedData['product_images'] as $image){
-            $filename = "product_image_$i." . $image->getClientOriginalExtension();
+        $i = 0;
+        $uuid = hash('sha256', $productData['id'] . 'Hello');
+        foreach ($validatedData['product_images'] as $image) {
+            $filename = "product_image_".hash('md5', $image->getClientOriginalName())."." . $image->getClientOriginalExtension();
             $productImages[] = [
                 'product_id' => $productData['id'],
-                'image_url' => $image->storeAs('uploads', $filename, 'public')
+                'image_url' => $image->storeAs("uploads/$uuid", $filename, 'public')
             ];
             $i++;
         }
@@ -432,8 +433,8 @@ class AdminController extends Controller
             'price' => 'required|numeric',
             'category_id' => 'required|integer',
             'status' => 'required|string',
-            'images' => 'nullable|array',
-            'images.*' => 'file|mimes:jpeg,png,jpg|max:2048'
+            'product_images' => 'nullable|array',
+            'product_images.*' => 'file|mimes:jpeg,png,jpg|max:2048'
         ]);
 
 
@@ -449,24 +450,32 @@ class AdminController extends Controller
         $product->category_id = intval($validatedData['category_id']);
         $product->status = $validatedData['status'];
         $product->save();
-      
-        if($request->has('delete_images')){
+
+        if ($request->has('delete_images')) {
             $del_array = json_decode($request->delete_images);
-            ProductImage::where('product_id', $productId)
-                ->whereIn('id', $del_array)
-                ->delete();
+            $productImages = ProductImage::where('product_id', $productId)
+                ->whereIn('id', $del_array);
+
+            $filesToDelete = [];
+            foreach ((clone $productImages)->get() as $pImage) {
+                if (Storage::disk('public')->exists($pImage->image_url)) {
+                    $filesToDelete[] = $pImage->image_url;
+                }
+            }
+            Storage::disk('public')->delete($filesToDelete);
+            Storage::delete($filesToDelete);
+            $productImages->delete();
         }
 
-        if ($request->has('images')) {
+        if ($request->has('product_images')) {
             $productImages = [];
-            $i=0;
-            foreach($validatedData['images'] as $image){
-                $filename = "product_image_$i." . $image->getClientOriginalExtension();
+            $uuid = hash('sha256', $productId . 'Hello');
+            foreach ($validatedData['product_images'] as $image) {
+                $filename = "product_image_" . hash('md5', $image->getClientOriginalName()) . '.' . $image->getClientOriginalExtension();
                 $productImages[] = [
                     'product_id' => $productId,
-                    'image_url' => $image->storeAs('uploads', $filename, 'public')
+                    'image_url' => $image->storeAs("uploads/$uuid", $filename, 'public')
                 ];
-                $i++;
             }
             ProductImage::insert($productImages);
         }

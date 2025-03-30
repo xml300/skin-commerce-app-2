@@ -32,7 +32,8 @@ class UserController extends Controller
 
     public function search(Request $request)
     {
-        $products = Product::whereLike('product_name', "%" . $request->q . "%")->get();
+        $products = Product::where('status', 'published')
+        ->whereLike('product_name', "%" . $request->q . "%")->get();
         return view('user.search', compact('products'));
     }
 
@@ -99,9 +100,9 @@ class UserController extends Controller
         $cartSubTotal = CartItem::where('cart_items.user_id', Auth::id())
             ->join('products', 'cart_items.product_id', '=', 'products.id')
             ->selectRaw('SUM(products.price * cart_items.quantity) as subtotal')
-            ->value('subtotal'); // Pluck the single calculated value
+            ->value('subtotal'); 
 
-        // Handle empty cart (value returns null if no rows match)
+        
         $cartSubTotal = $cartSubTotal ?? 0;
         $title = 'Cart';
         return view('user.cart', compact('title', 'cartItems', 'cartSubTotal'));
@@ -117,9 +118,9 @@ class UserController extends Controller
         $orderSubtotal = CartItem::where('cart_items.user_id', Auth::id())
             ->join('products', 'cart_items.product_id', '=', 'products.id')
             ->selectRaw('SUM(products.price * cart_items.quantity) as subtotal')
-            ->value('subtotal'); // Pluck the single calculated value
+            ->value('subtotal'); 
 
-        // Handle empty cart (value returns null if no rows match)
+        
         $orderSubtotal = $orderSubtotal ?? 0;
         return view('user.checkout', compact('orderItems', 'title', 'orderSubtotal'));
     }
@@ -140,9 +141,14 @@ class UserController extends Controller
         $productId = intval($validatedData['product_id']);
         $quantity = intval($validatedData['quantity']);
 
+
         $cartItem = CartItem::where('user_id', '=', Auth::id())
             ->where('product_id', '=', $productId)
             ->first();
+
+        if(Product::find($productId)->stock_quantity < $validatedData['quantity']){
+            return redirect()->back()->with("error", "Insuffieicent Stock. Try again later.");
+        }
 
         if (is_null($cartItem)) {
             CartItem::create([
@@ -270,7 +276,6 @@ class UserController extends Controller
             "payment_status" => "pending"
         ]);
 
-        $products = Product::all();
         $orderItems = [];
         foreach (CartItem::where('user_id', '=', Auth::id())->get() as $item) {
             $orderItems[] = [
