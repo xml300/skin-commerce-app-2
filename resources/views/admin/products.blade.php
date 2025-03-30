@@ -2,16 +2,17 @@
 
 @section('content')
 
-    <section class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+    <section x-data="{}" class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
         <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">
             Product Management
         </h1>
 
-        <button id="addProductButton" type="button"
-            class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 active:bg-indigo-800 focus:outline-none focus:border-indigo-800 focus:ring focus:ring-indigo-300 dark:focus:ring-indigo-700 disabled:opacity-25 transition ease-in-out duration-150 whitespace-nowrap">
-            <i class="fas fa-plus mr-2 -ml-1"></i>
-            Add New Product
+        <button @click="$dispatch('open-product-modal', { mode: 'add' })" class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 active:bg-indigo-800 focus:outline-none focus:border-indigo-800 focus:ring focus:ring-indigo-300 dark:focus:ring-indigo-700 disabled:opacity-25 transition ease-in-out duration-150 whitespace-nowrap">
+
+        <i class="fas fa-plus mr-2 -ml-1"></i>
+        Add New Product
         </button>
+
     </section>
 
 
@@ -84,7 +85,7 @@
                             class="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors duration-150">
 
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <img src="{{ $product->image_url ?? asset('images/placeholder_product.png') }}"
+                                <img src="{{ $product->productImages->get(0) ? asset('storage/'.$product->productImages->get(0)->image_url) : asset('images/stara-logo.jpg') }}"
                                     alt="{{ $product->product_name }}"
                                     class="h-12 w-12 object-cover rounded-md shadow-sm bg-gray-200 dark:bg-gray-600">
                             </td>

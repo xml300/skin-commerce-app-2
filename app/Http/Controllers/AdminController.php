@@ -268,7 +268,7 @@ class AdminController extends Controller
         $topSellingProducts = OrderItem::whereHas('order', function ($query) use ($last30Days) {
             $query->where('created_at', '>=', $last30Days);
         })
-            ->join('products', 'orderitems.product_id', '=', 'products.id')
+            ->join('products', 'order_items.product_id', '=', 'products.id')
             ->groupBy('product_id')
             ->orderBy(DB::raw('SUM(quantity)'), 'DESC')
             ->take(5)
@@ -365,29 +365,52 @@ class AdminController extends Controller
     public function storeProduct(Request $request)
     {
         $validatedData = $request->validate([
-            'product_name' => 'required|string',
+            'product_name' => 'required|string|unique:products,product_name',
             'description' => 'required|string',
             'price' => 'required|numeric',
+            'status' => 'nullable|string',
             'category_id' => 'required|integer',
             'product_images' => 'nullable|array',
+            'product_images.*' => 'file|mimes:jpeg,png,jpg|max:2048'
+        ], [
+            'product_images.*.max' => 'Your product images must not exceed 2MB in size.',
+            'product_images.*.file' => 'Each item in the images must be a file.',
+            'product_images.*.mimes' => 'Each image must be a JPEG, PNG, or JPG file.'
         ]);
 
+       
         $products = Product::all();
         $productData = [
-            'id' => $products->count() + 1,
+            'id' => $products->max('id') + 1,
             'product_name' => $validatedData['product_name'],
             'description' => $validatedData['description'],
             'brand_id' => 1,
             'category_id' => intval($validatedData['category_id']),
             'price' => floatval($validatedData['price']),
             'stock_quantity' => 0,
-            'rating_average' => 0.0,
-            'review_count' => 0,
             'created_at' => now()->toDateString(),
             'updated_at' => now()->toDateString(),
         ];
+
+        if($request->has("status")){
+            $productData['status'] = $validatedData["status"];
+        }
+
+
+        $productImages = [];
+        $i=0;
+        foreach($validatedData['product_images'] as $image){
+            $filename = "product_image_$i." . $image->getClientOriginalExtension();
+            $productImages[] = [
+                'product_id' => $productData['id'],
+                'image_url' => $image->storeAs('uploads', $filename, 'public')
+            ];
+            $i++;
+        }
+
         Product::create($productData);
-        return redirect()->back();
+        ProductImage::insert($productImages);
+        return redirect()->back()->with('success', 'Product created successfully.');
     }
 
 
@@ -408,8 +431,11 @@ class AdminController extends Controller
             'description' => 'required|string',
             'price' => 'required|numeric',
             'category_id' => 'required|integer',
-            'image-upload' => 'nullable|string'
+            'status' => 'required|string',
+            'images' => 'nullable|array',
+            'images.*' => 'file|mimes:jpeg,png,jpg|max:2048'
         ]);
+
 
         $product = Product::where("id", "=", $productId)->first();
 
@@ -421,14 +447,28 @@ class AdminController extends Controller
         $product->description = $validatedData['description'];
         $product->price = floatval($validatedData['price']);
         $product->category_id = intval($validatedData['category_id']);
+        $product->status = $validatedData['status'];
         $product->save();
+      
+        if($request->has('delete_images')){
+            $del_array = json_decode($request->delete_images);
+            ProductImage::where('product_id', $productId)
+                ->whereIn('id', $del_array)
+                ->delete();
+        }
 
-        if ($request->has('image-upload')) {
-            $productImagesData = [
-                "product_id" => $product->id,
-                "image_url" => $validatedData['image-upload']
-            ];
-            ProductImage::create($productImagesData);
+        if ($request->has('images')) {
+            $productImages = [];
+            $i=0;
+            foreach($validatedData['images'] as $image){
+                $filename = "product_image_$i." . $image->getClientOriginalExtension();
+                $productImages[] = [
+                    'product_id' => $productId,
+                    'image_url' => $image->storeAs('uploads', $filename, 'public')
+                ];
+                $i++;
+            }
+            ProductImage::insert($productImages);
         }
 
         return redirect()->back()->with('success', 'Product updated successfully');

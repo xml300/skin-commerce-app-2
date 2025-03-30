@@ -21,6 +21,8 @@ Route::get("/register", [UserController::class, 'register'])->name('register.get
 
 Route::post('/api/login', [AuthController::class, 'login'])->name("login");
 Route::post('/api/register', [AuthController::class, 'register'])->name("register");
+Route::post('/api/logout', [AuthController::class, 'logout'])->name("logout");
+
 
 Route::middleware(['auth.user', 'redirect'])->group(function () {
     Route::get('/cart', [UserController::class, 'cart'])->withoutMiddleware('update.cart');
@@ -30,7 +32,6 @@ Route::middleware(['auth.user', 'redirect'])->group(function () {
     Route::get('/order-confirmation', [UserController::class, 'orderConfirmation'])->name('user.order-confirm');
     Route::get('/order-confirmation/success', [UserController::class, 'orderSuccess'])->name('user.order-success');
     Route::get('/order-confirmation/failed', [UserController::class, 'orderFailed'])->name('user.order-failed');
-    Route::post('/logout', [AuthController::class, 'logout'])->name("logout");
 
     Route::get('/review/store', [UserController::class, 'reviewStore'])->name('reviews.store');
 

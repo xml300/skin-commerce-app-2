@@ -31,8 +31,6 @@
     @if ($errors->hasBag('addOrder'))
         <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative dark:bg-red-700 dark:border-red-600 dark:text-red-100" role="alert">
             <strong class="font-bold">Error Adding Order!</strong>
-            <span class="block sm:inline">Please check the form below.</span>
-             
         </div>
     @endif
     @if (session('status')) 
@@ -75,7 +73,7 @@
                             </td>
                             
                             <td class="px-6 py-4 whitespace-nowrap">
-                                {{ $order->order_date->format('M d, Y') }}
+                                {{ $order->created_at->format('M d, Y') }}
                             </td>
                             
                             <td class="px-6 py-4 whitespace-nowrap">
@@ -243,15 +241,6 @@
                         @enderror
                     </div>
 
-                     
-                    {{-- <div>
-                        <label for="add_notes" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Notes (Optional)</label>
-                        <textarea id="add_notes" name="notes" rows="3"
-                                  class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-indigo-600 dark:focus:border-indigo-600 sm:text-sm @error('notes', 'addOrder') border-red-500 is-invalid @enderror">{{ old('notes') }}</textarea>
-                         @error('notes', 'addOrder')
-                           <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
-                        @enderror
-                    </div> --}}
 
                      <p class="text-xs text-gray-500 dark:text-gray-400">
                         Note: Order items and further details can be added/edited after creation.

@@ -237,22 +237,28 @@
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">
                                     {{ $product->category->category_name ?? 'N/A' }}
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                                <td x-data="{}" class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
 
-                                    <button
-                                        class="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-yellow-700 bg-yellow-100 hover:bg-yellow-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 dark:bg-yellow-700 dark:text-yellow-100 dark:hover:bg-yellow-600 dark:focus:ring-offset-gray-800 edit-btn"
-                                        data-product-id="{{ $product->id }}">
-                                        <i class="fas fa-pencil-alt w-3 h-3 mr-1"></i> Edit
-                                    </button>
+                                    <a href="{{ route('admin.products.details', $product->id) }}" target="_blank"
+                                        class="text-gray-500 hover:text-indigo-600 dark:text-gray-400 dark:hover:text-indigo-400 transition-colors duration-150"
+                                        title="View on Storefront">
+                                        <i class="fas fa-external-link-alt fa-fw"></i>
+                                    </a>
 
-
-
-
-
-                                    <button type="button"
-                                        class="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 dark:bg-red-700 dark:text-red-100 dark:hover:bg-red-600 dark:focus:ring-offset-gray-800 delete-btn"
-                                        data-product-id="{{ $product->id }}">
-                                        <i class="fas fa-trash-alt w-3 h-3 mr-1"></i> Delete
+                                    <a href="{{ route('admin.products.edit', $product->id) }}"
+                                        class="text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 transition-colors duration-150"
+                                        title="Edit Product">
+                                        <i class="fas fa-pencil-alt fa-fw"></i>
+                                    </a>
+                                    {{-- Delete Button (using AlpineJS event) --}}
+                                    <button type="button" @click="console.log('Delete button clicked. ID:', {{ $product->id }});
+                                        $dispatch('open-delete-confirm-modal', {
+                                            id: {{ $product->id }},
+                                            name: '{{ e(addslashes($product->product_name)) }}'
+                                        })"
+                                        class="text-gray-500 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-400 transition-colors duration-150"
+                                        title="Delete Product">
+                                        <i class="fas fa-trash-alt fa-fw"></i>
                                     </button>
                                 </td>
                             </tr>
@@ -276,7 +282,7 @@
 @endsection
 
 @push('modals')
-    @include('layouts.admin.product_modal')
+    @include('layouts.admin.delete_product_modal')
 @endpush
 
 @push('scripts')

@@ -34,7 +34,7 @@
                         </div>
                         <div class="flex justify-between">
                             <dt>Order Date:</dt>
-                            <dd>{{ $order->order_date->format('M d, Y H:i A') }}</dd>
+                            <dd>{{ $order->created_at->format('M d, Y H:i A') }}</dd>
                         </div>
                         <div class="flex justify-between items-center">
                             <dt>Status:</dt>
@@ -199,15 +199,6 @@
                     </table>
                 </div>
             </div>
-
-            
-            {{-- <div>
-                <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">Order Notes</h3>
-                <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-md text-sm text-gray-600 dark:text-gray-300">
-                    {{ $order->notes ?? 'No notes for this order.' }}
-                </div>
-            </div> --}}
-
         </div> 
     </div> 
 

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - Stara (Redesigned)</title>
+    <title>Admin Dashboard</title>
     @vite("resources/css/app.css")
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
@@ -201,7 +201,7 @@
                                     <a href="{{ route('admin.profile') }}"
                                         class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600"
                                         role="menuitem" tabindex="-1">Your Profile</a>
-                                    <form method="POST" action="#">
+                                    <form method="POST" action="{{ route('logout') }}">
                                         @csrf
                                         <button type="submit"
                                             class="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600"
@@ -303,7 +303,7 @@
                             x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
                             class="relative rounded-lg bg-red-100 dark:bg-red-900/60 p-4 text-sm text-red-700 dark:text-red-200 border border-red-200 dark:border-red-700"
                             role="alert">
-                            <span class="font-medium">Validation Errors!</span> Please check the form below.
+                            <span class="font-medium">Validation Errors!</span>
                             <ul class="mt-1.5 list-disc list-inside">
                                 @foreach ($errors->all() as $error)
                                     <li>{{ $error }}</li>

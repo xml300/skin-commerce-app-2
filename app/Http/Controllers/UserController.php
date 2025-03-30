@@ -22,11 +22,12 @@ class UserController extends Controller
 {
     public function index(): View
     {
-        $products = Product::all();
+        $featuredProducts = Product::where('status', 'published')->limit(10)->get();
+        $newProducts = Product::where('status', 'published')->latest()->limit(10)->get();
         $categories = Category::all();
         $title = 'Homepage';
 
-        return view('user.index', compact("title", "products", "categories"))->with('message', 'Order not found');
+        return view('user.index', compact("title", "featuredProducts", "newProducts", "categories"))->with('message', 'Order not found');
     }
 
     public function search(Request $request)
@@ -63,8 +64,8 @@ class UserController extends Controller
 
     public function products(Request $request): View
     {
-        $products = Product::join("categories", "products.category_id", "categories.id")
-            ->get();
+        $products = Product::where('status', 'published')
+        ->paginate(20);
         $categories = Category::all();
 
 

@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->decimal('tax_amount', 8, 2)->default(0);
             $table->decimal('discount_applied', 8, 2)->default(0);
             $table->string('shipping_address');
-            $table->string('shipping_method');
+            $table->string('shipping_method')->default('standard');
             $table->string('billing_address');
             $table->string('payment_method');
             $table->string('payment_status');

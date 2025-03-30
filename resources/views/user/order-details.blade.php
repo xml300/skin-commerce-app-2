@@ -63,9 +63,9 @@
                         <label class="block text-sm font-medium text-warm-black dark:text-warm-white">Shipping Address</label>
                         <address class="mt-1 text-sm text-muted-sage-green dark:text-muted-sage-green-darker">
                             {{ $order->shipping_address?? 'N/A' }}<br> 
-                            <!-- {{ $order->shipping_address->address_line_2 ?? '' }}<br>
+                            {{ $order->shipping_address->address_line_2 ?? '' }}<br>
                             {{ $order->shipping_address->city ?? 'N/A' }}, {{ $order->shipping_address->state ?? 'N/A' }} {{ $order->shipping_address->zip_code ?? 'N/A' }}<br>
-                            {{ $order->shipping_address->country ?? 'N/A' }} -->
+                            {{ $order->shipping_address->country ?? 'N/A' }}
                         </address>
                     </div>
                     <div>
@@ -96,9 +96,9 @@
                         <label class="block text-sm font-medium text-warm-black dark:text-warm-white">Billing Address</label>
                         <address class="mt-1 text-sm text-muted-sage-green dark:text-muted-sage-green-darker">
                             {{ $order->billing_address ?? 'Same as Shipping' }}<br> 
-                            <!-- {{ $order->billing_address->address_line_2 ?? '' }}<br>
+                            {{-- {{ $order->billing_address->address_line_2 ?? '' }}<br>
                             {{ $order->billing_address->city ?? 'N/A' }}, {{ $order->billing_address->state ?? 'N/A' }} {{ $order->billing_address->zip_code ?? 'N/A' }}<br>
-                            {{ $order->billing_address->country ?? 'N/A' }} -->
+                            {{ $order->billing_address->country ?? 'N/A' }} --}}
                         </address>
                     </div>
                     <div>

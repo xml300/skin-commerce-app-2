@@ -46,7 +46,7 @@
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Order Date</label>
-                        <p class="mt-1 text-sm text-gray-900 dark:text-white">{{ $order->order_date->format('M d, Y H:i A') }}</p>
+                        <p class="mt-1 text-sm text-gray-900 dark:text-white">{{ $order->created_at->format('M d, Y H:i A') }}</p>
                     </div>
                 </div>
 

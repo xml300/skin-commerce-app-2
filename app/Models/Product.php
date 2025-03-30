@@ -21,6 +21,7 @@ class Product extends Model
         'brand_id',
         'category_id',
         'price',
+        'status',
         'stock_quantity',
         'rating_average',
         'review_count',
@@ -30,6 +31,13 @@ class Product extends Model
         'price' => 'decimal:2',
         'rating_average' => 'decimal:2',
     ];
+    public function getRatingAverageAttribute(){
+        return $this->reviews->average('rating') ?? 0.0;
+    }
+
+    public function getReviewCountAttribute(){
+        return $this->reviews->count();
+    }
 
     public function brand()
     {
