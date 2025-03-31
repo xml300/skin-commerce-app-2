@@ -147,7 +147,7 @@ class UserController extends Controller
             ->first();
 
         if(Product::find($productId)->stock_quantity < $validatedData['quantity']){
-            return redirect()->back()->with("error", "Insuffieicent Stock. Try again later.");
+            return redirect()->back()->with("error", "Insufficient Stock. Try again later.");
         }
 
         if (is_null($cartItem)) {
